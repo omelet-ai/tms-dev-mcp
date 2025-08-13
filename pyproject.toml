@@ -1,0 +1,23 @@
+[project]
+name = "myproject"
+version = "0.0.0"
+description = ""
+authors = [
+    {name = "Omelet", email = "dev@omelet.ai"},
+]
+requires-python = "~=3.11"
+dependencies = [
+    "pydantic-settings~=2.4.0",
+    "pydantic~=2.8.2",
+]
+
+[dependency-groups]
+precommit = [
+    "mypy>=1.13.0",
+    "pre-commit~=4.0.0",
+    "types-pytz>=2024.2.0.20241003",
+    "types-requests>=2.32.0.20241016",
+]
+test = [
+    "pytest>=8.3.4",
+]

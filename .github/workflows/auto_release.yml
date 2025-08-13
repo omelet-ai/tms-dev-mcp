@@ -1,0 +1,101 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for all tags and branches
+
+      - name: Extract version from pyproject.toml
+        id: get_version
+        run: |
+          VERSION=$(grep -oP '(?<=version = ")[^"]*' pyproject.toml)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Get latest git tag
+        id: get_latest_tag
+        run: |
+          LATEST_TAG=$(git tag --sort=-v:refname | head -n 1)
+          if [ -z "$LATEST_TAG" ]; then
+          LATEST_TAG="v0.0.0"
+          fi
+          LATEST_VERSION=${LATEST_TAG#v}
+          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+
+      - name: Compare versions
+        id: compare_versions
+        run: |
+          echo "Comparing versions: VERSION=$VERSION, LATEST_VERSION=$LATEST_VERSION"
+          if [ "$VERSION" \> "$LATEST_VERSION" ]; then
+            echo "NEW_VERSION=$VERSION"
+            echo "NEW_VERSION=$VERSION" >> $GITHUB_ENV
+          else
+            echo "No new version to release."
+            echo "NEW_VERSION=" >> $GITHUB_ENV
+          fi
+
+      - name: Get commit messages since last tag
+        if: env.NEW_VERSION != ''
+        id: get-commit-messages
+        run: |
+          latest_version=${{ env.LATEST_VERSION }}
+          next_version=${{ env.NEW_VERSION }}
+
+          if [ "$latest_version" == "0.0.0" ]; then
+            commit_messages=$(git log --pretty=format:"%h %s")
+          else
+            commit_messages=$(git log --pretty=format:"%h %s" v${latest_version}..HEAD)
+          fi
+
+          commit_messages=$(echo "$commit_messages" | grep -E -o '[A-Z]+-[0-9]+' | sort | uniq | sed 's#^#https://omelet.atlassian.net/browse/#')
+          # Save to a file
+          echo "$commit_messages" > commit_messages.txt
+
+      - name: Create new tag and release
+        if: env.NEW_VERSION != ''
+        env:
+          NEW_VERSION: ${{ env.NEW_VERSION }}
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git tag -a "v${NEW_VERSION}" -m "Release version ${NEW_VERSION}"
+          git push origin "v${NEW_VERSION}"
+
+      - name: Create GitHub Release
+        if: env.NEW_VERSION != ''
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            // Read the file content
+            const commitMessages = fs.readFileSync('commit_messages.txt', 'utf8');
+
+            const tagName = `v${process.env.NEW_VERSION}`;
+
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: tagName,
+              name: `Release ${tagName}`,
+              body: commitMessages,
+              target_commitish: context.sha,
+              draft: false,
+              prerelease: false
+            });
+
+            console.log(`Created release ${tagName} with commit messages: ${commitMessages}`);

@@ -1,0 +1,14 @@
+{
+  "title": [
+    {
+      "pattern": "^[A-Z]{2,5}-\\d+\\s\\w",
+      "message": "Your title needs to be prefixed with a JIRA ticket name"
+    }
+  ],
+  "head.ref": [
+    {
+      "pattern": "^(feat|fix|chore|docs|style|refactor|perf|test)\\/([a-z]{2,5}-\\d+(-[0-9a-z.]+)*)$",
+      "message": "Your branch name is invalid: Use lowercase with a prefix (e.g., feat, fix) and a JIRA ticket name"
+    }
+  ]
+}
