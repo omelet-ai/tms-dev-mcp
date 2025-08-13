@@ -1,0 +1,27 @@
+{
+  "coordinates": [
+    {
+      "lng": 126.978,
+      "lat": 37.5665
+    },
+    {
+      "lng": 129.0756,
+      "lat": 35.1796
+    },
+    {
+      "lng": 126.7052,
+      "lat": 37.4563
+    },
+    {
+      "lng": 128.6014,
+      "lat": 35.8714
+    },
+    {
+      "lng": 127.3845,
+      "lat": 36.3504
+    }
+  ],
+  "return_cost_matrix_type": "both",
+  "vehicle_type": "car",
+  "curb": true
+}

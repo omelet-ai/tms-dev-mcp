@@ -1,0 +1,170 @@
+{
+  "visits": [
+    {
+      "id": "delivery_001",
+      "coordinate": {
+        "lng": 126.9784,
+        "lat": 37.5665
+      },
+      "order_placed_at": "2024-01-15T08:30:00Z",
+      "tw_early": "2024-01-15T10:00:00Z",
+      "tw_late": "2024-01-15T12:00:00Z",
+      "service_time": {
+        "bike": 5.0,
+        "car": 3.0,
+        "walk": 10.0
+      },
+      "volume": 2.5,
+      "weight": 1.2,
+      "unassigned_penalty": 100.0,
+      "extra_demands": [
+        0.5,
+        1.0
+      ],
+      "early_delivery_required": false
+    },
+    {
+      "id": "delivery_002",
+      "coordinate": {
+        "lng": 126.9895,
+        "lat": 37.5547
+      },
+      "order_placed_at": "2024-01-15T09:00:00Z",
+      "tw_early": "2024-01-15T11:00:00Z",
+      "tw_late": "2024-01-15T13:00:00Z",
+      "service_time": {
+        "bike": 6.0,
+        "car": 4.0,
+        "walk": 12.0
+      },
+      "volume": 3.2,
+      "weight": 1.8,
+      "unassigned_penalty": 120.0,
+      "extra_demands": [
+        0.8,
+        1.2
+      ],
+      "early_delivery_required": true
+    },
+    {
+      "id": "delivery_003",
+      "coordinate": {
+        "lng": 126.9511,
+        "lat": 37.5503
+      },
+      "order_placed_at": "2024-01-15T08:45:00Z",
+      "tw_early": "2024-01-15T10:30:00Z",
+      "tw_late": "2024-01-15T12:30:00Z",
+      "service_time": {
+        "bike": 4.0,
+        "car": 2.5,
+        "walk": 8.0
+      },
+      "volume": 1.8,
+      "weight": 1.0,
+      "unassigned_penalty": 90.0,
+      "extra_demands": [
+        0.3,
+        0.7
+      ],
+      "early_delivery_required": false
+    }
+  ],
+  "vehicles": [
+    {
+      "id": "bike_rider_001",
+      "vehicle_type": "bike",
+      "start_depot": {
+        "id": "depot_gangnam",
+        "coordinate": {
+          "lng": 127.0276,
+          "lat": 37.4979
+        },
+        "service_time": {
+          "bike": 0.0,
+          "car": 0.0,
+          "walk": 0.0
+        }
+      },
+      "end_depot": {
+        "id": "depot_gangnam",
+        "coordinate": {
+          "lng": 127.0276,
+          "lat": 37.4979
+        },
+        "service_time": {
+          "bike": 0.0,
+          "car": 0.0,
+          "walk": 0.0
+        }
+      },
+      "volume_capacity": 15.0,
+      "weight_capacity": 10.0,
+      "unit_distance_cost": 0.1,
+      "unit_duration_cost": 0.05,
+      "work_start_time": "2024-01-15T09:00:00Z",
+      "work_end_time": "2024-01-15T18:00:00Z",
+      "max_round": 3,
+      "preassigned_delivery_ids": [],
+      "extra_capacities": [
+        5.0,
+        8.0
+      ],
+      "max_service_radius": 10000.0
+    },
+    {
+      "id": "car_driver_001",
+      "vehicle_type": "car",
+      "start_depot": {
+        "id": "depot_hongdae",
+        "coordinate": {
+          "lng": 126.925,
+          "lat": 37.5563
+        },
+        "service_time": {
+          "bike": 0.0,
+          "car": 0.0,
+          "walk": 0.0
+        }
+      },
+      "end_depot": null,
+      "volume_capacity": 50.0,
+      "weight_capacity": 30.0,
+      "unit_distance_cost": 0.15,
+      "unit_duration_cost": 0.08,
+      "work_start_time": "2024-01-15T08:00:00Z",
+      "work_end_time": "2024-01-15T17:00:00Z",
+      "max_round": 2,
+      "preassigned_delivery_ids": [],
+      "extra_capacities": [
+        15.0,
+        20.0
+      ],
+      "max_service_radius": 25000.0
+    }
+  ],
+  "constraints": [
+    {
+      "type": "capacity",
+      "weight": 1000.0,
+      "is_hard_cost": true
+    },
+    {
+      "type": "time_window",
+      "weight": 500.0,
+      "is_hard_cost": false,
+      "exp_factor": 2.0
+    },
+    {
+      "type": "distance",
+      "weight": 1.0,
+      "is_hard_cost": false,
+      "exp_factor": 1.0
+    }
+  ],
+  "config": {
+    "timelimit": 5,
+    "delivery_start_time": "2024-01-15T09:00:00Z",
+    "distance_type": "euclidean"
+  }
+}

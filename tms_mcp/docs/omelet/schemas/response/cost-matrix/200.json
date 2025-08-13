@@ -1,0 +1,40 @@
+{
+  "response_schema": {
+    "distance_matrix": {
+      "anyOf": [
+        {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Matrix of distances between locations.",
+      "title": "Distance Matrix"
+    },
+    "duration_matrix": {
+      "anyOf": [
+        {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Matrix of travel times between locations.",
+      "title": "Duration Matrix"
+    }
+  }
+}

@@ -1,0 +1,489 @@
+{
+  "schema": {
+    "additionalProperties": false,
+    "properties": {
+      "depots": {
+        "description": "Depot details including location and name.\nEach depot name within this list must be unique (no duplicates allowed).\nNote: The `index` field in each Depot will be **ignored**.",
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Name of the depot.",
+              "title": "Depot Name"
+            },
+            "index": {
+              "default": 0,
+              "description": "Index of the depot in the distance matrix.",
+              "title": "Depot Index",
+              "type": "integer"
+            },
+            "coordinate": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "lng": {
+                      "description": "Longitude in decimal degrees.",
+                      "title": "Longitude",
+                      "type": "number"
+                    },
+                    "lat": {
+                      "description": "Latitude in decimal degrees.",
+                      "title": "Latitude",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "lng",
+                    "lat"
+                  ],
+                  "title": "Coordinate",
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Location of the depot.",
+              "title": "Depot Location"
+            }
+          },
+          "title": "Depot",
+          "type": "object"
+        },
+        "minItems": 1,
+        "title": "Depot Information",
+        "type": "array"
+      },
+      "daily_visits": {
+        "description": "List of multiple daily visit requests to be processed. Each item in the list specifies the visits to be made on a specific day by their names. Each day_id within this list must be unique (no duplicates allowed).The list must contain between 1 and 31 days (maximum one month).",
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "day_id": {
+              "description": "Name or tag identifying the day (e.g., date string like '2025-05-01' or 'Day 1').\n",
+              "title": "Daily Info",
+              "type": "string"
+            },
+            "visits": {
+              "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Note: The `index` field in each Visit will be **ignored**.\nEach visit name within this list must be unique (no duplicates allowed).",
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Name of the visit location.",
+                    "title": "Visit Name"
+                  },
+                  "index": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Index of the visit in the distance matrix.",
+                    "title": "Visit Index"
+                  },
+                  "service_time": {
+                    "default": 0,
+                    "description": "Time (in minutes) to serve this visit.",
+                    "title": "Service Duration",
+                    "type": "integer"
+                  },
+                  "coordinate": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "lng": {
+                            "description": "Longitude in decimal degrees.",
+                            "title": "Longitude",
+                            "type": "number"
+                          },
+                          "lat": {
+                            "description": "Latitude in decimal degrees.",
+                            "title": "Latitude",
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "lng",
+                          "lat"
+                        ],
+                        "title": "Coordinate",
+                        "type": "object"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Location of the visit.",
+                    "title": "Visit Location"
+                  },
+                  "volume": {
+                    "default": 0.0,
+                    "description": "Volume of goods at the visit location (in cubic meters). Rounded to 3 decimal places.",
+                    "title": "Visit Volume",
+                    "type": "number"
+                  },
+                  "weight": {
+                    "default": 0.0,
+                    "description": "Weight of goods at the visit location (in kg). Rounded to 3 decimal places.",
+                    "title": "Visit Weight",
+                    "type": "number"
+                  },
+                  "extra_demands": {
+                    "default": [],
+                    "description": "A list of additional capacity demands for this visit. Each value corresponds positionally to a vehicle's extra_capacities field. There are no explicit names for these capacity types — only the order matters. The list must be the same length as the vehicle's extra_capacities list. For example, if a vehicle has extra_capacities = [100, 200], and this visit has extra_demands = [5, 10], it means the visit uses 5 units of the first capacity and 10 units of the second. Decimal places will be ignored.",
+                    "items": {
+                      "type": "number"
+                    },
+                    "title": "Extra Demands",
+                    "type": "array"
+                  },
+                  "unassigned_penalty": {
+                    "anyOf": [
+                      {
+                        "minimum": 0.0,
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Penalty incurred if this visit cannot be assigned to any vehicle. This value is used to prioritize visits when the solver is unable to assign all visits.",
+                    "title": "Unassigned Penalty"
+                  },
+                  "time_window": {
+                    "anyOf": [
+                      {
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "prefixItems": [
+                          {
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          {
+                            "format": "date-time",
+                            "type": "string"
+                          }
+                        ],
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Permissible time range for service at this location, in ISO datetime format.",
+                    "title": "Visit Time Window"
+                  },
+                  "early_delivery_required": {
+                    "default": false,
+                    "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
+                    "title": "Requires Early Delivery",
+                    "type": "boolean"
+                  }
+                },
+                "title": "Visit",
+                "type": "object"
+              },
+              "maxItems": 1000,
+              "minItems": 0,
+              "title": "Visits for the Day",
+              "type": "array"
+            },
+            "delivery_start_time": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "ISO datetime for delivery start. Required if visits have time windows.",
+              "title": "Start Time"
+            }
+          },
+          "required": [
+            "day_id",
+            "visits"
+          ],
+          "title": "DailyVisits",
+          "type": "object"
+        },
+        "maxItems": 31,
+        "minItems": 1,
+        "title": "Visits for the Days",
+        "type": "array"
+      },
+      "vehicles": {
+        "description": "Vehicles available for fsmvrp routing.\nEach vehicle name within this list must be unique (no duplicates allowed).\n",
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "description": "Unique name identifying the vehicle.",
+              "title": "Name",
+              "type": "string"
+            },
+            "volume_capacity": {
+              "default": 0.0,
+              "description": "Maximum volume this vehicle can carry (in cubic meters). Rounded to 3 decimal places.",
+              "minimum": 0.0,
+              "title": "Volume Capacity",
+              "type": "number"
+            },
+            "weight_capacity": {
+              "default": 0.0,
+              "description": "Maximum weight this vehicle can carry (in kg). Rounded to 3 decimal places.",
+              "minimum": 0.0,
+              "title": "Weight Capacity",
+              "type": "number"
+            },
+            "extra_capacities": {
+              "default": [],
+              "description": "List of additional capacity types for this vehicle. Each value represents the maximum capacity for that type (e.g., temperature-controlled, hazardous materials). The order of these capacities must match the order of extra_demands in Visit.\nFor example, if a visit has extra_demands = [5, 10], and this vehicle has extra_capacities = [100, 200], it means the visit uses 5 units of the first capacity and 10 units of the second.\nDecimal places will be ignored.",
+              "items": {
+                "type": "number"
+              },
+              "title": "Extra Capacities",
+              "type": "array"
+            },
+            "work_start_time": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Earliest datetime when the driver is available to begin their shift. This marks the lower bound of the driver's working hours.",
+              "title": "Driver Shift Start Time"
+            },
+            "work_end_time": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Latest datetime by which the driver must finish their shift. This marks the upper bound of the driver's working hours.",
+              "title": "Driver Shift End Time"
+            },
+            "vehicle_type": {
+              "enum": [
+                "bike",
+                "car",
+                "walk"
+              ],
+              "title": "Vehicle Type",
+              "type": "string",
+              "default": "car"
+            },
+            "ownership_type": {
+              "enum": [
+                "rented",
+                "owned"
+              ],
+              "title": "Ownership Type",
+              "type": "string",
+              "default": "rented",
+              "description": "Indicates whether the vehicle is rented or owned. Rented vehicles may be excluded from the final schedule if no visits are assigned. Owned vehicles are always included in the final schedule, even if no visits are assigned."
+            },
+            "start_depot_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Name of the depot where the vehicle begins its route. This should match the 'name' field of a defined Depot.",
+              "title": "Start Depot Name"
+            },
+            "end_depot_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Name of the depot where the vehicle ends its route. This should match the 'name' field of a defined Depot.",
+              "title": "End Depot Name"
+            },
+            "fixed_cost_default": {
+              "default": 0.0,
+              "description": "Fixed cost that always occurs, regardless of whether an order is assigned.",
+              "minimum": 0.0,
+              "title": "Fixed Cost Default",
+              "type": "number"
+            },
+            "fixed_cost_if_assigned": {
+              "default": 0.0,
+              "description": "Fixed cost that occurs only when at least one order is assigned to the vehicle.",
+              "minimum": 0.0,
+              "title": "Fixed Cost if Assigned",
+              "type": "number"
+            },
+            "fuel_cost_per_km": {
+              "default": 0.0,
+              "description": "Fuel cost in KRW per kilometer. Used to calculate fuel expenses for the route. For example, a value of 120.0 means the vehicle consumes 120 KRW per kilometer.",
+              "minimum": 0.0,
+              "title": "Fuel Cost per km",
+              "type": "number"
+            },
+            "visit_preference": {
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "default": {},
+              "description": "Optional dictionary assigning preference scores to visits.\n\n- Keys: visit names (must match the 'name' field in Visit definitions)\n- Values: integer scores representing preference\n  - Higher → more preferred\n  - 0 → neutral\n  - Negative → avoid if possible\n\nExample: { 'Visit A': 1, 'Visit B': 0, 'Visit C': -1 }\nIf no preference is specified for a visit, the default preference will be 0.",
+              "title": "Visit Preferences",
+              "type": "object"
+            },
+            "first_visit_costs": {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "default": {},
+              "description": "Optional fixed cost incurred when a vehicle makes its first visits. The dictionary maps visit names to their costs in KRW.\n\nExample:\n{ 'Visit A': 3000, 'Visit B': 5000, 'Visit C': 7000 }\nIf no first visit cost is specified for a visit, the default cost will be 0.",
+              "title": "First Visit Costs",
+              "type": "object"
+            },
+            "consecutive_visit_tiered_costs": {
+              "default": [],
+              "description": "Tiered distance-based cost rules.\nConsists of (max_distance_meter, fixed_cost_krw) tuples.\n\nIf the travel distance between visits is less than or equal to max_distance_meter, the corresponding fixed_cost_krw is applied. Only the first matching rule is used.\nTo define a rule for all longer distances, use a very large number (e.g., 1e9) or infinity as the final max_distance.\n\nExample:\n[(5000, 3000), (1e9, 5000)] →\n- Distance < 5,000m → 3,000 KRW\n- Distance ≥ 5,000m → 5,000 KRW\nIf no consecutive visit tiered cost is specified for a visit, the default cost will be 0.",
+              "items": {
+                "maxItems": 2,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              "title": "Consecutive Visit Tiered Costs by Distance",
+              "type": "array"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "title": "FsmvrpVehicle",
+          "type": "object"
+        },
+        "minItems": 1,
+        "title": "FSMVRP Vehicle List",
+        "type": "array"
+      },
+      "objective_costs": {
+        "default": [
+          "fixed_cost",
+          "fuel_cost",
+          "first_visit_cost",
+          "consecutive_visit_tiered_cost"
+        ],
+        "description": "List of cost types to be considered for the optimization.",
+        "items": {
+          "enum": [
+            "fixed_cost",
+            "fuel_cost",
+            "first_visit_cost",
+            "consecutive_visit_tiered_cost"
+          ],
+          "type": "string"
+        },
+        "title": "Applicable Costs for Optimization",
+        "type": "array"
+      },
+      "option": {
+        "additionalProperties": false,
+        "properties": {
+          "timelimit": {
+            "default": 10,
+            "description": "Extended range for solver time limit (1 to 1200 seconds).",
+            "maximum": 1200,
+            "minimum": 1,
+            "title": "Extended Time Limit",
+            "type": "integer"
+          },
+          "distance_type": {
+            "enum": [
+              "manhattan",
+              "euclidean",
+              "osrm"
+            ],
+            "title": "Distance Calculation Method",
+            "type": "string",
+            "default": "euclidean",
+            "description": "How distances are calculated when distance_matrix is not explicitly provided. OSRM supports only Korean region."
+          }
+        },
+        "title": "Extended Solver Options",
+        "type": "object",
+        "default": {
+          "timelimit": 10,
+          "distance_type": "euclidean"
+        },
+        "description": "Advanced options for solving extended problems."
+      }
+    },
+    "required": [
+      "depots",
+      "daily_visits",
+      "vehicles"
+    ],
+    "title": "ExtendedFsmvrpEngineInput",
+    "type": "object"
+  },
+  "_meta": {
+    "source": "primary",
+    "path": "/api/fsmvrp-long",
+    "method": "POST"
+  }
+}

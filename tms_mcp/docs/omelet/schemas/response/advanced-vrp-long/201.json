@@ -1,0 +1,34 @@
+{
+  "response_schema": {
+    "routes": {
+      "description": "List of routes, where each route is a list of visit indices.",
+      "items": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "title": "Routes",
+      "type": "array"
+    },
+    "cost": {
+      "description": "Total cost of the solution.",
+      "title": "Total Cost",
+      "type": "number"
+    },
+    "detailed_cost": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "description": "Detailed cost of the solution.",
+      "title": "Detailed Cost",
+      "type": "object"
+    },
+    "job_id": {
+      "default": "",
+      "description": "Unique identifier for the routing job. Only needed when contacting Omelet for support.",
+      "title": "Job ID",
+      "type": "string"
+    }
+  }
+}

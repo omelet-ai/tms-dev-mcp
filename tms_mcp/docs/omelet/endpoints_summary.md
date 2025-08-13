@@ -1,0 +1,20 @@
+# Omelet Routing Engine
+**Base URL:** `https://dev.routing.oaasis.cc`
+
+## Endpoints
+| Path | Summary | Description |
+|------|---------|-------------|
+| /api/advanced-vrp | Advanced Vehicle Routing API | Solves the vehicle routing problem (VRP) to minimize total objective cost. Supports up to 3,000 visits and a time limit of 120 seconds for optimization.  |
+| /api/advanced-vrp-long | Advanced Vehicle Routing API for long request | Solves the vehicle routing problem (VRP) to minimize total objective cost. Supports up to 10,000 visits and a time limit of 1,200 seconds for optimization.  |
+| /api/check-result/{job_id} | check API | API to check the status of a routing job by its job ID. Available only for long-running API jobs. |
+| /api/cost-matrix | Omelet Distance/Duration Matrix API | Generates distance and duration matrices from coordinates. Supports distance, duration, or both as return types. |
+| /api/fsmvrp | OMELET FSMVRP (fleet size and mix vrp) API for multiple days | Generates cost-optimized delivery schedules over multiple days (up to 7). Supports up to 1,000 visits per day and a time limit of 120 seconds for optimization.Supports combination of objectives via the `objective_costs` field. `ownership_type` determines whether vehicles appear in the API result always (`owned`) or only when used (`rented`). |
+| /api/fsmvrp-long | OMELET FSMVRP (fleet size and mix vrp) API for multiple days(long version) | Generates cost-optimized delivery schedules over multiple days (up to 31). Supports up to 1,000 visits per day and a time limit of 1,200 seconds for optimization.Supports combination of objectives via the `objective_costs` field. `ownership_type` determines whether vehicles appear in the API result always (`owned`) or only when used (`rented`). |
+| /api/get-advanced-vrp-result/{job_id} | get advanced vrp API | Returns the result of a long advanced vrp optimization job by job_id. |
+| /api/get-fsmvrp-result/{job_id} | get FSMVRP API | Returns the result of a long FSMVRP optimization job by job_id. |
+| /api/get-pdp-result/{job_id} | get PDP API | Returns the result of a long PDP optimization job by job_id. |
+| /api/get-vrp-result/{job_id} | get VRP API | Returns the result of a long VRP optimization job by job_id. |
+| /api/pdp | OMELET PDP(pick up and drop off) API | Solves the pick-up and drop-off problem (PDP) to minimize total objective cost. Supports up to 500 visit pairs and a time limit of 120 seconds for optimization.  |
+| /api/pdp-long | OMELET PDP(pick up and drop off) API for long request | Solves the pick-up and drop-off problem (PDP) to minimize total objective cost. Supports up to 3,000 visit pairs and a time limit of 1,200 seconds for optimization.  |
+| /api/vrp | OMELET Vehicle Routing API | Solves the classic vehicle routing problem (VRP) to minimize total objective cost. Supports up to 3,000 visits and a time limit of 120 seconds for optimization. |
+| /api/vrp-long | OMELET Vehicle Routing API for long request | Solves the classic vehicle routing problem (VRP) to minimize total objective cost. Supports up to 10,000 visits and a time limit of 1,200 seconds for optimization. |

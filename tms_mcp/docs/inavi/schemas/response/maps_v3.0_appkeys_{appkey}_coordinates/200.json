@@ -1,0 +1,171 @@
+{
+  "response_schema": {
+    "address": {
+      "type": "object",
+      "description": "Summarizes the result of converting an address to coordinates.",
+      "properties": {
+        "result": {
+          "type": "boolean",
+          "description": "Indicates whether the search result was successful.",
+          "examples": [
+            "true",
+            "false"
+          ]
+        },
+        "totalcount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Indicates the total number of search results.",
+          "example": 10
+        },
+        "admtotalcount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Indicates the total count of legal/administrative district codes in search results.",
+          "example": 10
+        },
+        "admcount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Indicates the search count corresponding to the reqcount parameter value in Geocoding search conditions.",
+          "example": 10
+        },
+        "res_type": {
+          "type": "string",
+          "description": "Indicates the search result type. Written in the order of POI, CATEGORY, ADM, TEL_POI, with each value represented as Y or N.",
+          "example": "NNYN"
+        },
+        "adm": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Represents the result of converting an address to coordinate values.",
+            "properties": {
+              "type": {
+                "type": "integer",
+                "format": "int32",
+                "description": "Indicates the search type. 1 means administrative district search, 2 means lot number search, 3 means new address search.",
+                "examples": [
+                  "1",
+                  "2",
+                  "3"
+                ]
+              },
+              "posx": {
+                "type": "string",
+                "description": "Indicates the X coordinate.",
+                "example": 127.146083
+              },
+              "posy": {
+                "type": "string",
+                "description": "Indicates the Y coordinate.",
+                "example": 37.450129
+              },
+              "admcode": {
+                "type": "string",
+                "description": "Indicates the legal district code.",
+                "example": 41131
+              },
+              "address": {
+                "type": "string",
+                "description": "Indicates the full address.",
+                "example": "경기도 성남시 수정구"
+              },
+              "address_sido": {
+                "type": "string",
+                "description": "Indicates the city/province.",
+                "example": "경기도"
+              },
+              "address_gu": {
+                "type": "string",
+                "description": "Indicates the county/district.",
+                "example": "성남시 수정구"
+              },
+              "address_dong": {
+                "type": "string",
+                "description": "Indicates the legal dong name.",
+                "example": "태평동"
+              },
+              "address_haeng": {
+                "type": "string",
+                "description": "Indicates the administrative dong name.",
+                "example": "태평1동"
+              },
+              "legalcode": {
+                "type": "string",
+                "description": "Indicates the legal dong code.",
+                "example": 4113110200
+              },
+              "haengcode": {
+                "type": "string",
+                "description": "Indicates the administrative dong code.",
+                "example": 4113154000
+              },
+              "jibun": {
+                "type": "string",
+                "description": "Indicates the lot number.",
+                "example": 6833
+              },
+              "roadname": {
+                "type": "string",
+                "description": "Indicates the new address road name.",
+                "example": "경기도 성남시 수정구 성남대로"
+              },
+              "roadjibun": {
+                "type": "string",
+                "description": "Indicates the road name address lot number.",
+                "example": "1241-1"
+              },
+              "postcode": {
+                "type": "string",
+                "description": "Indicates the postal code. Appears when searching address and lot number together.",
+                "example": 13110
+              },
+              "buildname": {
+                "type": "string",
+                "description": "Indicates the building number. Appears when searching address and lot number together with road name address.",
+                "example": "태평1동"
+              },
+              "accuracy": {
+                "type": "string",
+                "description": "Indicates the accuracy of the lot number. 0 means exact search, 1 means sub-lot extension, 2 means main lot extension, 3 means administrative district search.",
+                "examples": [
+                  "0",
+                  "1",
+                  "2",
+                  "3"
+                ]
+              },
+              "distance": {
+                "type": "string",
+                "description": "Indicates the distance.",
+                "example": 19109
+              }
+            }
+          }
+        }
+      }
+    },
+    "header": {
+      "type": "object",
+      "description": "Shows the status of the API response result.",
+      "properties": {
+        "isSuccessful": {
+          "type": "boolean",
+          "description": "Indicates whether the API request was successful.",
+          "example": true
+        },
+        "resultCode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Indicates the API response result code. Returns 0 on success, otherwise indicates failure. Major result codes: 0(success), 100(Result Not Found), 101(Argument Error), 102(Internal Server Error), 103(Different Map Version), 201(Searching for Security), 202(Longitude/Latitude), 203(Mobile Phone Number), 300(AppKey Error), 400(Taxi Fare Info not Found), 501(Unknown Fail), 517(Memory allocation failure), 532(Request parameter is invalid), 533(Starting point not selected), 534(Destination not selected), 537(Exceeding navigational distance), 540(Expansion failure due to traffic control), etc.",
+          "example": 0
+        },
+        "resultMessage": {
+          "type": "string",
+          "description": "Indicates the reason for response failure when the API response fails. Major result messages include: \"Result Not Found\", \"Argument Error\", \"Internal Server Error\", \"Different Map Version\", \"AppKey Error\", \"Searching for Security\", \"Longitude/Latitude\", \"Mobile Phone Number\", \"Unknown Fail\", \"Memory allocation failure\", \"Request parameter is invalid\", \"The starting point is not selected\", \"Destination is not selected\", \"Exceeding the navigational distance\", \"Expansion failure due to inactivity or traffic control\", etc., providing specific error causes for proper exception handling."
+        }
+      }
+    }
+  }
+}

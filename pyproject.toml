@@ -1,15 +1,25 @@
 [project]
-name = "myproject"
-version = "0.0.0"
-description = ""
+name = "tms-mcp"
+version = "0.1.0"
+description = "MCP server for exploring Omelet's Routing Engine and iNavi's Maps API to help build a TMS"
 authors = [
-    {name = "Omelet", email = "dev@omelet.ai"},
+    {name = "Juni", email = "juni.lee@omelet.ai"},
 ]
 requires-python = "~=3.11"
 dependencies = [
-    "pydantic-settings~=2.4.0",
+    "aiofiles>=24.1.0",
+    "fastmcp>=2.9.2",
+    "jsonschema>=4.23.0",
+    "langchain-aws>=0.2.15",
+    "langgraph>=0.5.1",
+    "mypy>=1.13.0",
+    "pre-commit>=4.0.1",
     "pydantic~=2.8.2",
+    "python-json-logger>=3.2.1",
 ]
+
+[project.scripts]
+tms-mcp-server = "tms_mcp.main:main"
 
 [dependency-groups]
 precommit = [
@@ -21,3 +31,6 @@ precommit = [
 test = [
     "pytest>=8.3.4",
 ]
+
+[tool.uv]
+package = true

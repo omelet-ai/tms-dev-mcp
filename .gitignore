@@ -45,3 +45,11 @@ venv*
 
 # virtual environment
 .venv
+
+# env
+.env
+
+# Coding Agent Rules
+.claude
+.cursor
+.claude/settings.local.json

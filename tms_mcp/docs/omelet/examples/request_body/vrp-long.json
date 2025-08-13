@@ -1,0 +1,155 @@
+{
+  "depot": {
+    "name": "서울 중앙 물류센터",
+    "index": 0,
+    "coordinate": {
+      "lng": 126.978,
+      "lat": 37.5665
+    }
+  },
+  "visits": [
+    {
+      "name": "강남구 고객사",
+      "index": 1,
+      "service_time": 15,
+      "coordinate": {
+        "lng": 127.0276,
+        "lat": 37.4979
+      },
+      "volume": 2.5,
+      "weight": 25.0,
+      "extra_demands": [
+        10
+      ],
+      "unassigned_penalty": 100.0,
+      "time_window": [
+        "2024-03-20T09:00:00+09:00",
+        "2024-03-20T12:00:00+09:00"
+      ],
+      "early_delivery_required": true
+    },
+    {
+      "name": "종로구 마트",
+      "index": 2,
+      "service_time": 30,
+      "coordinate": {
+        "lng": 126.9816,
+        "lat": 37.5694
+      },
+      "volume": 5.2,
+      "weight": 45.5,
+      "extra_demands": [
+        20
+      ],
+      "unassigned_penalty": 80.0,
+      "time_window": [
+        "2024-03-20T10:00:00+09:00",
+        "2024-03-20T14:00:00+09:00"
+      ],
+      "early_delivery_required": false
+    },
+    {
+      "name": "마포구 레스토랑",
+      "index": 3,
+      "service_time": 20,
+      "coordinate": {
+        "lng": 126.9025,
+        "lat": 37.5636
+      },
+      "volume": 1.8,
+      "weight": 18.2,
+      "extra_demands": [
+        5
+      ],
+      "unassigned_penalty": 120.0,
+      "time_window": [
+        "2024-03-20T11:00:00+09:00",
+        "2024-03-20T15:00:00+09:00"
+      ],
+      "early_delivery_required": false
+    },
+    {
+      "name": "송파구 편의점",
+      "index": 4,
+      "service_time": 10,
+      "coordinate": {
+        "lng": 127.1058,
+        "lat": 37.5048
+      },
+      "volume": 0.8,
+      "weight": 12.3,
+      "extra_demands": [
+        3
+      ],
+      "unassigned_penalty": 60.0,
+      "time_window": [
+        "2024-03-20T13:00:00+09:00",
+        "2024-03-20T17:00:00+09:00"
+      ],
+      "early_delivery_required": false
+    }
+  ],
+  "vehicles": [
+    {
+      "name": "배송차량-01",
+      "volume_capacity": 15.0,
+      "weight_capacity": 150.0,
+      "extra_capacities": [
+        50
+      ],
+      "fixed_cost": 50000.0,
+      "unit_distance_cost": 100.0,
+      "unit_duration_cost": 200.0,
+      "work_start_time": "2024-03-20T08:00:00+09:00",
+      "work_end_time": "2024-03-20T18:00:00+09:00",
+      "visit_preference": [
+        10,
+        8,
+        12,
+        6
+      ],
+      "vehicle_type": "car",
+      "max_service_radius": 25000.0,
+      "pre_assigned_visits": null,
+      "max_round": 2
+    },
+    {
+      "name": "배송차량-02",
+      "volume_capacity": 12.0,
+      "weight_capacity": 120.0,
+      "extra_capacities": [
+        40
+      ],
+      "fixed_cost": 45000.0,
+      "unit_distance_cost": 95.0,
+      "unit_duration_cost": 180.0,
+      "work_start_time": "2024-03-20T09:00:00+09:00",
+      "work_end_time": "2024-03-20T17:00:00+09:00",
+      "visit_preference": [
+        5,
+        10,
+        8,
+        9
+      ],
+      "vehicle_type": "car",
+      "max_service_radius": 20000.0,
+      "pre_assigned_visits": [
+        "송파구 편의점"
+      ],
+      "max_round": 1
+    }
+  ],
+  "distance_matrix": null,
+  "duration_matrix": null,
+  "delivery_start_time": "2024-03-20T08:30:00+09:00",
+  "option": {
+    "timelimit": 5,
+    "objective_type": "minsum",
+    "distance_type": "osrm",
+    "allow_unassigned_visits": false,
+    "use_large_size_optimization_algorithm": false,
+    "include_departure_cost_from_depot": true,
+    "include_return_cost_to_depot": true,
+    "is_max_service_radius_hard_constraint": true
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "response_schema": {
+    "status_code": {
+      "enum": [
+        "error",
+        "complete",
+        "retrieved",
+        "starting",
+        "preprocess",
+        "optimize",
+        "postprocess"
+      ],
+      "title": "ProcessStatusCode",
+      "type": "string"
+    },
+    "message": {
+      "title": "Message",
+      "type": "string"
+    }
+  }
+}

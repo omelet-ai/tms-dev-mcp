@@ -1,0 +1,42 @@
+{
+  "method": "GET",
+  "summary": "get PDP API",
+  "description": "Returns the result of a long PDP optimization job by job_id.",
+  "parameters": [
+    {
+      "in": "header",
+      "name": "Accept",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "application/vnd.omelet.v2+json"
+        ]
+      },
+      "description": "Specifies the expected response media type and API version.\nMust be \"application/vnd.omelet.v2+json\" to indicate version 2 of the OMELET Vehicle Routing API.",
+      "required": true,
+      "examples": {
+        "VersionedJSON": {
+          "value": "application/vnd.omelet.v2+json",
+          "summary": "Use v2 of OMELET JSON API"
+        }
+      }
+    },
+    {
+      "in": "header",
+      "name": "X-API-KEY",
+      "schema": {
+        "type": "string"
+      },
+      "description": "API Key",
+      "required": true
+    },
+    {
+      "in": "path",
+      "name": "job_id",
+      "schema": {
+        "type": "string"
+      },
+      "required": true
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "depots": [
+    {
+      "name": "서울 중앙 창고",
+      "index": 0,
+      "coordinate": {
+        "lng": 126.978,
+        "lat": 37.5665
+      }
+    },
+    {
+      "name": "강남 물류센터",
+      "index": 1,
+      "coordinate": {
+        "lng": 127.0276,
+        "lat": 37.4979
+      }
+    }
+  ],
+  "daily_visits": [
+    {
+      "day_id": "2024-12-15",
+      "visits": [
+        {
+          "name": "명동 매장",
+          "index": null,
+          "service_time": 30,
+          "coordinate": {
+            "lng": 126.9849,
+            "lat": 37.5636
+          },
+          "volume": 12.5,
+          "weight": 45.2,
+          "extra_demands": [
+            2,
+            1
+          ],
+          "unassigned_penalty": 1000.0,
+          "time_window": [
+            "2024-12-15T09:00:00",
+            "2024-12-15T12:00:00"
+          ],
+          "early_delivery_required": true
+        },
+        {
+          "name": "홍대 지점",
+          "index": null,
+          "service_time": 25,
+          "coordinate": {
+            "lng": 126.9244,
+            "lat": 37.5563
+          },
+          "volume": 8.3,
+          "weight": 32.1,
+          "extra_demands": [
+            1,
+            0
+          ],
+          "unassigned_penalty": 800.0,
+          "time_window": [
+            "2024-12-15T10:00:00",
+            "2024-12-15T15:00:00"
+          ],
+          "early_delivery_required": false
+        },
+        {
+          "name": "이태원 상점",
+          "index": null,
+          "service_time": 20,
+          "coordinate": {
+            "lng": 126.9942,
+            "lat": 37.534
+          },
+          "volume": 6.7,
+          "weight": 28.5,
+          "extra_demands": [
+            0,
+            2
+          ],
+          "unassigned_penalty": 600.0,
+          "time_window": null,
+          "early_delivery_required": false
+        }
+      ],
+      "delivery_start_time": "2024-12-15T08:00:00"
+    },
+    {
+      "day_id": "2024-12-16",
+      "visits": [
+        {
+          "name": "강남역 매장",
+          "index": null,
+          "service_time": 35,
+          "coordinate": {
+            "lng": 127.0276,
+            "lat": 37.4979
+          },
+          "volume": 15.8,
+          "weight": 52.3,
+          "extra_demands": [
+            3,
+            1
+          ],
+          "unassigned_penalty": 1200.0,
+          "time_window": [
+            "2024-12-16T09:30:00",
+            "2024-12-16T13:00:00"
+          ],
+          "early_delivery_required": true
+        },
+        {
+          "name": "잠실 지점",
+          "index": null,
+          "service_time": 40,
+          "coordinate": {
+            "lng": 127.0982,
+            "lat": 37.5133
+          },
+          "volume": 22.1,
+          "weight": 67.8,
+          "extra_demands": [
+            2,
+            3
+          ],
+          "unassigned_penalty": 900.0,
+          "time_window": [
+            "2024-12-16T11:00:00",
+            "2024-12-16T16:00:00"
+          ],
+          "early_delivery_required": false
+        }
+      ],
+      "delivery_start_time": "2024-12-16T08:30:00"
+    }
+  ],
+  "vehicles": [
+    {
+      "name": "트럭-001",
+      "volume_capacity": 50.0,
+      "weight_capacity": 200.0,
+      "extra_capacities": [
+        10,
+        8
+      ],
+      "work_start_time": "2024-12-15T08:00:00",
+      "work_end_time": "2024-12-15T18:00:00",
+      "vehicle_type": "car",
+      "ownership_type": "owned",
+      "start_depot_name": "서울 중앙 창고",
+      "end_depot_name": "서울 중앙 창고",
+      "fixed_cost_default": 50000.0,
+      "fixed_cost_if_assigned": 25000.0,
+      "fuel_cost_per_km": 150.0,
+      "visit_preference": {
+        "명동 매장": 2,
+        "홍대 지점": 1,
+        "이태원 상점": 0
+      },
+      "first_visit_costs": {
+        "명동 매장": 5000,
+        "홍대 지점": 3000,
+        "이태원 상점": 2000
+      },
+      "consecutive_visit_tiered_costs": [
+        [
+          5000,
+          3000
+        ],
+        [
+          1000000000,
+          5000
+        ]
+      ]
+    },
+    {
+      "name": "밴-002",
+      "volume_capacity": 25.0,
+      "weight_capacity": 120.0,
+      "extra_capacities": [
+        5,
+        4
+      ],
+      "work_start_time": "2024-12-15T09:00:00",
+      "work_end_time": "2024-12-15T17:00:00",
+      "vehicle_type": "car",
+      "ownership_type": "rented",
+      "start_depot_name": "강남 물류센터",
+      "end_depot_name": "강남 물류센터",
+      "fixed_cost_default": 30000.0,
+      "fixed_cost_if_assigned": 15000.0,
+      "fuel_cost_per_km": 120.0,
+      "visit_preference": {
+        "강남역 매장": 3,
+        "잠실 지점": 2
+      },
+      "first_visit_costs": {
+        "강남역 매장": 4000,
+        "잠실 지점": 6000
+      },
+      "consecutive_visit_tiered_costs": [
+        [
+          3000,
+          2000
+        ],
+        [
+          10000,
+          4000
+        ]
+      ]
+    },
+    {
+      "name": "이륜차-003",
+      "volume_capacity": 5.0,
+      "weight_capacity": 30.0,
+      "extra_capacities": [
+        2,
+        1
+      ],
+      "work_start_time": "2024-12-15T10:00:00",
+      "work_end_time": "2024-12-15T16:00:00",
+      "vehicle_type": "bike",
+      "ownership_type": "rented",
+      "start_depot_name": "서울 중앙 창고",
+      "end_depot_name": null,
+      "fixed_cost_default": 20000.0,
+      "fixed_cost_if_assigned": 10000.0,
+      "fuel_cost_per_km": 80.0,
+      "visit_preference": {},
+      "first_visit_costs": {},
+      "consecutive_visit_tiered_costs": []
+    }
+  ],
+  "objective_costs": [
+    "fixed_cost",
+    "fuel_cost",
+    "first_visit_cost",
+    "consecutive_visit_tiered_cost"
+  ],
+  "option": {
+    "timelimit": 5,
+    "distance_type": "euclidean"
+  }
+}

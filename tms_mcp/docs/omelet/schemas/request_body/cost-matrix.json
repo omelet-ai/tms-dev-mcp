@@ -1,0 +1,73 @@
+{
+  "schema": {
+    "additionalProperties": false,
+    "properties": {
+      "coordinates": {
+        "description": "List of coordinates for which cost matrix should be calculated.",
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "lng": {
+              "description": "Longitude in decimal degrees.",
+              "title": "Longitude",
+              "type": "number"
+            },
+            "lat": {
+              "description": "Latitude in decimal degrees.",
+              "title": "Latitude",
+              "type": "number"
+            }
+          },
+          "required": [
+            "lng",
+            "lat"
+          ],
+          "title": "Coordinate",
+          "type": "object"
+        },
+        "maxItems": 10000,
+        "minItems": 2,
+        "title": "Location Coordinates",
+        "type": "array"
+      },
+      "return_cost_matrix_type": {
+        "enum": [
+          "distance",
+          "duration",
+          "both"
+        ],
+        "title": "Matrix Type",
+        "type": "string",
+        "default": "distance",
+        "description": "Choose what kind of matrix to return: distance, duration, or both."
+      },
+      "vehicle_type": {
+        "enum": [
+          "bike",
+          "car",
+          "walk"
+        ],
+        "title": "Vehicle Type",
+        "type": "string",
+        "default": "car",
+        "description": "Vehicle type used to calculate travel time and distance."
+      },
+      "curb": {
+        "default": false,
+        "description": "Set to true to consider vehicle driving direction and restricted curbside access at each location.",
+        "title": "Curbside Access Restriction",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "coordinates"
+    ],
+    "title": "CostMatrixInput",
+    "type": "object"
+  },
+  "_meta": {
+    "source": "primary",
+    "path": "/api/cost-matrix",
+    "method": "POST"
+  }
+}

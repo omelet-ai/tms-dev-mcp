@@ -1,0 +1,117 @@
+{
+  "visits": [
+    {
+      "id": "delivery_001",
+      "coordinate": {
+        "lng": 126.978,
+        "lat": 37.5665
+      },
+      "order_placed_at": "2024-01-15T09:00:00Z",
+      "tw_early": "2024-01-15T10:00:00Z",
+      "tw_late": "2024-01-15T18:00:00Z",
+      "service_time": {
+        "bike": 5.0,
+        "car": 3.0,
+        "walk": 10.0
+      },
+      "volume": 15.5,
+      "weight": 2.3,
+      "unassigned_penalty": 100.0,
+      "extra_demands": [
+        1.5,
+        2.0
+      ],
+      "early_delivery_required": false
+    },
+    {
+      "id": "delivery_002",
+      "coordinate": {
+        "lng": 126.985,
+        "lat": 37.57
+      },
+      "order_placed_at": "2024-01-15T09:30:00Z",
+      "tw_early": "2024-01-15T11:00:00Z",
+      "tw_late": "2024-01-15T19:00:00Z",
+      "service_time": {
+        "bike": 7.0,
+        "car": 4.0,
+        "walk": 12.0
+      },
+      "volume": 22.0,
+      "weight": 3.1,
+      "unassigned_penalty": 120.0,
+      "extra_demands": [
+        2.5,
+        1.8
+      ],
+      "early_delivery_required": true
+    }
+  ],
+  "vehicles": [
+    {
+      "id": "vehicle_001",
+      "vehicle_type": "bike",
+      "start_depot": {
+        "id": "depot_start",
+        "coordinate": {
+          "lng": 126.97,
+          "lat": 37.56
+        },
+        "service_time": {
+          "bike": 0.0,
+          "car": 0.0,
+          "walk": 0.0
+        }
+      },
+      "end_depot": {
+        "id": "depot_end",
+        "coordinate": {
+          "lng": 126.97,
+          "lat": 37.56
+        },
+        "service_time": {
+          "bike": 0.0,
+          "car": 0.0,
+          "walk": 0.0
+        }
+      },
+      "volume_capacity": 100.0,
+      "weight_capacity": 50.0,
+      "unit_distance_cost": 1.2,
+      "unit_duration_cost": 0.8,
+      "work_start_time": "2024-01-15T08:00:00Z",
+      "work_end_time": "2024-01-15T20:00:00Z",
+      "max_round": 3,
+      "preassigned_delivery_ids": [],
+      "extra_capacities": [
+        10.0,
+        8.0
+      ],
+      "max_service_radius": 15000.0
+    }
+  ],
+  "constraints": [
+    {
+      "type": "capacity",
+      "weight": 1000.0,
+      "is_hard_cost": true
+    },
+    {
+      "type": "time_window",
+      "weight": 500.0,
+      "is_hard_cost": false,
+      "exp_factor": 2.0
+    },
+    {
+      "type": "distance",
+      "weight": 1.0,
+      "is_hard_cost": false,
+      "exp_factor": 1.0
+    }
+  ],
+  "config": {
+    "timelimit": 5,
+    "delivery_start_time": "2024-01-15T08:00:00Z",
+    "distance_type": "euclidean"
+  }
+}

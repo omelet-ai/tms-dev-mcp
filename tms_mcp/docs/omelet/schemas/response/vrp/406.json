@@ -1,0 +1,56 @@
+{
+  "response_schema": {
+    "type": {
+      "type": "string",
+      "default": "about:blank",
+      "description": "uri format type"
+    },
+    "title": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "status": {
+      "type": "integer"
+    },
+    "code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "detail": {
+      "type": "string",
+      "description": "detail explanation of error"
+    },
+    "instance": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "uri format type"
+    },
+    "field_errors": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "message"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "method": "GET",
+  "summary": "Geocoding",
+  "description": "Returns coordinate information corresponding to the input address.",
+  "parameters": [
+    {
+      "name": "appkey",
+      "in": "path",
+      "description": "API key with permission to use this API",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "searchCondition",
+      "in": "query",
+      "description": "Geocoding search conditions",
+      "required": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search keyword",
+            "example": "성남시",
+            "minLength": 1
+          },
+          "coordtype": {
+            "type": "string",
+            "description": "Coordinate system type. 0 indicates TW coordinates, 1 indicates WGS84 coordinates, 2 indicates TM coordinates. Default value is 1",
+            "examples": [
+              "0",
+              "1",
+              "2"
+            ]
+          },
+          "startposition": {
+            "type": "string",
+            "default": "0",
+            "description": "Search start position. 0 means the first position.",
+            "example": 0
+          },
+          "reqcount": {
+            "type": "string",
+            "description": "Request count. When set to 0, it will be set to the maximum count of 100",
+            "example": 10
+          },
+          "admcode": {
+            "type": "string",
+            "description": "Administrative district code",
+            "example": 1100000000
+          }
+        },
+        "required": [
+          "query"
+        ]
+      }
+    }
+  ]
+}

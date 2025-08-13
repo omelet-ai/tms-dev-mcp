@@ -1,0 +1,121 @@
+{
+  "visits": [
+    {
+      "name": "서울-부산 배송",
+      "pick_up_visit": {
+        "name": "서울 픽업지",
+        "service_time": 15,
+        "coordinate": {
+          "lng": 126.978,
+          "lat": 37.5665
+        },
+        "volume": 2.5,
+        "weight": 25.0,
+        "extra_demands": [],
+        "time_window": [
+          "2024-12-10T09:00:00+09:00",
+          "2024-12-10T12:00:00+09:00"
+        ],
+        "early_delivery_required": false
+      },
+      "drop_off_visit": {
+        "name": "부산 배송지",
+        "service_time": 20,
+        "coordinate": {
+          "lng": 129.0756,
+          "lat": 35.1796
+        },
+        "volume": 2.5,
+        "weight": 25.0,
+        "extra_demands": [],
+        "time_window": [
+          "2024-12-10T14:00:00+09:00",
+          "2024-12-10T18:00:00+09:00"
+        ],
+        "early_delivery_required": false
+      }
+    },
+    {
+      "name": "인천-대구 배송",
+      "pick_up_visit": {
+        "name": "인천 픽업지",
+        "service_time": 10,
+        "coordinate": {
+          "lng": 126.7052,
+          "lat": 37.4563
+        },
+        "volume": 1.8,
+        "weight": 15.5,
+        "extra_demands": [],
+        "time_window": [
+          "2024-12-10T08:30:00+09:00",
+          "2024-12-10T11:30:00+09:00"
+        ],
+        "early_delivery_required": true
+      },
+      "drop_off_visit": {
+        "name": "대구 배송지",
+        "service_time": 15,
+        "coordinate": {
+          "lng": 128.6014,
+          "lat": 35.8714
+        },
+        "volume": 1.8,
+        "weight": 15.5,
+        "extra_demands": [],
+        "time_window": [
+          "2024-12-10T13:00:00+09:00",
+          "2024-12-10T17:00:00+09:00"
+        ],
+        "early_delivery_required": false
+      }
+    }
+  ],
+  "vehicles": [
+    {
+      "name": "트럭-001",
+      "volume_capacity": 10.0,
+      "weight_capacity": 100.0,
+      "extra_capacities": [],
+      "fixed_cost": 50.0,
+      "unit_distance_cost": 1.2,
+      "unit_duration_cost": 0.5,
+      "work_start_time": "2024-12-10T08:00:00+09:00",
+      "work_end_time": "2024-12-10T20:00:00+09:00",
+      "vehicle_type": "car",
+      "max_round": 1,
+      "current_coordinate": {
+        "lng": 126.978,
+        "lat": 37.5665
+      }
+    },
+    {
+      "name": "트럭-002",
+      "volume_capacity": 12.0,
+      "weight_capacity": 120.0,
+      "extra_capacities": [],
+      "fixed_cost": 60.0,
+      "unit_distance_cost": 1.1,
+      "unit_duration_cost": 0.4,
+      "work_start_time": "2024-12-10T07:30:00+09:00",
+      "work_end_time": "2024-12-10T19:30:00+09:00",
+      "vehicle_type": "car",
+      "max_round": 1,
+      "current_coordinate": {
+        "lng": 126.7052,
+        "lat": 37.4563
+      }
+    }
+  ],
+  "delivery_start_time": "2024-12-10T08:00:00+09:00",
+  "option": {
+    "timelimit": 5,
+    "objective_type": "minsum",
+    "distance_type": "euclidean",
+    "allow_unassigned_visits": false,
+    "use_large_size_optimization_algorithm": false,
+    "include_departure_cost_from_depot": true,
+    "include_return_cost_to_depot": true,
+    "is_max_service_radius_hard_constraint": true
+  }
+}

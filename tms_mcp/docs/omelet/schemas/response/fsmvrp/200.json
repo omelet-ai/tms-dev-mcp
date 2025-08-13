@@ -1,0 +1,173 @@
+{
+  "response_schema": {
+    "fsmvrp_engine_result": {
+      "additionalProperties": false,
+      "properties": {
+        "daily_results": {
+          "additionalProperties": {
+            "additionalProperties": false,
+            "properties": {
+              "routes": {
+                "description": "List of calculated vehicle routes based on the provided vehicles and visits.",
+                "items": {
+                  "properties": {
+                    "vehicle_name": {
+                      "description": "Name of the vehicle assigned to the route",
+                      "title": "Name",
+                      "type": "string"
+                    },
+                    "route_indices": {
+                      "description": "List of depot and visit indices in the route. Depot indices refer to their positions in the combined list `[visits, depots]`. For example, if there are 5 visits and 2 depots, then:\n- Visit indices range from 0 to 4\n- Depot indices range from 5 to 6 (because depots are placed after visits)",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "title": "List of depot and visit indices",
+                      "type": "array"
+                    },
+                    "route_names": {
+                      "description": "List of depot and visit names in the route",
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "List of depot and visit names",
+                      "type": "array"
+                    },
+                    "arrival_times": {
+                      "description": "List of arrival timestamps at each visit/depot in 'route_names'.",
+                      "items": {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      "title": "Arrival Times",
+                      "type": "array"
+                    },
+                    "departure_times": {
+                      "description": "List of departure timestamps from each visit/depot in 'route_names'.",
+                      "items": {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      "title": "Departure Times",
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "vehicle_name",
+                    "route_indices",
+                    "route_names",
+                    "arrival_times",
+                    "departure_times"
+                  ],
+                  "title": "FsmvrpOutputRoute",
+                  "type": "object"
+                },
+                "title": "Optimized Routes",
+                "type": "array"
+              },
+              "unassigned_visit_indices": {
+                "description": "List of visit indices that could not be assigned to any route. Indices correspond to positions in the original `visits` list (i.e., before adding depot visits).",
+                "items": {
+                  "type": "integer"
+                },
+                "title": "Unassigned Visit Indices",
+                "type": "array"
+              },
+              "unassigned_visit_names": {
+                "description": "Names of visits that could not be assigned to any route.",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Unassigned Visit Names",
+                "type": "array"
+              },
+              "daily_total_solution_cost": {
+                "description": "Sum of all cost components for the day, including vehicle, fuel, and visit-related costs.",
+                "title": "Daily Total Solution Cost",
+                "type": "number"
+              },
+              "daily_solution_cost_details": {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "description": "Cost totals per objective_cost calculated from the day's optimization results.",
+                "propertyNames": {
+                  "enum": [
+                    "fixed_cost",
+                    "fuel_cost",
+                    "first_visit_cost",
+                    "consecutive_visit_tiered_cost"
+                  ]
+                },
+                "title": "Solution Cost Details",
+                "type": "object"
+              }
+            },
+            "required": [
+              "routes",
+              "unassigned_visit_indices",
+              "unassigned_visit_names",
+              "daily_total_solution_cost",
+              "daily_solution_cost_details"
+            ],
+            "title": "DailyFsmvrpEngineResult",
+            "type": "object"
+          },
+          "description": "A dictionary mapping each date to that day's optimization results.",
+          "title": "Daily Optimization Results",
+          "type": "object"
+        },
+        "total_solution_cost": {
+          "description": "Overall total cost aggregated across all days and objective_costs.",
+          "title": "Total Solution Cost",
+          "type": "number"
+        },
+        "solution_cost_details": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "description": "Total cost for each objective_cost, aggregated from all daily optimization results.",
+          "propertyNames": {
+            "enum": [
+              "fixed_cost",
+              "fuel_cost",
+              "first_visit_cost",
+              "consecutive_visit_tiered_cost"
+            ]
+          },
+          "title": "Aggregated Solution Cost",
+          "type": "object"
+        }
+      },
+      "required": [
+        "daily_results",
+        "total_solution_cost",
+        "solution_cost_details"
+      ],
+      "title": "Engine Result",
+      "type": "object",
+      "description": "Detailed routing solution including routes and cost breakdowns."
+    },
+    "status": {
+      "enum": [
+        "feasible",
+        "feasible_with_unassigned_visits",
+        "infeasible",
+        "user_input_error"
+      ],
+      "title": "API Status",
+      "type": "string",
+      "description": "Status of the routing solution (e.g., feasible, feasible_with_dropped_visits, infeasible, user input error)."
+    },
+    "detail": {
+      "description": "Explanation of the result status for debugging or understanding the outcome.",
+      "title": "Status Description",
+      "type": "string"
+    },
+    "job_id": {
+      "default": "",
+      "description": "Unique identifier for the asynchronous routing job.",
+      "title": "Job ID",
+      "type": "string"
+    }
+  }
+}

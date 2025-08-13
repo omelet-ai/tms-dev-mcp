@@ -1,0 +1,180 @@
+{
+  "response_schema": {
+    "routing_engine_result": {
+      "additionalProperties": false,
+      "properties": {
+        "routes": {
+          "default": [],
+          "description": "List of calculated vehicle routes based on provided vehicles and visits.",
+          "items": {
+            "properties": {
+              "vehicle_name": {
+                "description": "Name of the vehicle assigned to the route",
+                "title": "Name",
+                "type": "string"
+              },
+              "route_index": {
+                "description": "List of depot and visit indices in the route",
+                "items": {
+                  "type": "integer"
+                },
+                "title": "List of depot and visits index",
+                "type": "array"
+              },
+              "route_name": {
+                "description": "List of depot and visit names in the route",
+                "items": {
+                  "type": "string"
+                },
+                "title": "List of depot and visits name",
+                "type": "array"
+              },
+              "route_cost_details": {
+                "properties": {
+                  "objective_cost": {
+                    "default": 0,
+                    "description": "Cost of the route considering objective type, distance, duration, and fixed cost. 0 if the route is empty.",
+                    "title": "Route Cost",
+                    "type": "number"
+                  },
+                  "distance_cost": {
+                    "default": 0,
+                    "description": "Distance cost of the route. 0 if the route is empty.",
+                    "title": "Distance Cost",
+                    "type": "number"
+                  },
+                  "duration_cost": {
+                    "default": 0,
+                    "description": "Duration cost of the route. 0 if the route is empty.",
+                    "title": "Duration Cost",
+                    "type": "number"
+                  },
+                  "fixed_cost": {
+                    "default": 0,
+                    "description": "Fixed cost of the route. 0 if the route is empty.",
+                    "title": "Fixed Cost",
+                    "type": "number"
+                  }
+                },
+                "title": "Route cost",
+                "type": "object",
+                "description": "Detailed cost of the route"
+              }
+            },
+            "required": [
+              "vehicle_name",
+              "route_index",
+              "route_name",
+              "route_cost_details"
+            ],
+            "title": "OutputRoute",
+            "type": "object"
+          },
+          "title": "Optimized Routes",
+          "type": "array"
+        },
+        "unassigned_visit_indices": {
+          "default": [],
+          "description": "List of visit indices that could not be assigned to any route. If all visits are assigned, this list will be empty.",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Unassigned Visit Indices",
+          "type": "array"
+        },
+        "unassigned_visit_names": {
+          "default": [],
+          "description": "Names of visits that could not be assigned to any route. If all visits are assigned, this list will be empty.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Unassigned Visit Names",
+          "type": "array"
+        },
+        "solution_cost_details": {
+          "properties": {
+            "total_objective_cost": {
+              "default": 0.0,
+              "description": "Aggregated cost of the solution from all routes",
+              "title": "Total Cost",
+              "type": "number"
+            },
+            "total_distance_cost": {
+              "default": 0.0,
+              "description": "Sum of the distance cost of the routes in the solution.",
+              "title": "Total Distance Cost",
+              "type": "number"
+            },
+            "total_duration_cost": {
+              "default": 0.0,
+              "description": "Sum of the duration cost of the routes in the solution.",
+              "title": "Total Duration Cost",
+              "type": "number"
+            },
+            "max_distance_cost": {
+              "default": 0.0,
+              "description": "Maximum distance cost of the routes in the solution.",
+              "title": "Max Distance Cost",
+              "type": "number"
+            },
+            "max_duration_cost": {
+              "default": 0.0,
+              "description": "Maximum duration cost of the routes in the solution.",
+              "title": "Max Duration Cost",
+              "type": "number"
+            },
+            "total_fixed_cost": {
+              "default": 0.0,
+              "description": "Sum of the fixed cost of the routes in the solution.",
+              "title": "Total Fixed Cost",
+              "type": "number"
+            },
+            "unassigned_penalty_cost": {
+              "default": 0.0,
+              "description": "Sum of penalties for unassigned visits. This value represents the total penalty for visits that could not be assigned to any route. **Note: This cost is *not* included in the objective cost.**",
+              "title": "Unassigned Penalty Cost",
+              "type": "number"
+            }
+          },
+          "title": "Total Solution Cost",
+          "type": "object",
+          "default": {
+            "total_objective_cost": 0.0,
+            "total_distance_cost": 0.0,
+            "total_duration_cost": 0.0,
+            "max_distance_cost": 0.0,
+            "max_duration_cost": 0.0,
+            "total_fixed_cost": 0.0,
+            "unassigned_penalty_cost": 0.0
+          },
+          "description": "Summarized cost information across all calculated routes."
+        }
+      },
+      "title": "Engine Result",
+      "type": "object",
+      "description": "Detailed routing solution including routes and costs."
+    },
+    "status": {
+      "enum": [
+        "feasible",
+        "feasible_with_unassigned_visits",
+        "infeasible",
+        "user_input_error"
+      ],
+      "title": "API Status",
+      "type": "string",
+      "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+    },
+    "detail": {
+      "description": "Explanation of the result status for debugging or understanding the outcome.",
+      "title": "Status Description",
+      "type": "string"
+    },
+    "job_id": {
+      "default": "",
+      "description": "Unique identifier for the routing job. Only needed when contacting Omelet for support.",
+      "title": "Job ID",
+      "type": "string"
+    }
+  }
+}

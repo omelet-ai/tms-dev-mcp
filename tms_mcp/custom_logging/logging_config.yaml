@@ -1,0 +1,22 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+  verbose:
+    (): routing_engine_mcp.custom_logging.logging_format.CustomFormatter  # Use custom formatter
+    format: "{asctime} - {processName} - {name} - {levelname} - {message}"
+    style: "{"
+    datefmt: "%Y-%m-%d %H:%M:%S %Z%z"
+  simple:
+    format: "{levelname} {message}"
+    style: "{"
+
+handlers:
+  console_handler:
+    class: logging.StreamHandler
+    formatter: verbose
+
+loggers:
+  "":
+    level: INFO
+    handlers:
+      - console_handler
