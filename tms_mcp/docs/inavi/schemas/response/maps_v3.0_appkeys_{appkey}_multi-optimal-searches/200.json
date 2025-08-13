@@ -1,0 +1,107 @@
+{
+  "response_schema": {
+    "origins": {
+      "type": "array",
+      "description": "Represents the list of x, y coordinates sent in the request. It is expressed as a two-dimensional array of double type.",
+      "example": [
+        [
+          126.9071,
+          37.5307
+        ],
+        [
+          127.0275,
+          37.4979
+        ]
+      ],
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "datas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "Represents the multi optimal point search result summary information.",
+        "properties": {
+          "result": {
+            "type": "boolean",
+            "description": "Indicates whether the search result was successful."
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Indicates the number of search results found.",
+            "example": 10
+          },
+          "entrypoints": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "Represents the detailed contents of the optimal point search results.",
+              "properties": {
+                "x": {
+                  "type": "number",
+                  "format": "double",
+                  "description": "Represents the X coordinate of the optimal point.",
+                  "example": 126.90718692215697
+                },
+                "y": {
+                  "type": "number",
+                  "format": "double",
+                  "description": "Represents the Y coordinate of the optimal point.",
+                  "example": 37.5307893874629
+                },
+                "type": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "Represents the optimal point property. The detailed description is the same as the type field description in the request body.",
+                  "examples": [
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7"
+                  ]
+                },
+                "angle": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "Represents the expected direction angle of a vehicle entering/exiting to the matched road coordinates.",
+                  "example": 341
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "header": {
+      "type": "object",
+      "description": "Shows the status of the API response result.",
+      "properties": {
+        "isSuccessful": {
+          "type": "boolean",
+          "description": "Indicates whether the API request was successful.",
+          "example": true
+        },
+        "resultCode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Indicates the API response result code. Returns 0 on success, otherwise indicates failure. Major result codes: 0(success), 100(Result Not Found), 101(Argument Error), 102(Internal Server Error), 103(Different Map Version), 201(Searching for Security), 202(Longitude/Latitude), 203(Mobile Phone Number), 300(AppKey Error), 400(Taxi Fare Info not Found), 501(Unknown Fail), 517(Memory allocation failure), 532(Request parameter is invalid), 533(Starting point not selected), 534(Destination not selected), 537(Exceeding navigational distance), 540(Expansion failure due to traffic control), etc.",
+          "example": 0
+        },
+        "resultMessage": {
+          "type": "string",
+          "description": "Indicates the reason for response failure when the API response fails. Major result messages include: \"Result Not Found\", \"Argument Error\", \"Internal Server Error\", \"Different Map Version\", \"AppKey Error\", \"Searching for Security\", \"Longitude/Latitude\", \"Mobile Phone Number\", \"Unknown Fail\", \"Memory allocation failure\", \"Request parameter is invalid\", \"The starting point is not selected\", \"Destination is not selected\", \"Exceeding the navigational distance\", \"Expansion failure due to inactivity or traffic control\", etc., providing specific error causes for proper exception handling."
+        }
+      }
+    }
+  }
+}

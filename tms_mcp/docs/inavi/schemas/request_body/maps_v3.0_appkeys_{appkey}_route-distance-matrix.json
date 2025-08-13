@@ -1,0 +1,61 @@
+{
+  "schema": {
+    "type": "object",
+    "description": "Route Distance Matrix request body.",
+    "properties": {
+      "points": {
+        "type": "array",
+        "description": "Represents a list of coordinates. Can receive a minimum of 3 and a maximum of 200 coordinates.",
+        "items": {
+          "type": "object",
+          "description": "Represents X, Y coordinate values.",
+          "properties": {
+            "posX": {
+              "type": "string",
+              "description": "Represents the X coordinate.",
+              "example": "126.9071869221794",
+              "minLength": 1
+            },
+            "posY": {
+              "type": "string",
+              "description": "Represents the Y coordinate.",
+              "example": "37.53078938747262",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "posX",
+            "posY"
+          ]
+        },
+        "maxItems": 200,
+        "minItems": 3
+      },
+      "traffic": {
+        "type": "integer",
+        "format": "int32",
+        "description": "Represents the type of traffic information. Values from 0 to 3 can be used, with a default of 0. 0 means not used, 1 means real-time, 2 means statistical, and 3 means real-time and statistical combined.",
+        "examples": [
+          "0",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "time": {
+        "type": "integer",
+        "format": "unix-time",
+        "description": "Represents the request time. This is activated when using statistical traffic information. The time format is Unix time in seconds.",
+        "example": 1723188000
+      }
+    },
+    "required": [
+      "points"
+    ]
+  },
+  "_meta": {
+    "source": "imaps",
+    "path": "/maps/v3.0/appkeys/{appkey}/route-distance-matrix",
+    "method": "POST"
+  }
+}

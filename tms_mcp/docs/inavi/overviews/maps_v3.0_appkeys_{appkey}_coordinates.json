@@ -28,7 +28,7 @@
           },
           "coordtype": {
             "type": "string",
-            "description": "Coordinate system type. 0 indicates TW coordinates, 1 indicates WGS84 coordinates, 2 indicates TM coordinates. Default value is 1",
+            "description": "Coordinate system type. 0 indicates TW coordinates, 1 indicates WGS84 coordinates, 2 indicates TM coordinates.",
             "examples": [
               "0",
               "1",

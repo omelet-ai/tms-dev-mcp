@@ -6,11 +6,7 @@
       "properties": {
         "result": {
           "type": "boolean",
-          "description": "Indicates whether the search result was successful.",
-          "examples": [
-            "true",
-            "false"
-          ]
+          "description": "Indicates whether the search result was successful."
         },
         "count": {
           "type": "integer",

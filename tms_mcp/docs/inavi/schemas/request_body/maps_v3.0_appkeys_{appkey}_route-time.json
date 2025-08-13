@@ -1,0 +1,308 @@
+{
+  "schema": {
+    "type": "object",
+    "description": "Search conditions for the General Route Prediction Search.",
+    "properties": {
+      "option": {
+        "type": "string",
+        "default": "stats",
+        "description": "Specifies the option to use for the route search. 'stats' prioritizes statistical prediction data, 'stats_freeroad' prioritizes free roads, and 'stats_highway' prioritizes highways. The default value is 'stats'.",
+        "examples": [
+          "stats",
+          "stats_freeroad",
+          "stats_highway"
+        ],
+        "pattern": "^(stats|stats_freeroad|stats_highway)$"
+      },
+      "startX": {
+        "type": "string",
+        "description": "The X-coordinate for the starting point (origin) of the route search. It follows the coordinate system defined in the 'coordType' parameter.",
+        "example": "126.9784147",
+        "minLength": 1
+      },
+      "startY": {
+        "type": "string",
+        "description": "The Y-coordinate for the starting point (origin) of the route search. It follows the coordinate system defined in the 'coordType' parameter.",
+        "example": "37.5666805",
+        "minLength": 1
+      },
+      "endX": {
+        "type": "string",
+        "description": "The X-coordinate for the endpoint (destination) of the route search. It follows the coordinate system defined in the 'coordType' parameter.",
+        "example": "127.105399",
+        "minLength": 1
+      },
+      "endY": {
+        "type": "string",
+        "description": "The Y-coordinate for the endpoint (destination) of the route search. It follows the coordinate system defined in the 'coordType' parameter.",
+        "example": "37.5124518",
+        "minLength": 1
+      },
+      "type": {
+        "type": "string",
+        "default": "start",
+        "description": "Represents the reference time. It determines whether the set time is considered the departure time or the arrival time. 'start' means the search is based on the departure time, and 'end' means it's based on the arrival time. The default value is 'start'.",
+        "examples": [
+          "start",
+          "end"
+        ],
+        "pattern": "^(start|end)$"
+      },
+      "year": {
+        "type": "integer",
+        "format": "YYYY",
+        "description": "The reference year for the route search (YYYY). (e.g., 2025)",
+        "example": 2025,
+        "minimum": 1
+      },
+      "month": {
+        "type": "integer",
+        "format": "int32",
+        "description": "The reference month for the route search. (1-12)",
+        "example": 8,
+        "maximum": 12,
+        "minimum": 1
+      },
+      "day": {
+        "type": "integer",
+        "format": "int32",
+        "description": "The reference day for the route search. (1-31)",
+        "example": 15,
+        "maximum": 31,
+        "minimum": 1
+      },
+      "hour": {
+        "type": "integer",
+        "format": "int32",
+        "description": "The reference hour for the route search, in 24-hour format (0-23).",
+        "example": 17,
+        "maximum": 23,
+        "minimum": 0
+      },
+      "minutes": {
+        "type": "integer",
+        "format": "int32",
+        "description": "The reference minute for the route search. (0-59)",
+        "example": 30,
+        "maximum": 59,
+        "minimum": 0
+      },
+      "via1X": {
+        "type": "string",
+        "description": "The X-coordinate for the first waypoint. It follows the coordinate system defined in the 'coordType' parameter.",
+        "example": "127.027621"
+      },
+      "via1Y": {
+        "type": "string",
+        "description": "The Y-coordinate for the first waypoint. It follows the coordinate system defined in the 'coordType' parameter.",
+        "example": "37.497942"
+      },
+      "via2X": {
+        "type": "string",
+        "description": "The X-coordinate for the second waypoint. It follows the coordinate system defined in the 'coordType' parameter."
+      },
+      "via2Y": {
+        "type": "string",
+        "description": "The Y-coordinate for the second waypoint. It follows the coordinate system defined in the 'coordType' parameter."
+      },
+      "via3X": {
+        "type": "string",
+        "description": "The X-coordinate for the third waypoint. It follows the coordinate system defined in the 'coordType' parameter."
+      },
+      "via3Y": {
+        "type": "string",
+        "description": "The Y-coordinate for the third waypoint. It follows the coordinate system defined in the 'coordType' parameter."
+      },
+      "via4X": {
+        "type": "string",
+        "description": "The X-coordinate for the fourth waypoint. It follows the coordinate system defined in the 'coordType' parameter."
+      },
+      "via4Y": {
+        "type": "string",
+        "description": "The Y-coordinate for the fourth waypoint. It follows the coordinate system defined in the 'coordType' parameter."
+      },
+      "via5X": {
+        "type": "string",
+        "description": "The X-coordinate for the fifth waypoint. It follows the coordinate system defined in the 'coordType' parameter."
+      },
+      "via5Y": {
+        "type": "string",
+        "description": "The Y-coordinate for the fifth waypoint. It follows the coordinate system defined in the 'coordType' parameter."
+      },
+      "coordType": {
+        "type": "string",
+        "default": "wgs84",
+        "description": "Specifies the coordinate system for all input coordinates (origin, destination, waypoints). 'wgs84' is the international standard coordinate system, and 'tw' is an internal Tinkware coordinate system. The default value is 'wgs84'.",
+        "examples": [
+          "wgs84",
+          "WGS84",
+          "tw",
+          "TW"
+        ],
+        "pattern": "^(tw|wgs84|TW|WGS84)$"
+      },
+      "carType": {
+        "type": "integer",
+        "format": "int32",
+        "default": 1,
+        "description": "Specifies the vehicle type for the route search. (1: Small car, 2: Medium car, 3: Large car, 4: Large truck, 5: Special truck, 6: Compact car). The default value is 1.",
+        "examples": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      },
+      "useTrafficColor": {
+        "type": "boolean",
+        "default": true,
+        "description": "Determines whether to include real-time traffic status (e.g., clear, slow, congested) as color information in the route result. The default value is true.",
+        "example": true
+      },
+      "guideTop": {
+        "type": "integer",
+        "format": "int32",
+        "default": 5,
+        "description": "The maximum number of major guidance points (Guide Points) to include in the route result. The default value is 5.",
+        "example": 5
+      },
+      "useGuide": {
+        "type": "boolean",
+        "default": false,
+        "description": "Determines whether to include detailed turn-by-turn navigation information in the route result. The default value is false.",
+        "example": false
+      },
+      "groupByTrafficColor": {
+        "type": "boolean",
+        "default": false,
+        "description": "Determines whether to group the detailed path list (paths) by traffic color. The default value is false.",
+        "example": false
+      },
+      "beforeCount": {
+        "type": "integer",
+        "format": "int32",
+        "default": 0,
+        "description": "The number of additional routes to search at time intervals set by the 'interval' parameter *before* the reference time. (e.g., if beforeCount=2 and interval=15, it searches for routes 15 and 30 minutes before the reference time). The default is 0.",
+        "example": 2
+      },
+      "afterCount": {
+        "type": "integer",
+        "format": "int32",
+        "default": 0,
+        "description": "The number of additional routes to search at time intervals set by the 'interval' parameter *after* the reference time. (e.g., if afterCount=2 and interval=15, it searches for routes 15 and 30 minutes after the reference time). The default is 0.",
+        "example": 2
+      },
+      "useTaxifare": {
+        "type": "string",
+        "default": "0",
+        "description": "Determines whether to retrieve the estimated taxi fare for the route. (0: Do not retrieve, 1: Standard taxi, 2: Deluxe taxi, 3: Both standard and deluxe). The default is 0.",
+        "examples": [
+          "0",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "interval": {
+        "type": "integer",
+        "format": "int32",
+        "default": 15,
+        "description": "Sets the time interval in minutes to be applied when using 'beforeCount' or 'afterCount'. The default is 15 minutes.",
+        "example": 15
+      },
+      "useStartDirection": {
+        "type": "boolean",
+        "default": false,
+        "description": "Determines whether to prioritize the vehicle's direction of travel at the start of the route search. The default is false. This can be useful when the precise 'angle' of the vehicle is unknown.",
+        "example": false
+      },
+      "searchByAddress": {
+        "type": "boolean",
+        "default": false,
+        "description": "Indicates whether to perform an address-based route search. The default value is false.",
+        "example": false
+      },
+      "useAngle": {
+        "type": "boolean",
+        "default": false,
+        "description": "Determines whether to use the departure angle in the search. If set to true, the 'angle' value is required. The default is false. (true: Prioritize driving direction, false: Do not prioritize driving direction).",
+        "example": false
+      },
+      "angle": {
+        "type": "integer",
+        "format": "int32",
+        "description": "The departure angle of the vehicle, applied when 'useAngle' is true. It takes a value between 0 and 359 degrees, with 0 representing true north, increasing clockwise.",
+        "example": 90
+      },
+      "usageType": {
+        "type": "integer",
+        "format": "int32",
+        "default": 0,
+        "description": "A type that distinguishes the usage purpose of the API service. (0: General, 1: Taxi). The default is 0.",
+        "examples": [
+          "0",
+          "1"
+        ]
+      },
+      "carWeight": {
+        "type": "integer",
+        "format": "int32",
+        "default": 0,
+        "description": "The total weight of the vehicle in kilograms (kg). This is applied when 'carType' is 4 (Large truck) or 5 (Special truck).",
+        "example": 4500
+      },
+      "carHeight": {
+        "type": "integer",
+        "format": "int32",
+        "default": 0,
+        "description": "The height of the vehicle in centimeters (cm). This is applied when 'carType' is 4 (Large truck) or 5 (Special truck).",
+        "example": 250
+      },
+      "avoidWaterSourceArea": {
+        "type": "boolean",
+        "default": false,
+        "description": "Determines whether to avoid water source protection areas during the route search. The default is false.",
+        "example": false
+      },
+      "avoidNarrowRoad": {
+        "type": "integer",
+        "format": "int32",
+        "default": 0,
+        "description": "Sets the avoidance level for narrow roads (side streets). The value represents the number of round-trip lanes. Roads with this number of lanes or fewer will be avoided. (e.g., if the value is 6, roads with 6 or fewer round-trip lanes will be avoided). The default is 0.",
+        "example": 0
+      },
+      "avoidUTurn": {
+        "type": "integer",
+        "format": "int32",
+        "default": 0,
+        "description": "Sets the avoidance level for U-turns. The value represents the number of round-trip lanes. U-turns on roads with this number of lanes or fewer will be avoided. (e.g., if the value is 6, U-turns on roads with 6 or fewer round-trip lanes will be avoided). The default is 0.",
+        "example": 6
+      },
+      "dem": {
+        "type": "boolean",
+        "default": false,
+        "description": "Determines whether to include elevation (Digital Elevation Model) information for each point in the route result. The default is false.",
+        "example": false
+      }
+    },
+    "required": [
+      "day",
+      "endX",
+      "endY",
+      "hour",
+      "minutes",
+      "month",
+      "startX",
+      "startY",
+      "type",
+      "year"
+    ]
+  },
+  "_meta": {
+    "source": "imaps",
+    "path": "/maps/v3.0/appkeys/{appkey}/route-time",
+    "method": "POST"
+  }
+}

@@ -12,7 +12,7 @@
             "id": {
               "type": "string",
               "description": "The id has a 1:1 relationship with the reqid field in the response body and is a unique id to identify multi geocoding requests. The id can be arbitrarily generated and sent by the client. However, the id can only contain uppercase and lowercase English letters and numbers and is limited to 1-10 characters.",
-              "example": 1,
+              "example": "asdf1234",
               "minLength": 1,
               "pattern": "^[a-zA-Z0-9]{1,10}"
             },

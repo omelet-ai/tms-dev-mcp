@@ -1,0 +1,16 @@
+{
+  "method": "POST",
+  "summary": "Multi Optimal Point Search",
+  "description": "Converts and returns a list of coordinates to optimal point coordinates according to options.",
+  "parameters": [
+    {
+      "name": "appkey",
+      "in": "path",
+      "description": "API key with permission to use the corresponding API",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ]
+}

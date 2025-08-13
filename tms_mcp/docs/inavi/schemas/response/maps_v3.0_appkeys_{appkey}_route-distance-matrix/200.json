@@ -1,0 +1,101 @@
+{
+  "response_schema": {
+    "mode": {
+      "type": "string",
+      "description": "Represents the mode of transportation. Currently fixed to 'driving'.",
+      "example": "driving"
+    },
+    "origins": {
+      "type": "array",
+      "description": "The list of longitude and latitude coordinates used in the request.",
+      "example": [
+        "127.0955, 37.4170",
+        "127.0978, 37.4113",
+        "126.8465, 37.5683"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "rows": {
+      "type": "array",
+      "description": "Represents the route results (RouteRow) for each origin as an array. One 'RouteRow' is created for each coordinate in 'origins', forming an N x N matrix structure (where N is the number of coordinates).",
+      "items": {
+        "type": "object",
+        "description": "A row object containing route information (RouteElement) from a single origin to all destinations.",
+        "properties": {
+          "elements": {
+            "type": "array",
+            "description": "Represents the list of route information from a single origin to all destinations (including itself). It is sorted in the same order as the requested destination coordinates. For example, if 3 coordinates are requested, this list will contain 3 RouteElements.",
+            "items": {
+              "type": "object",
+              "description": "An object containing the route search result for a single origin-destination pair (cell).",
+              "properties": {
+                "distance": {
+                  "type": "object",
+                  "description": "Represents the distance information from the origin to the destination.",
+                  "properties": {
+                    "value": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "Represents the distance in meters.",
+                      "example": 19971
+                    },
+                    "text": {
+                      "type": "string",
+                      "description": "Represents the distance in kilometers.",
+                      "example": "20.0 km"
+                    }
+                  }
+                },
+                "duration": {
+                  "type": "object",
+                  "description": "Represents the duration information from the origin to the destination.",
+                  "properties": {
+                    "value": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "Represents the duration in seconds.",
+                      "example": 1437
+                    },
+                    "text": {
+                      "type": "string",
+                      "description": "Represents the duration in minutes.",
+                      "example": "23 mins"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "string",
+                  "description": "Represents the status of the result. As of version 1.0, only 'OK' is returned. This value may change in future versions.",
+                  "example": "OK"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "header": {
+      "type": "object",
+      "description": "Shows the status of the API response result.",
+      "properties": {
+        "isSuccessful": {
+          "type": "boolean",
+          "description": "Indicates whether the API request was successful.",
+          "example": true
+        },
+        "resultCode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Indicates the API response result code. Returns 0 on success, otherwise indicates failure. Major result codes: 0(success), 100(Result Not Found), 101(Argument Error), 102(Internal Server Error), 103(Different Map Version), 201(Searching for Security), 202(Longitude/Latitude), 203(Mobile Phone Number), 300(AppKey Error), 400(Taxi Fare Info not Found), 501(Unknown Fail), 517(Memory allocation failure), 532(Request parameter is invalid), 533(Starting point not selected), 534(Destination not selected), 537(Exceeding navigational distance), 540(Expansion failure due to traffic control), etc.",
+          "example": 0
+        },
+        "resultMessage": {
+          "type": "string",
+          "description": "Indicates the reason for response failure when the API response fails. Major result messages include: \"Result Not Found\", \"Argument Error\", \"Internal Server Error\", \"Different Map Version\", \"AppKey Error\", \"Searching for Security\", \"Longitude/Latitude\", \"Mobile Phone Number\", \"Unknown Fail\", \"Memory allocation failure\", \"Request parameter is invalid\", \"The starting point is not selected\", \"Destination is not selected\", \"Exceeding the navigational distance\", \"Expansion failure due to inactivity or traffic control\", etc., providing specific error causes for proper exception handling."
+        }
+      }
+    }
+  }
+}

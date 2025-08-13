@@ -1,0 +1,260 @@
+{
+  "response_schema": {
+    "route": {
+      "type": "object",
+      "description": "An object containing the detailed data of the route prediction search result.",
+      "properties": {
+        "data": {
+          "type": "object",
+          "description": "The core data object containing summary information and a list of detailed path segments for the route search result.",
+          "properties": {
+            "distance": {
+              "type": "integer",
+              "format": "int32",
+              "description": "The total distance of the entire route in meters (m).",
+              "example": 72183
+            },
+            "taxiFare": {
+              "type": "integer",
+              "format": "int32",
+              "description": "Estimated taxi fare information. A value is returned only when the 'useTaxifare' request parameter is 1 (standard) or 2 (deluxe). Using 'totalTaxiFare' is recommended.",
+              "example": 45000
+            },
+            "totalTaxiFare": {
+              "type": "string",
+              "description": "The estimated taxi fare provided as a string, summarizing all types of fares. The content varies depending on the 'useTaxifare' request parameter. If 'useTaxifare' is 0, this key-value pair is not returned. For values 1 or 2, the respective fare is returned. For value 3, fares are returned in the format 'amount,amount'.",
+              "examples": [
+                "4800,7000",
+                "7000"
+              ]
+            },
+            "times": {
+              "type": "array",
+              "description": "A list (array) of route summaries for each time slot searched by the 'beforeCount' and 'afterCount' request parameters. If both are 0, an empty array is returned.",
+              "items": {
+                "type": "object",
+                "description": "An object containing the route summary for each time slot, based on the 'interval' parameter. This object is returned when 'beforeCount' or 'afterCount' is set.",
+                "properties": {
+                  "index": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The sequence number (index) of the searched time slot. '0' indicates the reference time set in the request. As the index value increases, the reference time based on the interval also increases.",
+                    "examples": [
+                      "-2",
+                      "-1",
+                      "0",
+                      "1",
+                      "2"
+                    ]
+                  },
+                  "distance": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total distance in meters (m) for a departure in this time slot.",
+                    "example": 72183
+                  },
+                  "spend_time": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The total estimated travel time in seconds for a departure in this time slot.",
+                    "example": 3780
+                  },
+                  "start_time": {
+                    "type": "object",
+                    "description": "An object representing the actual departure time for this route search.",
+                    "properties": {
+                      "year": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "The year information (YYYY).",
+                        "example": 2019
+                      },
+                      "month": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "The month information (1-12).",
+                        "example": 11
+                      },
+                      "day": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "The day information (1-31).",
+                        "example": 26
+                      },
+                      "hour": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "The hour information (0-23).",
+                        "example": 11
+                      },
+                      "minutes": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "The minute information (0-59).",
+                        "example": 0
+                      }
+                    }
+                  },
+                  "end_time": {
+                    "type": "object",
+                    "description": "An object representing the estimated arrival time for this route search.",
+                    "properties": {
+                      "year": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "The year information (YYYY).",
+                        "example": 2019
+                      },
+                      "month": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "The month information (1-12).",
+                        "example": 11
+                      },
+                      "day": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "The day information (1-31).",
+                        "example": 26
+                      },
+                      "hour": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "The hour information (0-23).",
+                        "example": 11
+                      },
+                      "minutes": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "The minute information (0-59).",
+                        "example": 0
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "paths": {
+              "type": "array",
+              "description": "A list (array) of information for each detailed segment that constitutes the route.",
+              "items": {
+                "type": "object",
+                "description": "An object containing information for a single detailed segment (link) of the route.",
+                "properties": {
+                  "coords": {
+                    "type": "array",
+                    "description": "A list (array) of coordinate points that make up this segment.",
+                    "items": {
+                      "type": "object",
+                      "description": "An object containing information for a single coordinate point.",
+                      "properties": {
+                        "x": {
+                          "type": "number",
+                          "format": "double",
+                          "description": "The X coordinate of this point.",
+                          "example": 127.105399
+                        },
+                        "y": {
+                          "type": "number",
+                          "format": "double",
+                          "description": "The Y coordinate of this point.",
+                          "example": 37.5124518
+                        },
+                        "dem": {
+                          "type": "number",
+                          "format": "double",
+                          "description": "The elevation (Digital Elevation Model) information for the point. This is returned only when the 'dem' request parameter is 'true'.",
+                          "example": 35.5
+                        }
+                      }
+                    }
+                  },
+                  "speed": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The average speed for this segment.",
+                    "example": 85
+                  },
+                  "distance": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The distance of this segment in meters (m).",
+                    "example": 2800
+                  },
+                  "spend_time": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The estimated travel time in seconds to pass through this segment.",
+                    "example": 120
+                  },
+                  "road_code": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "A code that distinguishes the type of road. (0: Ferry Route, 1: Expressway, 2: Urban Expressway, 3: National Highway, 4: Local Road, 5: General Road)",
+                    "enum": [
+                      "0",
+                      "1",
+                      "2",
+                      "3",
+                      "4",
+                      "5"
+                    ],
+                    "example": 1
+                  },
+                  "traffic_color": {
+                    "type": "string",
+                    "description": "The color code representing the traffic condition of this segment.",
+                    "example": "#fb3a76"
+                  },
+                  "point_type": {
+                    "type": "string",
+                    "description": "Indicates the type of the point on the route. (S: Start, V: Via, E: End, N: Normal)",
+                    "examples": [
+                      "S",
+                      "V",
+                      "E",
+                      "N"
+                    ]
+                  }
+                }
+              }
+            },
+            "spend_time": {
+              "type": "integer",
+              "format": "int32",
+              "description": "The total estimated travel time for the entire route in seconds.",
+              "example": 3720
+            },
+            "toll_fee": {
+              "type": "integer",
+              "format": "int32",
+              "description": "The total toll fees incurred on the route.",
+              "example": 3400
+            }
+          }
+        }
+      }
+    },
+    "header": {
+      "type": "object",
+      "description": "Shows the status of the API response result.",
+      "properties": {
+        "isSuccessful": {
+          "type": "boolean",
+          "description": "Indicates whether the API request was successful.",
+          "example": true
+        },
+        "resultCode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Indicates the API response result code. Returns 0 on success, otherwise indicates failure. Major result codes: 0(success), 100(Result Not Found), 101(Argument Error), 102(Internal Server Error), 103(Different Map Version), 201(Searching for Security), 202(Longitude/Latitude), 203(Mobile Phone Number), 300(AppKey Error), 400(Taxi Fare Info not Found), 501(Unknown Fail), 517(Memory allocation failure), 532(Request parameter is invalid), 533(Starting point not selected), 534(Destination not selected), 537(Exceeding navigational distance), 540(Expansion failure due to traffic control), etc.",
+          "example": 0
+        },
+        "resultMessage": {
+          "type": "string",
+          "description": "Indicates the reason for response failure when the API response fails. Major result messages include: \"Result Not Found\", \"Argument Error\", \"Internal Server Error\", \"Different Map Version\", \"AppKey Error\", \"Searching for Security\", \"Longitude/Latitude\", \"Mobile Phone Number\", \"Unknown Fail\", \"Memory allocation failure\", \"Request parameter is invalid\", \"The starting point is not selected\", \"Destination is not selected\", \"Exceeding the navigational distance\", \"Expansion failure due to inactivity or traffic control\", etc., providing specific error causes for proper exception handling."
+        }
+      }
+    }
+  }
+}
