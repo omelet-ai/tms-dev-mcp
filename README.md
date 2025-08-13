@@ -1,5 +1,7 @@
 # TMS Development MCP Server
 
+[![English](https://img.shields.io/badge/lang-English-blue.svg)](README.md) [![한국어](https://img.shields.io/badge/언어-한국어-orange.svg)](README.ko.md)
+
 A FastMCP-based MCP server providing intelligent tools to navigate through **Omelet's Routing Engine API** and **iNavi's Maps API** to build effective Transport Management Systems (TMS).
 
 ## Features
@@ -23,7 +25,7 @@ Before getting started, make sure you have [uv](https://docs.astral.sh/uv/gettin
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/omelet/tms-dev-mcp.git
+git clone https://github.com/omelet-ai/tms-dev-mcp.git
 cd tms-dev-mcp
 ```
 
