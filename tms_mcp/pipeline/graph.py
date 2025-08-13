@@ -8,7 +8,6 @@ from jsonschema import Draft7Validator, ValidationError, validate
 from langchain_aws import ChatBedrockConverse
 from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.graph import END, START, StateGraph
-from langgraph.pregel import Pregel
 from langgraph.types import Command
 from pydantic import BaseModel, Field
 from typing_extensions import TypedDict
@@ -522,7 +521,7 @@ def create_request_body_generator_graph() -> StateGraph[RequestBodyGeneratorStat
 
 
 # Compile the graph
-request_body_generator: Pregel[RequestBodyGeneratorState] = create_request_body_generator_graph().compile()  # type: ignore[assignment]
+request_body_generator = create_request_body_generator_graph().compile()
 
 
 # ============================================================================
@@ -571,7 +570,7 @@ async def generate_example_json(
         "last_validation_errors": None,
     }
 
-    result = await request_body_generator.ainvoke(initial_state)
+    result = await request_body_generator.ainvoke(cast(Any, initial_state))
     return cast(RequestBodyGeneratorState, result)
 
 

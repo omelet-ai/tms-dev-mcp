@@ -322,7 +322,7 @@ async def generate_endpoints_summary(json_data: dict, target_path: Path, provide
     markdown_lines = [title]
 
     if base_url:
-        markdown_lines.append(f"**Base URL:** `{base_url}`  ")
+        markdown_lines.append(f"**Base URL:** `{base_url}`")
         markdown_lines.append("")
 
     markdown_lines.extend(
