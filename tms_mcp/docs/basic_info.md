@@ -20,6 +20,13 @@ Comprehensive location and routing services including:
 ### Regional Limitation
 The OSRM distance_type for auto-calculation of distance matrices is currently only supported in the Republic of Korea. You can still use our optimization engine by providing your own distance matrix.
 
+All APIs provided by iNavi Maps exclusively support addresses within the Republic of Korea. The detailed API list is as follows:
+- **Geocoding**
+- **Multi Geocoding**
+- **Route Time Prediction**
+- **Route Distance Matrix**
+- **Multi Optimal Point Search**
+
 ### API Keys
 - **Omelet**: Visit https://routing.oaasis.cc/ to get a free API key after signing up
 - **iNavi**: Visit https://mapsapi.inavisys.com/ and setup payment to get an API key
