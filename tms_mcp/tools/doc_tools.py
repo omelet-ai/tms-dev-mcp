@@ -4,6 +4,7 @@ Documentation tools for the Omelet Routing Engine MCP server.
 
 import json
 from pathlib import Path
+from typing import Annotated
 
 from tms_mcp.server import mcp
 
@@ -99,12 +100,13 @@ def get_basic_info() -> str:
 
 
 @mcp.tool
-def list_endpoints(provider: str | None = None) -> str:
+def list_endpoints(
+    provider: Annotated[
+        str | None, "Optional provider filter ('omelet' or 'inavi'). If None, returns combined list."
+    ] = None,
+) -> str:
     """
     Get a list of available API endpoints with their summaries and descriptions.
-
-    Args:
-        provider: Optional provider filter ("omelet" or "inavi"). If None, returns combined list.
 
     Returns:
         Markdown table of endpoints
@@ -144,13 +146,12 @@ def list_endpoints(provider: str | None = None) -> str:
 
 
 @mcp.tool
-def get_endpoint_overview(path: str, provider: str | None = None) -> str:
+def get_endpoint_overview(
+    path: Annotated[str, "API endpoint path (e.g., '/api/fsmvrp', '/api/cost-matrix')"],
+    provider: Annotated[str | None, "Optional provider name. If None, auto-detects from path."] = None,
+) -> str:
     """
     Get detailed overview information for a specific API endpoint.
-
-    Args:
-        path: API endpoint path (e.g., "/api/fsmvrp", "/api/cost-matrix")
-        provider: Optional provider name. If None, auto-detects from path.
 
     Returns:
         JSON content of the endpoint overview
@@ -165,13 +166,12 @@ def get_endpoint_overview(path: str, provider: str | None = None) -> str:
 
 
 @mcp.tool
-def get_request_body_schema(path: str, provider: str | None = None) -> str:
+def get_request_body_schema(
+    path: Annotated[str, "API endpoint path (e.g., '/api/fsmvrp', '/api/cost-matrix')"],
+    provider: Annotated[str | None, "Optional provider name. If None, auto-detects from path."] = None,
+) -> str:
     """
     Get the request body schema for a specific API endpoint.
-
-    Args:
-        path: API endpoint path (e.g., "/api/fsmvrp", "/api/cost-matrix")
-        provider: Optional provider name. If None, auto-detects from path.
 
     Returns:
         JSON schema content for the request body
@@ -186,13 +186,12 @@ def get_request_body_schema(path: str, provider: str | None = None) -> str:
 
 
 @mcp.tool
-def get_request_body_example(path: str, provider: str | None = None) -> str:
+def get_request_body_example(
+    path: Annotated[str, "API endpoint path (e.g., '/api/fsmvrp', '/api/cost-matrix')"],
+    provider: Annotated[str | None, "Optional provider name. If None, auto-detects from path."] = None,
+) -> str:
     """
     Get the request body example for a specific API endpoint.
-
-    Args:
-        path: API endpoint path (e.g., "/api/fsmvrp", "/api/cost-matrix")
-        provider: Optional provider name. If None, auto-detects from path.
 
     Returns:
         JSON example content for the request body
@@ -207,18 +206,16 @@ def get_request_body_example(path: str, provider: str | None = None) -> str:
 
 
 @mcp.tool
-def get_response_schema(path: str, response_code: str, provider: str | None = None) -> str:
+def get_response_schema(
+    path: Annotated[str, "API endpoint path (e.g., '/api/fsmvrp', '/api/cost-matrix')"],
+    response_code: Annotated[str, "HTTP response code (e.g., '200', '201', '400', '404')"],
+    provider: Annotated[str | None, "Optional provider name. If None, auto-detects from path."] = None,
+) -> str:
     """
     Get the response schema for a specific API endpoint and response code.
-
     Most successful response codes are 200, however endpoints with "-long" in their name
     return a 201 code when successful. This tool should be used when trying to design
     post-processes for handling the API response.
-
-    Args:
-        path: API endpoint path (e.g., "/api/fsmvrp", "/api/cost-matrix")
-        response_code: HTTP response code (e.g., "200", "201", "400", "404")
-        provider: Optional provider name. If None, auto-detects from path.
 
     Returns:
         JSON schema content for the response
