@@ -1,7 +1,7 @@
 {
   "method": "POST",
-  "summary": "General Route Prediction Search(GET, POST)",
-  "description": "Returns detailed guidance and route information searched using the coordinates of an origin, destination, and optional waypoints, based on a specified estimated departure or arrival time. Supports both GET and POST methods.",
+  "summary": "General Route Prediction Search",
+  "description": "Returns detailed guidance and route information searched using the coordinates of an origin, destination, and optional waypoints, based on a specified estimated departure or arrival time.",
   "parameters": [
     {
       "name": "appkey",
