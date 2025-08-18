@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Omelet Routing Engine API",
-    "version": "2.0.21",
-    "description": "",
+    "title": "OMELET Routing engine API (v2)",
+    "version": "2.0.23",
+    "description": "Our Routing Optimization API provides comprehensive solutions for a wide range of routing problems, including the Traveling Salesman Problem (TSP), multiple Traveling Salesman Problem (mTSP), and Capacitated Vehicle Routing Problem (CVRP). This API is designed to handle complex constraints to ensure optimal and practical routing solutions. Key features include:",
     "contact": {
       "name": "omelet",
       "url": "https://omelet.ai/en/contact",
@@ -30549,15 +30549,5 @@
         "type": "object"
       }
     }
-  },
-  "tags": [
-    {
-      "name": "Route",
-      "description": "Route API"
-    },
-    {
-      "name": "Search",
-      "description": "Search API"
-    }
-  ]
+  }
 }

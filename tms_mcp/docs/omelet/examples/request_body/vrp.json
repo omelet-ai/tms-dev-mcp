@@ -9,98 +9,116 @@
   },
   "visits": [
     {
-      "name": "강남구 고객사",
+      "name": "부산 고객사 A",
       "index": 1,
       "service_time": 30,
-      "coordinate": {
-        "lng": 127.0276,
-        "lat": 37.4979
-      },
-      "volume": 2.5,
-      "weight": 15.0,
-      "extra_demands": [
-        1,
-        2
-      ],
-      "unassigned_penalty": 100.0,
-      "time_window": [
-        "2024-03-15T09:00:00+09:00",
-        "2024-03-15T12:00:00+09:00"
-      ],
-      "early_delivery_required": true
-    },
-    {
-      "name": "홍대 카페 체인",
-      "index": 2,
-      "service_time": 20,
-      "coordinate": {
-        "lng": 126.9244,
-        "lat": 37.5563
-      },
-      "volume": 1.8,
-      "weight": 8.5,
-      "extra_demands": [
-        0,
-        1
-      ],
-      "unassigned_penalty": 80.0,
-      "time_window": [
-        "2024-03-15T10:00:00+09:00",
-        "2024-03-15T14:00:00+09:00"
-      ],
-      "early_delivery_required": false
-    },
-    {
-      "name": "이태원 레스토랑",
-      "index": 3,
-      "service_time": 25,
-      "coordinate": {
-        "lng": 126.9942,
-        "lat": 37.534
-      },
-      "volume": 3.2,
-      "weight": 22.0,
-      "extra_demands": [
-        2,
-        3
-      ],
-      "unassigned_penalty": 120.0,
-      "time_window": [
-        "2024-03-15T11:00:00+09:00",
-        "2024-03-15T15:00:00+09:00"
-      ],
-      "early_delivery_required": false
-    },
-    {
-      "name": "부산 지점",
-      "index": 4,
-      "service_time": 45,
       "coordinate": {
         "lng": 129.0756,
         "lat": 35.1796
       },
-      "volume": 5.0,
-      "weight": 35.0,
+      "volume": 2.5,
+      "weight": 45.75,
       "extra_demands": [
         3,
-        4
+        1
       ],
-      "unassigned_penalty": 200.0,
+      "unassigned_penalty": 100.0,
       "time_window": [
-        "2024-03-15T08:00:00+09:00",
+        "2024-03-15T09:00:00+09:00",
         "2024-03-15T17:00:00+09:00"
       ],
+      "early_delivery_required": false
+    },
+    {
+      "name": "인천 고객사 B",
+      "index": 2,
+      "service_time": 20,
+      "coordinate": {
+        "lng": 126.7052,
+        "lat": 37.4563
+      },
+      "volume": 1.2,
+      "weight": 25.0,
+      "extra_demands": [
+        2,
+        0
+      ],
+      "unassigned_penalty": 80.0,
+      "time_window": [
+        "2024-03-15T10:00:00+09:00",
+        "2024-03-15T16:00:00+09:00"
+      ],
+      "early_delivery_required": true
+    },
+    {
+      "name": "대구 고객사 C",
+      "index": 3,
+      "service_time": 45,
+      "coordinate": {
+        "lng": 128.6014,
+        "lat": 35.8714
+      },
+      "volume": 3.75,
+      "weight": 67.2,
+      "extra_demands": [
+        5,
+        2
+      ],
+      "unassigned_penalty": 120.0,
+      "time_window": [
+        "2024-03-15T08:30:00+09:00",
+        "2024-03-15T18:00:00+09:00"
+      ],
+      "early_delivery_required": false
+    },
+    {
+      "name": "대전 고객사 D",
+      "index": 4,
+      "service_time": 25,
+      "coordinate": {
+        "lng": 127.3845,
+        "lat": 36.3504
+      },
+      "volume": 1.8,
+      "weight": 32.5,
+      "extra_demands": [
+        1,
+        1
+      ],
+      "unassigned_penalty": 90.0,
+      "time_window": [
+        "2024-03-15T11:00:00+09:00",
+        "2024-03-15T15:30:00+09:00"
+      ],
+      "early_delivery_required": false
+    },
+    {
+      "name": "광주 고객사 E",
+      "index": 5,
+      "service_time": 35,
+      "coordinate": {
+        "lng": 126.8526,
+        "lat": 35.1595
+      },
+      "volume": 2.1,
+      "weight": 38.9,
+      "extra_demands": [
+        4,
+        1
+      ],
+      "unassigned_penalty": 110.0,
+      "time_window": null,
       "early_delivery_required": true
     }
   ],
   "vehicles": [
     {
-      "name": "트럭-001",
-      "volume_capacity": 10.0,
-      "weight_capacity": 100.0,
+      "name": "대형 트럭 01",
+      "volume_capacity": 15.0,
+      "weight_capacity": 200.0,
       "extra_capacities": [
-        5,
-        8
+        20,
+        10
       ],
       "fixed_cost": 50.0,
       "unit_distance_cost": 1.2,
@@ -111,34 +129,55 @@
         10,
         5,
         8,
-        15
+        7,
+        6
       ],
       "vehicle_type": "car",
       "max_service_radius": 50000.0,
-      "pre_assigned_visits": [
-        "강남구 고객사"
-      ],
-      "max_round": 2
+      "pre_assigned_visits": null,
+      "max_round": 1
     },
     {
-      "name": "밴-002",
-      "volume_capacity": 6.0,
-      "weight_capacity": 60.0,
+      "name": "중형 트럭 02",
+      "volume_capacity": 10.0,
+      "weight_capacity": 120.0,
       "extra_capacities": [
-        3,
-        5
+        15,
+        8
       ],
       "fixed_cost": 30.0,
       "unit_distance_cost": 1.0,
       "unit_duration_cost": 0.3,
       "work_start_time": "2024-03-15T09:00:00+09:00",
-      "work_end_time": "2024-03-15T17:00:00+09:00",
+      "work_end_time": "2024-03-15T17:30:00+09:00",
       "visit_preference": [
-        5,
-        10,
-        12,
-        8
+        8,
+        9,
+        6,
+        8,
+        7
       ],
+      "vehicle_type": "car",
+      "max_service_radius": null,
+      "pre_assigned_visits": [
+        "인천 고객사 B"
+      ],
+      "max_round": 2
+    },
+    {
+      "name": "소형 밴 03",
+      "volume_capacity": 5.0,
+      "weight_capacity": 80.0,
+      "extra_capacities": [
+        10,
+        5
+      ],
+      "fixed_cost": 20.0,
+      "unit_distance_cost": 0.8,
+      "unit_duration_cost": 0.2,
+      "work_start_time": "2024-03-15T08:30:00+09:00",
+      "work_end_time": "2024-03-15T16:30:00+09:00",
+      "visit_preference": null,
       "vehicle_type": "car",
       "max_service_radius": 30000.0,
       "pre_assigned_visits": null,

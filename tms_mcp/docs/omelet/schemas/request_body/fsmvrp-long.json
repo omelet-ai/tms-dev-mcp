@@ -480,10 +480,5 @@
     ],
     "title": "ExtendedFsmvrpEngineInput",
     "type": "object"
-  },
-  "_meta": {
-    "source": "primary",
-    "path": "/api/fsmvrp-long",
-    "method": "POST"
   }
 }

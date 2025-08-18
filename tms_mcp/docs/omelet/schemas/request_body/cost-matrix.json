@@ -64,10 +64,5 @@
     ],
     "title": "CostMatrixInput",
     "type": "object"
-  },
-  "_meta": {
-    "source": "primary",
-    "path": "/api/cost-matrix",
-    "method": "POST"
   }
 }

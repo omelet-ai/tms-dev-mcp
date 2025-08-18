@@ -480,10 +480,5 @@
     ],
     "title": "FsmvrpEngineInput",
     "type": "object"
-  },
-  "_meta": {
-    "source": "primary",
-    "path": "/api/fsmvrp",
-    "method": "POST"
   }
 }

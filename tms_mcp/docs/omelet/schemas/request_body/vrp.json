@@ -501,10 +501,5 @@
     ],
     "title": "VrpEngineInput",
     "type": "object"
-  },
-  "_meta": {
-    "source": "primary",
-    "path": "/api/vrp",
-    "method": "POST"
   }
 }

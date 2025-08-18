@@ -1086,10 +1086,5 @@
     ],
     "title": "ExtendedAdvancedVrpEngineInput",
     "type": "object"
-  },
-  "_meta": {
-    "source": "primary",
-    "path": "/api/advanced-vrp-long",
-    "method": "POST"
   }
 }
