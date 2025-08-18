@@ -13,7 +13,7 @@ from fastmcp.utilities.logging import get_logger
 
 from tms_mcp.config import settings
 from tms_mcp.custom_logging.logging_format import formatter
-from tms_mcp.pipeline.pipeline import run_openapi_indexing_pipeline
+from tms_mcp.pipeline import run_openapi_indexing_pipeline
 from tms_mcp.server import mcp
 from tms_mcp.tools import *  # noqa: F403
 

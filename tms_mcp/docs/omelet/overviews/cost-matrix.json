@@ -1,4 +1,5 @@
 {
+  "path": "/api/cost-matrix",
   "method": "POST",
   "summary": "Omelet Distance/Duration Matrix API",
   "description": "Generates distance and duration matrices from coordinates. Supports distance, duration, or both as return types.",

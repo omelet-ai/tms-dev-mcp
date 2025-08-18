@@ -1,5 +1,7 @@
 {
-  "response_schema": {
+  "type": "object",
+  "description": "Shows the multi geocoding API response results.",
+  "properties": {
     "address": {
       "type": "object",
       "description": "Summarizes the result of converting an address to coordinates.",

@@ -1,4 +1,5 @@
 {
+  "path": "/api/pdp-long",
   "method": "POST",
   "summary": "OMELET PDP(pick up and drop off) API for long request",
   "description": "Solves the pick-up and drop-off problem (PDP) to minimize total objective cost. Supports up to 3,000 visit pairs and a time limit of 1,200 seconds for optimization. ",

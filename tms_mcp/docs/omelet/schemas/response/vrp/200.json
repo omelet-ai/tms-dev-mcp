@@ -1,5 +1,6 @@
 {
-  "response_schema": {
+  "additionalProperties": false,
+  "properties": {
     "routing_engine_result": {
       "additionalProperties": false,
       "properties": {
@@ -56,9 +57,8 @@
                     "type": "number"
                   }
                 },
-                "title": "Route cost",
-                "type": "object",
-                "description": "Detailed cost of the route"
+                "title": "RouteCost",
+                "type": "object"
               }
             },
             "required": [
@@ -136,23 +136,12 @@
               "type": "number"
             }
           },
-          "title": "Total Solution Cost",
-          "type": "object",
-          "default": {
-            "total_objective_cost": 0.0,
-            "total_distance_cost": 0.0,
-            "total_duration_cost": 0.0,
-            "max_distance_cost": 0.0,
-            "max_duration_cost": 0.0,
-            "total_fixed_cost": 0.0,
-            "unassigned_penalty_cost": 0.0
-          },
-          "description": "Summarized cost information across all calculated routes."
+          "title": "SolutionCost",
+          "type": "object"
         }
       },
-      "title": "Engine Result",
-      "type": "object",
-      "description": "Detailed routing solution including routes and costs."
+      "title": "RoutingEngineResult",
+      "type": "object"
     },
     "status": {
       "enum": [
@@ -161,9 +150,8 @@
         "infeasible",
         "user_input_error"
       ],
-      "title": "API Status",
-      "type": "string",
-      "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+      "title": "ApiStatus",
+      "type": "string"
     },
     "detail": {
       "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -176,5 +164,12 @@
       "title": "Job ID",
       "type": "string"
     }
-  }
+  },
+  "required": [
+    "routing_engine_result",
+    "status",
+    "detail"
+  ],
+  "title": "RoutingEngineOutput",
+  "type": "object"
 }

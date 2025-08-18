@@ -312,19 +312,16 @@
                 "car",
                 "walk"
               ],
-              "title": "Vehicle Type",
-              "type": "string",
-              "default": "car"
+              "title": "VehicleType",
+              "type": "string"
             },
             "ownership_type": {
               "enum": [
                 "rented",
                 "owned"
               ],
-              "title": "Ownership Type",
-              "type": "string",
-              "default": "rented",
-              "description": "Indicates whether the vehicle is rented or owned. Rented vehicles may be excluded from the final schedule if no visits are assigned. Owned vehicles are always included in the final schedule, even if no visits are assigned."
+              "title": "VehicleOwnershipType",
+              "type": "string"
             },
             "start_depot_name": {
               "anyOf": [
@@ -458,19 +455,12 @@
               "euclidean",
               "osrm"
             ],
-            "title": "Distance Calculation Method",
-            "type": "string",
-            "default": "euclidean",
-            "description": "How distances are calculated when distance_matrix is not explicitly provided. OSRM supports only Korean region."
+            "title": "DistanceType",
+            "type": "string"
           }
         },
-        "title": "Solver Options",
-        "type": "object",
-        "default": {
-          "timelimit": 10,
-          "distance_type": "euclidean"
-        },
-        "description": "Advanced options for solving the FSMVRP problem."
+        "title": "FsmvrpApiOption",
+        "type": "object"
       }
     },
     "required": [
@@ -480,5 +470,10 @@
     ],
     "title": "FsmvrpEngineInput",
     "type": "object"
+  },
+  "_meta": {
+    "source": "primary",
+    "path": "/api/fsmvrp",
+    "method": "POST"
   }
 }

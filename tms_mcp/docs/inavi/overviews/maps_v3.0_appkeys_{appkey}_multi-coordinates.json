@@ -1,4 +1,5 @@
 {
+  "path": "/maps/v3.0/appkeys/{appkey}/multi-coordinates",
   "method": "POST",
   "summary": "Multi Geocoding",
   "description": "Receives a list of addresses and returns the corresponding list of coordinate information.",

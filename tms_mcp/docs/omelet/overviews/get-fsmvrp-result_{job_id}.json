@@ -1,4 +1,5 @@
 {
+  "path": "/api/get-fsmvrp-result/{job_id}",
   "method": "GET",
   "summary": "get FSMVRP API",
   "description": "Returns the result of a long FSMVRP optimization job by job_id.",

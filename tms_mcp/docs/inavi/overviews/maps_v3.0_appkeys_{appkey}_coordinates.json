@@ -1,4 +1,5 @@
 {
+  "path": "/maps/v3.0/appkeys/{appkey}/coordinates",
   "method": "GET",
   "summary": "Geocoding",
   "description": "Returns coordinate information corresponding to the input address.",
