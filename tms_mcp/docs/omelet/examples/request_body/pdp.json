@@ -1,168 +1,133 @@
 {
   "visits": [
     {
-      "name": "Delivery Order 001",
+      "name": "서울역-강남역 배송",
       "pick_up_visit": {
-        "name": "Seoul Warehouse",
-        "service_time": 15,
+        "name": "서울역 픽업",
+        "index": 0,
+        "service_time": 10,
         "coordinate": {
-          "lng": 126.978,
-          "lat": 37.5665
+          "lng": 126.9706,
+          "lat": 37.5546
         },
-        "volume": 1.5,
-        "weight": 25.0,
-        "extra_demands": [
-          2,
-          1
-        ],
+        "volume": 2.5,
+        "weight": 15.0,
+        "extra_demands": [],
+        "unassigned_penalty": 100.0,
         "time_window": [
-          "2024-03-15T09:00:00+09:00",
-          "2024-03-15T12:00:00+09:00"
-        ]
+          "2024-12-20T09:00:00+09:00",
+          "2024-12-20T11:00:00+09:00"
+        ],
+        "early_delivery_required": false
       },
       "drop_off_visit": {
-        "name": "Gangnam Office",
-        "service_time": 10,
+        "name": "강남역 드롭오프",
+        "index": 1,
+        "service_time": 15,
         "coordinate": {
           "lng": 127.0276,
           "lat": 37.4979
         },
-        "volume": 1.5,
-        "weight": 25.0,
-        "extra_demands": [
-          2,
-          1
-        ],
+        "volume": 2.5,
+        "weight": 15.0,
+        "extra_demands": [],
+        "unassigned_penalty": 120.0,
         "time_window": [
-          "2024-03-15T13:00:00+09:00",
-          "2024-03-15T17:00:00+09:00"
+          "2024-12-20T10:30:00+09:00",
+          "2024-12-20T14:00:00+09:00"
         ],
         "early_delivery_required": true
       }
     },
     {
-      "name": "Delivery Order 002",
+      "name": "홍대-이태원 배송",
       "pick_up_visit": {
-        "name": "Busan Port",
-        "service_time": 20,
-        "coordinate": {
-          "lng": 129.0756,
-          "lat": 35.1796
-        },
-        "volume": 2.8,
-        "weight": 45.0,
-        "extra_demands": [
-          3,
-          2
-        ],
-        "time_window": [
-          "2024-03-15T08:00:00+09:00",
-          "2024-03-15T11:00:00+09:00"
-        ]
-      },
-      "drop_off_visit": {
-        "name": "Haeundae Store",
-        "service_time": 15,
-        "coordinate": {
-          "lng": 129.1603,
-          "lat": 35.1588
-        },
-        "volume": 2.8,
-        "weight": 45.0,
-        "extra_demands": [
-          3,
-          2
-        ],
-        "time_window": [
-          "2024-03-15T14:00:00+09:00",
-          "2024-03-15T18:00:00+09:00"
-        ]
-      }
-    },
-    {
-      "name": "Delivery Order 003",
-      "pick_up_visit": {
-        "name": "Incheon Distribution Center",
-        "service_time": 12,
-        "coordinate": {
-          "lng": 126.7052,
-          "lat": 37.4563
-        },
-        "volume": 0.8,
-        "weight": 15.0,
-        "extra_demands": [
-          1,
-          1
-        ],
-        "unassigned_penalty": 100.0
-      },
-      "drop_off_visit": {
-        "name": "Songdo Mall",
+        "name": "홍대 픽업",
+        "index": 2,
         "service_time": 8,
         "coordinate": {
-          "lng": 126.6368,
-          "lat": 37.3894
+          "lng": 126.9247,
+          "lat": 37.5563
         },
-        "volume": 0.8,
-        "weight": 15.0,
-        "extra_demands": [
-          1,
-          1
-        ],
+        "volume": 1.8,
+        "weight": 12.5,
+        "extra_demands": [],
+        "unassigned_penalty": 90.0,
         "time_window": [
-          "2024-03-15T15:00:00+09:00",
-          "2024-03-15T19:00:00+09:00"
-        ]
+          "2024-12-20T08:30:00+09:00",
+          "2024-12-20T10:30:00+09:00"
+        ],
+        "early_delivery_required": false
+      },
+      "drop_off_visit": {
+        "name": "이태원 드롭오프",
+        "index": 3,
+        "service_time": 12,
+        "coordinate": {
+          "lng": 126.9947,
+          "lat": 37.5347
+        },
+        "volume": 1.8,
+        "weight": 12.5,
+        "extra_demands": [],
+        "unassigned_penalty": 110.0,
+        "time_window": [
+          "2024-12-20T11:00:00+09:00",
+          "2024-12-20T15:00:00+09:00"
+        ],
+        "early_delivery_required": false
       }
     }
   ],
   "vehicles": [
     {
-      "name": "Truck-001",
+      "name": "배송차량-01",
       "volume_capacity": 10.0,
-      "weight_capacity": 200.0,
-      "extra_capacities": [
-        15,
-        10
-      ],
+      "weight_capacity": 100.0,
+      "extra_capacities": [],
       "fixed_cost": 50.0,
       "unit_distance_cost": 1.2,
       "unit_duration_cost": 0.5,
-      "work_start_time": "2024-03-15T08:00:00+09:00",
-      "work_end_time": "2024-03-15T20:00:00+09:00",
+      "work_start_time": "2024-12-20T08:00:00+09:00",
+      "work_end_time": "2024-12-20T18:00:00+09:00",
+      "visit_preference": null,
       "vehicle_type": "car",
+      "max_service_radius": null,
+      "pre_assigned_visits": null,
       "max_round": 2,
       "current_coordinate": {
-        "lng": 126.914,
-        "lat": 37.5547
+        "lng": 126.9784,
+        "lat": 37.5664
       }
     },
     {
-      "name": "Van-002",
-      "volume_capacity": 6.0,
-      "weight_capacity": 120.0,
-      "extra_capacities": [
-        8,
-        6
-      ],
-      "fixed_cost": 30.0,
+      "name": "배송차량-02",
+      "volume_capacity": 8.0,
+      "weight_capacity": 80.0,
+      "extra_capacities": [],
+      "fixed_cost": 40.0,
       "unit_distance_cost": 1.0,
       "unit_duration_cost": 0.3,
-      "work_start_time": "2024-03-15T07:30:00+09:00",
-      "work_end_time": "2024-03-15T19:30:00+09:00",
+      "work_start_time": "2024-12-20T08:30:00+09:00",
+      "work_end_time": "2024-12-20T17:30:00+09:00",
+      "visit_preference": null,
       "vehicle_type": "car",
-      "max_service_radius": 50000.0,
+      "max_service_radius": 15000.0,
+      "pre_assigned_visits": null,
+      "max_round": 1,
       "current_coordinate": {
-        "lng": 129.038,
-        "lat": 35.1547
+        "lng": 126.952,
+        "lat": 37.545
       }
     }
   ],
-  "delivery_start_time": "2024-03-15T08:00:00+09:00",
+  "distance_matrix": null,
+  "duration_matrix": null,
+  "delivery_start_time": "2024-12-20T08:00:00+09:00",
   "option": {
     "timelimit": 5,
     "objective_type": "minsum",
-    "distance_type": "osrm",
+    "distance_type": "euclidean",
     "allow_unassigned_visits": false,
     "use_large_size_optimization_algorithm": false,
     "include_departure_cost_from_depot": true,

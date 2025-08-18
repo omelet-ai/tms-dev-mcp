@@ -643,10 +643,5 @@
     ],
     "title": "ExtendedPdpEngineInput",
     "type": "object"
-  },
-  "_meta": {
-    "source": "primary",
-    "path": "/api/pdp-long",
-    "method": "POST"
   }
 }

@@ -9,7 +9,7 @@
       }
     },
     {
-      "name": "Gangnam Branch Depot",
+      "name": "Gangnam Distribution Center",
       "index": 1,
       "coordinate": {
         "lng": 127.0276,
@@ -19,225 +19,241 @@
   ],
   "daily_visits": [
     {
-      "day_id": "2024-01-15",
+      "day_id": "2025-01-15",
       "visits": [
         {
-          "name": "Myeongdong Store",
+          "name": "Hongdae Store",
           "index": null,
-          "service_time": 30,
+          "service_time": 15,
           "coordinate": {
-            "lng": 126.9849,
-            "lat": 37.5636
+            "lng": 126.927,
+            "lat": 37.5563
           },
           "volume": 2.5,
-          "weight": 15.0,
-          "extra_demands": [
-            5,
-            2
-          ],
-          "unassigned_penalty": 1000.0,
-          "time_window": [
-            "2024-01-15T09:00:00",
-            "2024-01-15T12:00:00"
-          ],
-          "early_delivery_required": false
-        },
-        {
-          "name": "Hongdae Market",
-          "index": null,
-          "service_time": 45,
-          "coordinate": {
-            "lng": 126.9237,
-            "lat": 37.5557
-          },
-          "volume": 1.8,
-          "weight": 12.5,
+          "weight": 25.0,
           "extra_demands": [
             3,
             1
           ],
-          "unassigned_penalty": 800.0,
+          "unassigned_penalty": 1000.0,
           "time_window": [
-            "2024-01-15T10:00:00",
-            "2024-01-15T14:00:00"
+            "2025-01-15T09:00:00",
+            "2025-01-15T12:00:00"
           ],
-          "early_delivery_required": true
+          "early_delivery_required": false
         },
         {
-          "name": "Itaewon Branch",
+          "name": "Itaewon Market",
           "index": null,
           "service_time": 20,
           "coordinate": {
-            "lng": 126.9942,
-            "lat": 37.5347
+            "lng": 126.9947,
+            "lat": 37.5346
           },
-          "volume": 0.8,
-          "weight": 8.0,
+          "volume": 1.8,
+          "weight": 18.5,
           "extra_demands": [
             2,
             0
           ],
-          "unassigned_penalty": null,
-          "time_window": null,
+          "unassigned_penalty": 800.0,
+          "time_window": [
+            "2025-01-15T10:00:00",
+            "2025-01-15T14:00:00"
+          ],
+          "early_delivery_required": true
+        },
+        {
+          "name": "Myeongdong Shopping Center",
+          "index": null,
+          "service_time": 10,
+          "coordinate": {
+            "lng": 126.9849,
+            "lat": 37.5636
+          },
+          "volume": 0.5,
+          "weight": 8.2,
+          "extra_demands": [
+            1,
+            2
+          ],
+          "unassigned_penalty": 500.0,
+          "time_window": [
+            "2025-01-15T13:00:00",
+            "2025-01-15T17:00:00"
+          ],
           "early_delivery_required": false
         }
       ],
-      "delivery_start_time": "2024-01-15T08:00:00"
+      "delivery_start_time": "2025-01-15T08:00:00"
     },
     {
-      "day_id": "2024-01-16",
+      "day_id": "2025-01-16",
       "visits": [
         {
-          "name": "Busan Port Office",
+          "name": "Gangnam Station Plaza",
           "index": null,
-          "service_time": 60,
+          "service_time": 25,
           "coordinate": {
-            "lng": 129.0756,
-            "lat": 35.1796
+            "lng": 127.0276,
+            "lat": 37.4979
           },
-          "volume": 4.2,
-          "weight": 25.0,
+          "volume": 3.2,
+          "weight": 35.7,
           "extra_demands": [
-            8,
-            4
+            4,
+            2
           ],
-          "unassigned_penalty": 1500.0,
+          "unassigned_penalty": 1200.0,
           "time_window": [
-            "2024-01-16T09:30:00",
-            "2024-01-16T16:00:00"
+            "2025-01-16T09:30:00",
+            "2025-01-16T13:00:00"
           ],
           "early_delivery_required": false
         },
         {
-          "name": "Incheon Warehouse",
+          "name": "Dongdaemun Fashion Town",
           "index": null,
-          "service_time": 40,
+          "service_time": 18,
           "coordinate": {
-            "lng": 126.7052,
-            "lat": 37.4563
+            "lng": 127.0089,
+            "lat": 37.5658
           },
-          "volume": 3.1,
-          "weight": 18.5,
+          "volume": 2.1,
+          "weight": 22.3,
           "extra_demands": [
-            6,
+            2,
             3
           ],
-          "unassigned_penalty": 1200.0,
+          "unassigned_penalty": 900.0,
           "time_window": [
-            "2024-01-16T11:00:00",
-            "2024-01-16T15:00:00"
+            "2025-01-16T11:00:00",
+            "2025-01-16T15:00:00"
           ],
           "early_delivery_required": true
         }
       ],
-      "delivery_start_time": "2024-01-16T08:30:00"
+      "delivery_start_time": "2025-01-16T08:30:00"
     }
   ],
   "vehicles": [
     {
       "name": "Truck-001",
-      "volume_capacity": 10.0,
-      "weight_capacity": 50.0,
+      "volume_capacity": 15.0,
+      "weight_capacity": 500.0,
       "extra_capacities": [
         20,
         10
       ],
-      "work_start_time": "2024-01-15T07:00:00",
-      "work_end_time": "2024-01-15T18:00:00",
+      "work_start_time": "2025-01-15T07:00:00",
+      "work_end_time": "2025-01-15T19:00:00",
       "vehicle_type": "car",
       "ownership_type": "owned",
       "start_depot_name": "Seoul Main Depot",
       "end_depot_name": "Seoul Main Depot",
       "fixed_cost_default": 5000.0,
-      "fixed_cost_if_assigned": 15000.0,
+      "fixed_cost_if_assigned": 2000.0,
       "fuel_cost_per_km": 150.0,
       "visit_preference": {
-        "Myeongdong Store": 2,
-        "Hongdae Market": 1,
-        "Itaewon Branch": 0
+        "Hongdae Store": 2,
+        "Itaewon Market": 1,
+        "Myeongdong Shopping Center": 0
       },
       "first_visit_costs": {
-        "Myeongdong Store": 3000.0,
-        "Hongdae Market": 2500.0
+        "Hongdae Store": 3000,
+        "Itaewon Market": 2500,
+        "Myeongdong Shopping Center": 2000
       },
       "consecutive_visit_tiered_costs": [
         [
-          5000.0,
-          2000.0
+          5000,
+          1000
         ],
         [
-          1000000000.0,
-          4000.0
+          10000,
+          1500
+        ],
+        [
+          1000000000,
+          3000
         ]
       ]
     },
     {
       "name": "Van-002",
-      "volume_capacity": 6.0,
-      "weight_capacity": 30.0,
+      "volume_capacity": 8.0,
+      "weight_capacity": 200.0,
       "extra_capacities": [
         15,
-        8
+        5
       ],
-      "work_start_time": "2024-01-15T08:00:00",
-      "work_end_time": "2024-01-15T17:00:00",
+      "work_start_time": "2025-01-15T08:00:00",
+      "work_end_time": "2025-01-15T18:00:00",
       "vehicle_type": "car",
       "ownership_type": "rented",
-      "start_depot_name": "Gangnam Branch Depot",
-      "end_depot_name": "Gangnam Branch Depot",
+      "start_depot_name": "Gangnam Distribution Center",
+      "end_depot_name": "Gangnam Distribution Center",
       "fixed_cost_default": 3000.0,
-      "fixed_cost_if_assigned": 10000.0,
+      "fixed_cost_if_assigned": 1500.0,
       "fuel_cost_per_km": 120.0,
       "visit_preference": {
-        "Busan Port Office": 1,
-        "Incheon Warehouse": 2
+        "Gangnam Station Plaza": 3,
+        "Dongdaemun Fashion Town": 1
       },
       "first_visit_costs": {
-        "Busan Port Office": 5000.0,
-        "Incheon Warehouse": 3500.0
+        "Gangnam Station Plaza": 2000,
+        "Dongdaemun Fashion Town": 2200
       },
       "consecutive_visit_tiered_costs": [
         [
-          3000.0,
-          1500.0
+          3000,
+          800
         ],
         [
-          1000000000.0,
-          3500.0
+          8000,
+          1200
+        ],
+        [
+          1000000000,
+          2500
         ]
       ]
     },
     {
       "name": "Bike-003",
-      "volume_capacity": 1.0,
-      "weight_capacity": 10.0,
+      "volume_capacity": 0.5,
+      "weight_capacity": 15.0,
       "extra_capacities": [
         5,
         2
       ],
-      "work_start_time": "2024-01-15T09:00:00",
-      "work_end_time": "2024-01-15T16:00:00",
+      "work_start_time": "2025-01-15T09:00:00",
+      "work_end_time": "2025-01-15T17:00:00",
       "vehicle_type": "bike",
-      "ownership_type": "rented",
+      "ownership_type": "owned",
       "start_depot_name": "Seoul Main Depot",
       "end_depot_name": "Seoul Main Depot",
       "fixed_cost_default": 1000.0,
-      "fixed_cost_if_assigned": 5000.0,
-      "fuel_cost_per_km": 50.0,
+      "fixed_cost_if_assigned": 500.0,
+      "fuel_cost_per_km": 0.0,
       "visit_preference": {
-        "Itaewon Branch": 3
+        "Myeongdong Shopping Center": 2
       },
       "first_visit_costs": {
-        "Itaewon Branch": 1000.0
+        "Myeongdong Shopping Center": 1000
       },
       "consecutive_visit_tiered_costs": [
         [
-          2000.0,
-          800.0
+          2000,
+          300
         ],
         [
-          1000000000.0,
-          2000.0
+          5000,
+          500
+        ],
+        [
+          1000000000,
+          1000
         ]
       ]
     }

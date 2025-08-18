@@ -501,10 +501,5 @@
     ],
     "title": "ExtendedVrpEngineInput",
     "type": "object"
-  },
-  "_meta": {
-    "source": "primary",
-    "path": "/api/vrp-long",
-    "method": "POST"
   }
 }

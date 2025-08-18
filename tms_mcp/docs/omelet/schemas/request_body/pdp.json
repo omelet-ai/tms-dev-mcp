@@ -643,10 +643,5 @@
     ],
     "title": "PdpEngineInput",
     "type": "object"
-  },
-  "_meta": {
-    "source": "primary",
-    "path": "/api/pdp",
-    "method": "POST"
   }
 }
