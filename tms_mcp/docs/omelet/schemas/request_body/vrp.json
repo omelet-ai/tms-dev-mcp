@@ -56,9 +56,8 @@
             "title": "Depot Location"
           }
         },
-        "title": "Depot Info",
-        "type": "object",
-        "description": "Depot details including location and index."
+        "title": "Depot",
+        "type": "object"
       },
       "visits": {
         "description": "List of customer locations to be served. Maximum 3,000 visits allowed.",
@@ -315,9 +314,8 @@
                 "car",
                 "walk"
               ],
-              "title": "Vehicle Type",
-              "type": "string",
-              "default": "car"
+              "title": "VehicleType",
+              "type": "string"
             },
             "max_service_radius": {
               "anyOf": [
@@ -432,10 +430,8 @@
               "minsum",
               "minmax"
             ],
-            "title": "Optimization Goal",
-            "type": "string",
-            "default": "minsum",
-            "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
+            "title": "ObjectiveType",
+            "type": "string"
           },
           "distance_type": {
             "enum": [
@@ -443,10 +439,8 @@
               "euclidean",
               "osrm"
             ],
-            "title": "Distance Calculation Method",
-            "type": "string",
-            "default": "euclidean",
-            "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+            "title": "DistanceType",
+            "type": "string"
           },
           "allow_unassigned_visits": {
             "default": false,
@@ -479,19 +473,8 @@
             "type": "boolean"
           }
         },
-        "title": "Solver Options",
-        "type": "object",
-        "default": {
-          "timelimit": 10,
-          "objective_type": "minsum",
-          "distance_type": "euclidean",
-          "allow_unassigned_visits": false,
-          "use_large_size_optimization_algorithm": false,
-          "include_departure_cost_from_depot": true,
-          "include_return_cost_to_depot": true,
-          "is_max_service_radius_hard_constraint": true
-        },
-        "description": "Advanced options for solving the routing problem."
+        "title": "ApiOption",
+        "type": "object"
       }
     },
     "required": [
@@ -501,5 +484,10 @@
     ],
     "title": "VrpEngineInput",
     "type": "object"
+  },
+  "_meta": {
+    "source": "Omelet",
+    "path": "/api/vrp",
+    "method": "POST"
   }
 }

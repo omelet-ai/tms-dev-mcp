@@ -23,5 +23,5 @@
   ],
   "return_cost_matrix_type": "both",
   "vehicle_type": "car",
-  "curb": true
+  "curb": false
 }

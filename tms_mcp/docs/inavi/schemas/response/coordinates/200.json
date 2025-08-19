@@ -1,5 +1,7 @@
 {
-  "response_schema": {
+  "type": "object",
+  "description": "Shows the result of the Geocoding API response.",
+  "properties": {
     "address": {
       "type": "object",
       "description": "Summarizes the result of converting an address to coordinates.",

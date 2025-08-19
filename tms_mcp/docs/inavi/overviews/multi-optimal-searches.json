@@ -1,4 +1,5 @@
 {
+  "path": "/maps/v3.0/appkeys/{appkey}/multi-optimal-searches",
   "method": "POST",
   "summary": "Multi Optimal Point Search",
   "description": "Converts and returns a list of coordinates to optimal point coordinates according to options.",

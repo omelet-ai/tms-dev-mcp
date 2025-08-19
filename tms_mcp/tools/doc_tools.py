@@ -6,7 +6,10 @@ import json
 from pathlib import Path
 from typing import Annotated
 
+from tms_mcp.config import settings
 from tms_mcp.server import mcp
+
+provider_configs = settings.pipeline_config.provider_configs
 
 
 def _get_docs_dir() -> Path:
@@ -16,7 +19,7 @@ def _get_docs_dir() -> Path:
 
 def _get_provider_from_path(path: str) -> str:
     """
-    Determine the provider based on the API path.
+    Determine the provider based on the API path using configuration.
 
     Args:
         path: API endpoint path
@@ -24,9 +27,45 @@ def _get_provider_from_path(path: str) -> str:
     Returns:
         Provider name ("omelet" or "inavi")
     """
-    if path.startswith("/api/"):
-        return "omelet"
-    return "inavi"
+    # Check each provider's path prefix from configuration
+    for provider_name, provider_config in provider_configs.items():
+        prefix = provider_config.path_prefix
+        if path.startswith(prefix):
+            return provider_name
+
+    # Default to omelet for non-matching paths
+    return "omelet"
+
+
+def _path_to_path_id(path: str, provider: str | None = None) -> str:
+    """
+    Convert API path to path_id format based on provider configuration.
+
+    Args:
+        path: API path (e.g., "/api/foo/bar" or "/maps/v3.0/appkeys/{appkey}/coordinates")
+        provider: Optional provider name to determine conversion logic
+
+    Returns:
+        Path ID (e.g., "foo_bar" for Omelet, "coordinates" for iNavi)
+    """
+    # Auto-detect provider if not specified
+    if provider is None:
+        provider = _get_provider_from_path(path)
+
+    # Get provider configuration
+    provider_config = provider_configs.get(provider)
+    if not provider_config:
+        # Fallback to default behavior
+        return "_".join(path.strip("/").split("/"))
+
+    # Remove the provider's path prefix
+    prefix = provider_config.path_prefix
+    if path.startswith(prefix):
+        endpoint_name = path[len(prefix) :].strip("/")
+    else:
+        endpoint_name = path.strip("/")
+
+    return endpoint_name.replace("/", "_")
 
 
 def _read_text_file(file_path: Path) -> str:
@@ -73,27 +112,44 @@ def _read_json_file(file_path: Path, file_type: str, path: str, path_id: str) ->
         return f"Error reading {file_type} for '{path}': {str(e)}"
 
 
-def _path_to_path_id(path: str) -> str:
+def _resolve_provider_and_path_id(path: str, provider: str | None) -> tuple[str, str]:
     """
-    Convert API path to path_id format.
+    Resolve provider and convert path to path_id.
 
     Args:
-        path: API path (e.g., "/api/foo/bar")
+        path: API endpoint path
+        provider: Optional provider name
 
     Returns:
-        Path ID (e.g., "foo_bar")
+        Tuple of (resolved_provider, path_id)
     """
-    # Remove leading slash and "api" prefix, then replace remaining slashes with underscores
-    path_parts = path.strip("/").split("/")
-    if path_parts[0] == "api":
-        path_parts = path_parts[1:]  # Remove "api" prefix
-    return "_".join(path_parts)
+    resolved_provider = provider.lower() if provider is not None else _get_provider_from_path(path)
+    path_id = _path_to_path_id(path, resolved_provider)
+    return resolved_provider, path_id
+
+
+def _get_json_file_content(path: str, provider: str | None, file_subpath: str, file_type: str) -> str:
+    """
+    Generic function to get JSON file content for an endpoint.
+
+    Args:
+        path: API endpoint path
+        provider: Optional provider name
+        file_subpath: Subpath within the provider directory (e.g., "overviews", "schemas/request_body")
+        file_type: Type of file for error messages
+
+    Returns:
+        JSON content or error message
+    """
+    resolved_provider, path_id = _resolve_provider_and_path_id(path, provider)
+    file_path = _get_docs_dir() / resolved_provider / file_subpath / f"{path_id}.json"
+    return _read_json_file(file_path, file_type, path, path_id)
 
 
 @mcp.tool
 def get_basic_info() -> str:
     """
-    Get basic information about the Omelet Routing Engine API.
+    Get basic information about Omelet Routing Engine API and iNavi Maps API.
     """
     file_path = _get_docs_dir() / "basic_info.md"
     return _read_text_file(file_path)
@@ -123,26 +179,17 @@ def list_endpoints(
     # Return combined endpoints from both providers
     content_parts = []
 
-    # Try to read Omelet endpoints
-    omelet_path = docs_dir / "omelet" / "endpoints_summary.md"
-    if omelet_path.exists():
-        omelet_content = _read_text_file(omelet_path)
-        if not omelet_content.startswith("Error:"):
-            content_parts.append("# Omelet Routing Engine\n" + omelet_content)
-
-    # Try to read iNavi endpoints
-    inavi_path = docs_dir / "inavi" / "endpoints_summary.md"
-    if inavi_path.exists():
-        inavi_content = _read_text_file(inavi_path)
-        if not inavi_content.startswith("Error:"):
-            if content_parts:
-                content_parts.append("\n---\n")
-            content_parts.append("# iNavi Maps\n" + inavi_content)
+    for provider_name in provider_configs.keys():
+        file_path = docs_dir / provider_name / "endpoints_summary.md"
+        if file_path.exists():
+            content = _read_text_file(file_path)
+            if not content.startswith("Error:"):
+                content_parts.append(content)
 
     if not content_parts:
         return "Error: No endpoints found. Please run 'update-docs' first."
 
-    return "\n".join(content_parts)
+    return "\n\n---\n\n".join(content_parts)
 
 
 @mcp.tool
@@ -156,13 +203,7 @@ def get_endpoint_overview(
     Returns:
         JSON content of the endpoint overview
     """
-    # Auto-detect provider if not specified
-    if provider is None:
-        provider = _get_provider_from_path(path)
-
-    path_id = _path_to_path_id(path)
-    file_path = _get_docs_dir() / provider / "overviews" / f"{path_id}.json"
-    return _read_json_file(file_path, "overview", path, path_id)
+    return _get_json_file_content(path, provider, "overviews", "overview")
 
 
 @mcp.tool
@@ -176,13 +217,7 @@ def get_request_body_schema(
     Returns:
         JSON schema content for the request body
     """
-    # Auto-detect provider if not specified
-    if provider is None:
-        provider = _get_provider_from_path(path)
-
-    path_id = _path_to_path_id(path)
-    file_path = _get_docs_dir() / provider / "schemas" / "request_body" / f"{path_id}.json"
-    return _read_json_file(file_path, "schema", path, path_id)
+    return _get_json_file_content(path, provider, "schemas/request_body", "schema")
 
 
 @mcp.tool
@@ -196,13 +231,7 @@ def get_request_body_example(
     Returns:
         JSON example content for the request body
     """
-    # Auto-detect provider if not specified
-    if provider is None:
-        provider = _get_provider_from_path(path)
-
-    path_id = _path_to_path_id(path)
-    file_path = _get_docs_dir() / provider / "examples" / "request_body" / f"{path_id}.json"
-    return _read_json_file(file_path, "example", path, path_id)
+    return _get_json_file_content(path, provider, "examples/request_body", "example")
 
 
 @mcp.tool
@@ -220,10 +249,6 @@ def get_response_schema(
     Returns:
         JSON schema content for the response
     """
-    # Auto-detect provider if not specified
-    if provider is None:
-        provider = _get_provider_from_path(path)
-
-    path_id = _path_to_path_id(path)
-    file_path = _get_docs_dir() / provider / "schemas" / "response" / path_id / f"{response_code}.json"
+    resolved_provider, path_id = _resolve_provider_and_path_id(path, provider)
+    file_path = _get_docs_dir() / resolved_provider / "schemas" / "response" / path_id / f"{response_code}.json"
     return _read_json_file(file_path, f"response schema (code: {response_code})", path, path_id)

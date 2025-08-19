@@ -1,4 +1,5 @@
 {
+  "path": "/maps/v3.0/appkeys/{appkey}/route-time",
   "method": "POST",
   "summary": "General Route Prediction Search",
   "description": "Returns detailed guidance and route information searched using the coordinates of an origin, destination, and optional waypoints, based on a specified estimated departure or arrival time.",

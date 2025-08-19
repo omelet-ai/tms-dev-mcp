@@ -301,7 +301,7 @@
     ]
   },
   "_meta": {
-    "source": "imaps",
+    "source": "iNavi",
     "path": "/maps/v3.0/appkeys/{appkey}/route-time",
     "method": "POST"
   }

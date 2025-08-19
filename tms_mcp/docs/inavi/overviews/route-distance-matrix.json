@@ -1,4 +1,5 @@
 {
+  "path": "/maps/v3.0/appkeys/{appkey}/route-distance-matrix",
   "method": "POST",
   "summary": "Route Distance Matrix",
   "description": "Searches for drivable routes between multiple origin/destination points and returns distance and time information.",

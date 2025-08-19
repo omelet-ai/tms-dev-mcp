@@ -1,5 +1,6 @@
 {
-  "response_schema": {
+  "type": "object",
+  "properties": {
     "type": {
       "type": "string",
       "default": "about:blank",
@@ -52,5 +53,9 @@
         ]
       }
     }
-  }
+  },
+  "required": [
+    "detail",
+    "status"
+  ]
 }

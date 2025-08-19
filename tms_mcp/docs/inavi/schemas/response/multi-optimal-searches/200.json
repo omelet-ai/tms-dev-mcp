@@ -1,5 +1,7 @@
 {
-  "response_schema": {
+  "type": "object",
+  "description": "Represents the multi optimal point search result values.",
+  "properties": {
     "origins": {
       "type": "array",
       "description": "Represents the list of x, y coordinates sent in the request. It is expressed as a two-dimensional array of double type.",

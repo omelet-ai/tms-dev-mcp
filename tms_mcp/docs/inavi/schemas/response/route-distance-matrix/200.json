@@ -1,5 +1,7 @@
 {
-  "response_schema": {
+  "type": "object",
+  "description": "The final response object for the Distance Matrix API. It contains distance and time matrix information between multiple origins and destinations.",
+  "properties": {
     "mode": {
       "type": "string",
       "description": "Represents the mode of transportation. Currently fixed to 'driving'.",
