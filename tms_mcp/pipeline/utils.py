@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Utility functions for the OpenAPI indexing pipeline.
+Utility functions for the OpenAPI indexing pipeline_config.
 """
 
 import json
@@ -10,7 +10,7 @@ from typing import Any
 
 from fastmcp.utilities.logging import get_logger
 
-from .models import FileConstants, Provider
+from .models import file_constants
 
 logger = get_logger(__name__)
 
@@ -26,7 +26,7 @@ def write_json_file(file_path: Path, data: Any, ensure_ascii: bool = False) -> N
     """
     file_path.parent.mkdir(parents=True, exist_ok=True)
     with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=ensure_ascii, indent=FileConstants.JSON_INDENT)
+        json.dump(data, f, ensure_ascii=ensure_ascii, indent=file_constants.JSON_INDENT)
         f.write("\n")
 
 
@@ -141,23 +141,23 @@ def copy_file_if_exists(source: Path, destination: Path) -> bool:
         return False
 
 
-def get_provider_path(base_path: Path, provider: Provider | None) -> Path:
+def get_provider_path(base_path: Path, provider: str | None) -> Path:
     """
     Get the path for a specific provider.
 
     Args:
         base_path: Base directory path
-        provider: Provider enum or None
+        provider: Provider name or None
 
     Returns:
         Path with provider subdirectory if provider is specified
     """
     if provider:
-        return base_path / provider.value
+        return base_path / provider
     return base_path
 
 
-def sanitize_path_for_filename(path: str) -> str:
+def sanitize_path_for_filename(provider: str, path: str) -> str:
     """
     Convert an API path to a safe filename.
 
@@ -167,9 +167,12 @@ def sanitize_path_for_filename(path: str) -> str:
     Returns:
         Safe filename (e.g., "cost_matrix")
     """
+    from ..config import settings
+
     # Remove common prefixes
-    if path.startswith("/api/"):
-        path = path[len("/api/") :]
+    prefix = settings.pipeline_config.provider_configs[provider].path_prefix
+    if path.startswith(prefix):
+        path = path[len(prefix) :]
     else:
         path = path.lstrip("/")
 
@@ -190,20 +193,18 @@ def escape_markdown_table_content(text: str) -> str:
     return text.replace("|", "\\|").replace("\n", " ").replace("\r", " ")
 
 
-def get_endpoint_filename(path: str, method: str | None = None) -> str:
+def get_endpoint_filename(provider: str, path: str) -> str:
     """
     Generate a filename for an endpoint.
 
     Args:
+        provider: Provider name
         path: API endpoint path
-        method: HTTP method (optional)
 
     Returns:
         Filename with .json extension
     """
-    base = sanitize_path_for_filename(path)
-    if method:
-        base = f"{base}_{method.lower()}"
+    base = sanitize_path_for_filename(provider, path)
     return f"{base}.json"
 
 

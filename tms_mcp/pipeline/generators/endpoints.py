@@ -4,10 +4,9 @@ Endpoint documentation generators.
 """
 
 from typing import Any
-from urllib.parse import urlparse
 
 from ...config import settings
-from ..models import EndpointInfo, OpenAPISpec, Provider
+from ..models import EndpointInfo, OpenAPISpec
 from ..utils import (
     escape_markdown_table_content,
     get_endpoint_filename,
@@ -21,7 +20,7 @@ from .base import BaseGenerator
 class EndpointGenerator(BaseGenerator):
     """Generator for endpoint summaries and overviews."""
 
-    async def generate(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
+    async def generate(self, spec: OpenAPISpec, provider: str | None = None) -> None:
         """
         Generate endpoint documentation.
 
@@ -32,7 +31,7 @@ class EndpointGenerator(BaseGenerator):
         await self.generate_endpoints_summary(spec, provider)
         await self.generate_endpoint_overviews(spec, provider)
 
-    async def generate_endpoints_summary(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
+    async def generate_endpoints_summary(self, spec: OpenAPISpec, provider: str | None = None) -> None:
         """
         Generate the summary of endpoints in markdown format.
 
@@ -61,7 +60,18 @@ class EndpointGenerator(BaseGenerator):
         write_markdown_file(output_path, content)
         self.log_progress(f"Generated endpoints summary at {output_path}")
 
-    async def generate_endpoint_overviews(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
+    def _get_provider_from_path(self, path: str) -> str:
+        """
+        Determine the provider based on the API path using configuration.
+        """
+        provider_configs = settings.pipeline_config.provider_configs
+        for provider_name, provider_config in provider_configs.items():
+            prefix = provider_config.path_prefix
+            if path.startswith(prefix):
+                return provider_name
+        return "omelet"
+
+    async def generate_endpoint_overviews(self, spec: OpenAPISpec, provider: str | None = None) -> None:
         """
         Generate detailed overview for each endpoint.
 
@@ -83,7 +93,12 @@ class EndpointGenerator(BaseGenerator):
                     continue
 
                 endpoint_info = self._extract_endpoint_info(path, method, method_data)
-                filename = get_endpoint_filename(path)
+
+                current_provider = provider
+                if current_provider is None:
+                    current_provider = self._get_provider_from_path(path)
+
+                filename = get_endpoint_filename(current_provider, path)
                 file_path = overviews_path / filename
 
                 write_json_file(file_path, endpoint_info.__dict__)
@@ -106,20 +121,17 @@ class EndpointGenerator(BaseGenerator):
 
         return rows
 
-    def _get_provider_info(self, provider: Provider | None) -> tuple[str, str]:
+    def _get_provider_info(self, provider: str | None) -> tuple[str, str]:
         """Get provider-specific title and base URL."""
-        if provider == Provider.OMELET:
-            title = "# Omelet Routing Engine"
-            base_url = getattr(settings, "ROUTING_API_BASE_URL", "https://routing.oaasis.cc")
-        elif provider == Provider.INAVI:
-            title = "# iNavi Maps"
-            imaps_docs_url = getattr(settings, "IMAPS_API_DOCS_URL", "")
-            parsed = urlparse(imaps_docs_url) if imaps_docs_url else None
-            base_url = (
-                f"{parsed.scheme}://{parsed.netloc}"
-                if parsed and parsed.scheme and parsed.netloc
-                else "https://dev-imaps.inavi.com"
-            )
+        if provider:
+            provider_configs = settings.pipeline_config.provider_configs
+            config = provider_configs.get(provider)
+            if config:
+                title = f"# {config.title}"
+                base_url = config.base_url
+            else:
+                title = "# API Endpoints"
+                base_url = ""
         else:
             title = "# API Endpoints"
             base_url = ""

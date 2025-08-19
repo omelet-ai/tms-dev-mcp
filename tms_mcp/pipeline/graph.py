@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from enum import Enum
+from http import HTTPStatus
 from typing import Any, cast
 
 import httpx
@@ -243,7 +244,7 @@ class APIClient:
 
             duration_ms = (datetime.now() - start_time).total_seconds() * 1000
 
-            if response.status_code in [200, 201]:
+            if response.status_code in [HTTPStatus.OK, HTTPStatus.CREATED]:
                 try:
                     response_data = response.json()
                 except json.JSONDecodeError:

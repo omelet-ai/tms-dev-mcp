@@ -6,8 +6,9 @@ Example generation for request bodies using LLM and embedded examples.
 import json
 from pathlib import Path
 
+from ...config import settings
 from ..graph import RequestBodyGeneratorState, generate_example_json
-from ..models import OpenAPISpec, Provider
+from ..models import OpenAPISpec
 from ..utils import (
     compare_json_files,
     copy_file_if_exists,
@@ -21,7 +22,7 @@ from .base import BaseGenerator
 class ExampleGenerator(BaseGenerator):
     """Generator for request body examples."""
 
-    async def generate(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
+    async def generate(self, spec: OpenAPISpec, provider: str | None = None) -> None:
         """
         Generate examples (currently not used directly, see smart_generate_request_examples).
 
@@ -33,7 +34,7 @@ class ExampleGenerator(BaseGenerator):
         pass
 
     async def smart_generate_request_examples(
-        self, current_docs_path: Path, new_docs_path: Path, provider: Provider | None = None
+        self, current_docs_path: Path, new_docs_path: Path, provider: str | None = None
     ) -> None:
         """
         Generate request body examples by comparing new schemas with existing ones.
@@ -46,11 +47,10 @@ class ExampleGenerator(BaseGenerator):
         """
         # Determine paths based on provider
         if provider:
-            provider_str = provider.value
-            old_schemas_path = current_docs_path / provider_str / "schemas" / "request_body"
-            new_schemas_path = new_docs_path / provider_str / "schemas" / "request_body"
-            old_examples_path = current_docs_path / provider_str / "examples" / "request_body"
-            new_examples_path = new_docs_path / provider_str / "examples" / "request_body"
+            old_schemas_path = current_docs_path / provider / "schemas" / "request_body"
+            new_schemas_path = new_docs_path / provider / "schemas" / "request_body"
+            old_examples_path = current_docs_path / provider / "examples" / "request_body"
+            new_examples_path = new_docs_path / provider / "examples" / "request_body"
         else:
             old_schemas_path = current_docs_path / "schemas" / "request_body"
             new_schemas_path = new_docs_path / "schemas" / "request_body"
@@ -77,7 +77,12 @@ class ExampleGenerator(BaseGenerator):
             should_regenerate = self._should_regenerate_example(new_schema_file, old_schema_file, old_schemas_exist)
 
             if should_regenerate:
-                await self._regenerate_example(new_schema_file, new_examples_path)
+                if provider is None:
+                    self.log_progress(
+                        f"Provider is not specified for {new_schema_file.name}, cannot regenerate example.", "warning"
+                    )
+                    continue
+                await self._regenerate_example(provider, new_schema_file, new_examples_path)
             else:
                 self._copy_existing_example(
                     schema_filename, old_examples_path, new_examples_path, old_examples_exist, new_schema_file
@@ -101,7 +106,7 @@ class ExampleGenerator(BaseGenerator):
         # Compare schemas
         return not compare_json_files(new_schema_file, old_schema_file)
 
-    async def _regenerate_example(self, schema_file: Path, examples_path: Path) -> None:
+    async def _regenerate_example(self, provider: str, schema_file: Path, examples_path: Path) -> None:
         """
         Regenerate an example for a schema.
 
@@ -122,10 +127,12 @@ class ExampleGenerator(BaseGenerator):
                         f"No embedded example found for IMAPS {schema_file.name}. Skipping example generation."
                     )
                 else:
-                    await self._generate_llm_example(schema_file, examples_path)
+                    await self._generate_llm_example(provider, schema_file=schema_file, examples_path=examples_path)
             except Exception:
                 # Fallback to LLM generation if metadata can't be read
-                await self._generate_llm_example(schema_file, examples_path)
+                await self._generate_llm_example(
+                    provider=provider, schema_file=schema_file, examples_path=examples_path
+                )
 
     def _copy_existing_example(
         self,
@@ -207,7 +214,7 @@ class ExampleGenerator(BaseGenerator):
             self.log_progress(f"Failed to extract embedded example for {schema_file.name}: {e}", "warning")
             return False
 
-    async def _generate_llm_example(self, schema_file: Path, examples_path: Path) -> None:
+    async def _generate_llm_example(self, provider: str, schema_file: Path, examples_path: Path) -> None:
         """
         Generate an example using LLM.
 
@@ -218,18 +225,11 @@ class ExampleGenerator(BaseGenerator):
         self.log_progress(f"Generating LLM-powered example for {schema_file.name}...")
 
         schema_data = read_json_file(schema_file)
-
-        # Skip LLM generation for IMAPS sources
-        meta = schema_data.get("_meta", {}) if isinstance(schema_data, dict) else {}
-        if meta.get("source") == "imaps":
-            self.log_progress(f"Skipping LLM example generation for IMAPS endpoint: {schema_file.name}")
-            return
-
         schema = schema_data.get("schema", {})
 
-        # Determine the API endpoint from the schema filename
+        # Determine the API endpoint from the schema filename using configuration
         endpoint_name = schema_file.stem.replace("_", "-")
-        endpoint = f"/api/{endpoint_name}"
+        endpoint = f"{settings.pipeline_config.provider_configs[provider].path_prefix}{endpoint_name}"
 
         # Use the LLM-powered generator
         result = await generate_example_json(schema=schema, endpoint=endpoint, skip_api_verification=False)

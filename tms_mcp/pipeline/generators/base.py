@@ -8,7 +8,7 @@ from pathlib import Path
 
 from fastmcp.utilities.logging import get_logger
 
-from ..models import OpenAPISpec, Provider
+from ..models import OpenAPISpec
 from ..utils import ensure_directory, get_provider_path
 
 logger = get_logger(__name__)
@@ -26,7 +26,7 @@ class BaseGenerator(ABC):
         """
         self.target_path = target_path
 
-    def get_output_path(self, provider: Provider | None = None, subdirectory: str | None = None) -> Path:
+    def get_output_path(self, provider: str | None = None, subdirectory: str | None = None) -> Path:
         """
         Get the output path for generated files.
 
@@ -43,7 +43,7 @@ class BaseGenerator(ABC):
         return ensure_directory(path)
 
     @abstractmethod
-    async def generate(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
+    async def generate(self, spec: OpenAPISpec, provider: str | None = None) -> None:
         """
         Generate documentation from the OpenAPI specification.
 
@@ -64,7 +64,7 @@ class BaseGenerator(ABC):
         log_func = getattr(logger, level, logger.info)
         log_func(f"   {message}")
 
-    def should_skip_endpoint(self, path: str, provider: Provider | None = None) -> bool:
+    def should_skip_endpoint(self, path: str, provider: str | None = None) -> bool:
         """
         Check if an endpoint should be skipped.
 

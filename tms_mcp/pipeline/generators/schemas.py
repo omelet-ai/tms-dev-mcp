@@ -6,7 +6,8 @@ Schema generators for request and response bodies.
 import copy
 from typing import Any
 
-from ..models import OpenAPISpec, PathPrefix, Provider, SchemaMetadata
+from ...config import settings
+from ..models import OpenAPISpec, SchemaMetadata
 from ..utils import get_endpoint_filename, safe_remove_directory, write_json_file
 from .base import BaseGenerator
 
@@ -14,7 +15,7 @@ from .base import BaseGenerator
 class SchemaGenerator(BaseGenerator):
     """Generator for request and response schemas."""
 
-    async def generate(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
+    async def generate(self, spec: OpenAPISpec, provider: str | None = None) -> None:
         """
         Generate schema documentation.
 
@@ -25,7 +26,7 @@ class SchemaGenerator(BaseGenerator):
         await self.generate_request_body_schemas(spec, provider)
         await self.generate_response_schemas(spec, provider)
 
-    async def generate_request_body_schemas(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
+    async def generate_request_body_schemas(self, spec: OpenAPISpec, provider: str | None = None) -> None:
         """
         Generate request body schemas from the OpenAPI specification.
 
@@ -57,15 +58,16 @@ class SchemaGenerator(BaseGenerator):
                     continue
 
                 # Save schema with metadata
-                schema_to_save = self._prepare_request_schema(app_json, path, method, provider)
-                filename = get_endpoint_filename(path)
+                current_provider = provider or self._get_provider_from_path(path)
+                schema_to_save = self._prepare_request_schema(app_json, path, method, current_provider)
+                filename = get_endpoint_filename(current_provider, path)
                 file_path = request_body_path / filename
 
                 write_json_file(file_path, schema_to_save)
 
         self.log_progress(f"Generated request body schemas in {request_body_path}")
 
-    async def generate_response_schemas(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
+    async def generate_response_schemas(self, spec: OpenAPISpec, provider: str | None = None) -> None:
         """
         Generate response schemas from the OpenAPI specification.
 
@@ -92,7 +94,8 @@ class SchemaGenerator(BaseGenerator):
                     continue
 
                 # Create path-specific directory
-                path_id = self._get_path_id(path)
+                current_provider = provider or self._get_provider_from_path(path)
+                path_id = self._get_path_id(current_provider, path)
                 path_dir = response_path / path_id
                 path_dir.mkdir(exist_ok=True)
 
@@ -109,8 +112,17 @@ class SchemaGenerator(BaseGenerator):
 
         self.log_progress(f"Generated response schemas in {response_path}")
 
+    def _get_provider_from_path(self, path: str) -> str:
+        """
+        Determine the provider based on the API path using configuration.
+        """
+        for provider_name, provider_config in settings.pipeline_config.provider_configs.items():
+            if path.startswith(provider_config.path_prefix):
+                return provider_name
+        return "omelet"
+
     def _prepare_request_schema(
-        self, app_json: dict[str, Any], path: str, method: str, provider: Provider | None = None
+        self, app_json: dict[str, Any], path: str, method: str, provider: str
     ) -> dict[str, Any]:
         """
         Prepare request schema with metadata.
@@ -119,27 +131,21 @@ class SchemaGenerator(BaseGenerator):
             app_json: Application/json content from OpenAPI
             path: API endpoint path
             method: HTTP method
-            provider: Optional provider
+            provider: Provider name
 
         Returns:
             Schema with metadata attached
         """
         schema_to_save = copy.deepcopy(app_json)
 
-        # Determine source based on path or provider
-        if provider == Provider.OMELET or path.startswith(PathPrefix.OMELET.value):
-            source = "primary"
-        elif provider == Provider.INAVI:
-            source = "imaps"
-        else:
-            source = "unknown"
-
+        # Determine source based on provider
+        source = settings.pipeline_config.provider_configs[provider].name
         metadata = SchemaMetadata(source=source, path=path, method=method.upper())
         schema_to_save["_meta"] = metadata.__dict__
 
         return schema_to_save
 
-    def _get_path_id(self, path: str) -> str:
+    def _get_path_id(self, provider: str, path: str) -> str:
         """
         Convert API path to directory-safe ID.
 
@@ -149,8 +155,8 @@ class SchemaGenerator(BaseGenerator):
         Returns:
             Safe directory name
         """
-        if path.startswith(PathPrefix.OMELET.value):
-            path_id = path[len(PathPrefix.OMELET.value) :]
+        if path.startswith(settings.pipeline_config.provider_configs[provider].path_prefix):
+            path_id = path[len(settings.pipeline_config.provider_configs[provider].path_prefix) :]
         else:
             path_id = path.lstrip("/")
 

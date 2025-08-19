@@ -1,54 +1,33 @@
 #!/usr/bin/env python3
 """
-Data models and enums for the OpenAPI indexing pipeline.
+Data models and enums for the OpenAPI indexing pipeline_config.
 """
 
 from dataclasses import dataclass
-from enum import Enum
 from pathlib import Path
 from typing import Any
 
-
-class Provider(Enum):
-    """Supported API providers."""
-
-    OMELET = "omelet"
-    INAVI = "inavi"
-
-
-class PathPrefix(Enum):
-    """API path prefixes for different providers."""
-
-    OMELET = "/api/"
-    INAVI = "/"
+from ..config import settings
 
 
 class FileConstants:
-    """File-related constants."""
+    """File-related constants from configuration."""
 
-    MAX_LINES_PER_READ = 2000
-    MAX_CHARS_PER_LINE = 2000
-    JSON_INDENT = 2
+    @property
+    def MAX_LINES_PER_READ(self) -> int:
+        return settings.pipeline_config.max_lines_per_read
+
+    @property
+    def MAX_CHARS_PER_LINE(self) -> int:
+        return settings.pipeline_config.max_chars_per_line
+
+    @property
+    def JSON_INDENT(self) -> int:
+        return settings.pipeline_config.json_indent
 
 
-class HttpStatus:
-    """HTTP status codes."""
-
-    OK = 200
-    NOT_FOUND = 404
-    SERVER_ERROR = 500
-
-
-@dataclass
-class ProviderConfig:
-    """Configuration for a specific provider."""
-
-    name: Provider
-    base_url: str
-    title: str
-    description: str = ""
-    path_prefix: str = "/"
-    skip_llm_examples: bool = False
+# Create singleton instance
+file_constants = FileConstants()
 
 
 @dataclass
@@ -87,7 +66,7 @@ class GenerationResult:
 
 @dataclass
 class PipelineConfig:
-    """Configuration for the entire pipeline."""
+    """Configuration for the entire pipeline_config."""
 
     docs_path: Path
     temp_path: Path | None = None
@@ -101,7 +80,7 @@ class OpenAPISpec:
     """Represents an OpenAPI specification."""
 
     data: dict[str, Any]
-    provider: Provider | None = None
+    provider: str | None = None
 
     @property
     def paths(self) -> dict[str, Any]:
