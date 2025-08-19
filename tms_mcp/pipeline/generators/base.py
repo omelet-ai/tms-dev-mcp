@@ -5,7 +5,6 @@ Base generator class for OpenAPI documentation generation.
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Optional
 
 from fastmcp.utilities.logging import get_logger
 
@@ -27,7 +26,7 @@ class BaseGenerator(ABC):
         """
         self.target_path = target_path
 
-    def get_output_path(self, provider: Optional[Provider] = None, subdirectory: Optional[str] = None) -> Path:
+    def get_output_path(self, provider: Provider | None = None, subdirectory: str | None = None) -> Path:
         """
         Get the output path for generated files.
 
@@ -44,7 +43,7 @@ class BaseGenerator(ABC):
         return ensure_directory(path)
 
     @abstractmethod
-    async def generate(self, spec: OpenAPISpec, provider: Optional[Provider] = None) -> None:
+    async def generate(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
         """
         Generate documentation from the OpenAPI specification.
 
@@ -65,7 +64,7 @@ class BaseGenerator(ABC):
         log_func = getattr(logger, level, logger.info)
         log_func(f"   {message}")
 
-    def should_skip_endpoint(self, path: str, provider: Optional[Provider] = None) -> bool:
+    def should_skip_endpoint(self, path: str, provider: Provider | None = None) -> bool:
         """
         Check if an endpoint should be skipped.
 

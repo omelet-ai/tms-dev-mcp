@@ -3,7 +3,7 @@
 Endpoint documentation generators.
 """
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 from urllib.parse import urlparse
 
 from ...config import settings
@@ -21,7 +21,7 @@ from .base import BaseGenerator
 class EndpointGenerator(BaseGenerator):
     """Generator for endpoint summaries and overviews."""
 
-    async def generate(self, spec: OpenAPISpec, provider: Optional[Provider] = None) -> None:
+    async def generate(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
         """
         Generate endpoint documentation.
 
@@ -32,7 +32,7 @@ class EndpointGenerator(BaseGenerator):
         await self.generate_endpoints_summary(spec, provider)
         await self.generate_endpoint_overviews(spec, provider)
 
-    async def generate_endpoints_summary(self, spec: OpenAPISpec, provider: Optional[Provider] = None) -> None:
+    async def generate_endpoints_summary(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
         """
         Generate the summary of endpoints in markdown format.
 
@@ -61,7 +61,7 @@ class EndpointGenerator(BaseGenerator):
         write_markdown_file(output_path, content)
         self.log_progress(f"Generated endpoints summary at {output_path}")
 
-    async def generate_endpoint_overviews(self, spec: OpenAPISpec, provider: Optional[Provider] = None) -> None:
+    async def generate_endpoint_overviews(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
         """
         Generate detailed overview for each endpoint.
 
@@ -90,7 +90,7 @@ class EndpointGenerator(BaseGenerator):
 
         self.log_progress(f"Generated endpoint overviews in {overviews_path}")
 
-    def _extract_endpoint_rows(self, spec: OpenAPISpec) -> List[Tuple[str, str, str]]:
+    def _extract_endpoint_rows(self, spec: OpenAPISpec) -> list[tuple[str, str, str]]:
         """Extract endpoint information for summary table."""
         rows = []
         paths = spec.paths
@@ -106,7 +106,7 @@ class EndpointGenerator(BaseGenerator):
 
         return rows
 
-    def _get_provider_info(self, provider: Optional[Provider]) -> Tuple[str, str]:
+    def _get_provider_info(self, provider: Provider | None) -> tuple[str, str]:
         """Get provider-specific title and base URL."""
         if provider == Provider.OMELET:
             title = "# Omelet Routing Engine"
@@ -126,7 +126,7 @@ class EndpointGenerator(BaseGenerator):
 
         return title, base_url
 
-    def _build_summary_markdown(self, title: str, base_url: str, rows: List[Tuple[str, str, str]]) -> str:
+    def _build_summary_markdown(self, title: str, base_url: str, rows: list[tuple[str, str, str]]) -> str:
         """Build markdown content for endpoints summary."""
         lines = [title]
 
@@ -144,7 +144,7 @@ class EndpointGenerator(BaseGenerator):
 
         return "\n".join(lines)
 
-    def _extract_endpoint_info(self, path: str, method: str, method_data: Dict[str, Any]) -> EndpointInfo:
+    def _extract_endpoint_info(self, path: str, method: str, method_data: dict[str, Any]) -> EndpointInfo:
         """Extract endpoint information from method data."""
         return EndpointInfo(
             path=path,

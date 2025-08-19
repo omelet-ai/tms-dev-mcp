@@ -4,7 +4,7 @@ Schema generators for request and response bodies.
 """
 
 import copy
-from typing import Any, Dict, Optional
+from typing import Any
 
 from ..models import OpenAPISpec, PathPrefix, Provider, SchemaMetadata
 from ..utils import get_endpoint_filename, safe_remove_directory, write_json_file
@@ -14,7 +14,7 @@ from .base import BaseGenerator
 class SchemaGenerator(BaseGenerator):
     """Generator for request and response schemas."""
 
-    async def generate(self, spec: OpenAPISpec, provider: Optional[Provider] = None) -> None:
+    async def generate(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
         """
         Generate schema documentation.
 
@@ -25,7 +25,7 @@ class SchemaGenerator(BaseGenerator):
         await self.generate_request_body_schemas(spec, provider)
         await self.generate_response_schemas(spec, provider)
 
-    async def generate_request_body_schemas(self, spec: OpenAPISpec, provider: Optional[Provider] = None) -> None:
+    async def generate_request_body_schemas(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
         """
         Generate request body schemas from the OpenAPI specification.
 
@@ -65,7 +65,7 @@ class SchemaGenerator(BaseGenerator):
 
         self.log_progress(f"Generated request body schemas in {request_body_path}")
 
-    async def generate_response_schemas(self, spec: OpenAPISpec, provider: Optional[Provider] = None) -> None:
+    async def generate_response_schemas(self, spec: OpenAPISpec, provider: Provider | None = None) -> None:
         """
         Generate response schemas from the OpenAPI specification.
 
@@ -110,8 +110,8 @@ class SchemaGenerator(BaseGenerator):
         self.log_progress(f"Generated response schemas in {response_path}")
 
     def _prepare_request_schema(
-        self, app_json: Dict[str, Any], path: str, method: str, provider: Optional[Provider]
-    ) -> Dict[str, Any]:
+        self, app_json: dict[str, Any], path: str, method: str, provider: Provider | None = None
+    ) -> dict[str, Any]:
         """
         Prepare request schema with metadata.
 
@@ -156,7 +156,7 @@ class SchemaGenerator(BaseGenerator):
 
         return path_id.replace("/", "_")
 
-    def _extract_response_schema(self, response_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    def _extract_response_schema(self, response_data: dict[str, Any]) -> dict[str, Any] | None:
         """
         Extract schema from response data.
 
