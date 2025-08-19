@@ -36,7 +36,7 @@ class PipelineSettings(BaseModel):
             title="Omelet Routing Engine API",
             description="Advanced routing optimization solutions",
             path_prefix="/api/",
-            skip_llm_examples=True,
+            skip_llm_examples=False,
         ),
         "inavi": ProviderSettings(
             name="iNavi",
