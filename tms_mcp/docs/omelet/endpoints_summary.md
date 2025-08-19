@@ -1,5 +1,5 @@
 # Omelet Routing Engine API
-**Base URL:** `https://dev.routing.oaasis.cc`
+**Base URL:** `https://routing.oaasis.cc`
 
 ## Endpoints
 | Path | Summary | Description |

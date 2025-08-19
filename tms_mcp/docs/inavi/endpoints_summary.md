@@ -5,6 +5,7 @@
 | Path | Summary | Description |
 |------|---------|-------------|
 | /maps/v3.0/appkeys/{appkey}/route-time | General Route Prediction Search | Returns detailed guidance and route information searched using the coordinates of an origin, destination, and optional waypoints, based on a specified estimated departure or arrival time. |
+| /maps/v3.0/appkeys/{appkey}/route-normal-via | Multi-Waypoint Route Search | Returns optimized route information based on a search using an origin, a destination, up to 100 waypoints, and other settings. |
 | /maps/v3.0/appkeys/{appkey}/route-distance-matrix | Route Distance Matrix | Searches for drivable routes between multiple origin/destination points and returns distance and time information. |
 | /maps/v3.0/appkeys/{appkey}/multi-optimal-searches | Multi Optimal Point Search | Converts and returns a list of coordinates to optimal point coordinates according to options. |
 | /maps/v3.0/appkeys/{appkey}/multi-coordinates | Multi Geocoding | Receives a list of addresses and returns the corresponding list of coordinate information. |

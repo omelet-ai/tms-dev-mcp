@@ -1,0 +1,17 @@
+{
+  "path": "/maps/v3.0/appkeys/{appkey}/route-normal-via",
+  "method": "POST",
+  "summary": "Multi-Waypoint Route Search",
+  "description": "Returns optimized route information based on a search using an origin, a destination, up to 100 waypoints, and other settings.",
+  "parameters": [
+    {
+      "name": "appkey",
+      "in": "path",
+      "description": "API key with permission to use this API",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ]
+}
