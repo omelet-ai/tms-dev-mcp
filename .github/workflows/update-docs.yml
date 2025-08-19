@@ -1,0 +1,86 @@
+name: Update Documentation
+
+on:
+  workflow_dispatch: # Manual triggering
+
+permissions:
+  contents: write # To push commits and tags
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+
+    - name: Install dependencies
+      run: uv sync
+
+    - name: Make update script executable
+      run: chmod +x scripts/update_docs.sh
+
+    - name: Run document update script
+      run: bash ./scripts/update_docs.sh
+
+    - name: Get latest tag
+      id: get-latest-tag
+      run: |
+        latest_tag=$(git tag --sort=-version:refname | grep -v 'stage' | head -n 1)
+        if [ -z "$latest_tag" ]; then
+          latest_tag="0.0.0"
+        fi
+        echo "LATEST_TAG=$latest_tag" >> $GITHUB_ENV
+
+    - name: Determine next version
+      id: determine-next-version
+      run: |
+        latest_tag=${{ env.LATEST_TAG }}
+        if [[ $latest_tag == v* ]]; then
+          latest_tag=${latest_tag:1}
+        fi
+        IFS='.' read -r -a version_parts <<< "$latest_tag"
+        major=${version_parts[0]:-0}
+        minor=${version_parts[1]:-0}
+        patch=${version_parts[2]:-0}
+        patch=$((patch + 1))
+        next_version="$major.$minor.$patch"
+        echo "NEXT_VERSION=$next_version" >> $GITHUB_ENV
+
+    - name: Update pyproject.toml version
+      run: |
+        version="${{ env.NEXT_VERSION }}"
+        sed -i 's/^version = ".*"/version = "'"${version}"'"/' pyproject.toml
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        # Add all changes, including docs and pyproject.toml
+        git add .
+        # Check if there are changes to commit
+        if [ -n "$(git status --porcelain -- . ':!uv.lock')" ]; then
+          git commit -m "Update docs and bump version to ${{ env.NEXT_VERSION }}"
+          git tag "v${{ env.NEXT_VERSION }}"
+          git push --follow-tags
+        else
+          echo "No changes to commit."
+        fi
+
+    - name: Summary
+      if: always()
+      run: |
+        echo "✅ Workflow finished."
