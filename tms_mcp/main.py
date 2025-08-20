@@ -29,11 +29,18 @@ def setup_logging() -> None:
     fastmcp_logger.addHandler(console_handler)
 
 
-async def update_documents() -> None:
-    """Execute only the document indexing pipeline."""
+async def update_documents(providers: list[str] | None = None) -> None:
+    """Execute only the document indexing pipeline.
+
+    Args:
+        providers: List of providers to update. If None, updates all providers.
+    """
     try:
-        logger.info("🚀 Starting document indexing pipeline...")
-        await run_openapi_indexing_pipeline()
+        if providers:
+            logger.info(f"🚀 Starting document indexing pipeline for: {', '.join(providers)}...")
+        else:
+            logger.info("🚀 Starting document indexing pipeline for all providers...")
+        await run_openapi_indexing_pipeline(providers)
         logger.info("✅ Document indexing completed successfully")
     except Exception as e:
         logger.error(f"❌ Document indexing failed: {e}")
@@ -77,16 +84,19 @@ def start_server(transport: Literal["stdio", "streamable-http"] | None = None) -
         raise
 
 
-def update_and_start(transport: Literal["stdio", "streamable-http"] | None = None) -> None:
+def update_and_start(
+    transport: Literal["stdio", "streamable-http"] | None = None, providers: list[str] | None = None
+) -> None:
     """
     Update documents and then start the server.
     Args:
         transport: The transport to use for the MCP server. (streamable-http or stdio)
+        providers: List of providers to update. If None, updates all providers.
     """
     try:
         # First update documents (run in async context)
         logger.info("🚀 Starting combined operation: document indexing + server startup")
-        asyncio.run(update_documents())
+        asyncio.run(update_documents(providers))
 
         # Then start server (run in sync context)
         logger.info("📄 Document indexing completed, now starting server...")
@@ -104,9 +114,12 @@ def main() -> None:
         epilog="""
 Examples:
   %(prog)s                      # Start server only (default)
-  %(prog)s update-docs          # Only update documents
+  %(prog)s update-docs          # Update all provider documents
+  %(prog)s update-docs omelet   # Update only Omelet provider documents
+  %(prog)s update-docs omelet inavi  # Update specific providers
   %(prog)s start-server         # Only start server (same as default)
-  %(prog)s update-and-start     # Update documents and start server
+  %(prog)s update-and-start     # Update all docs and start server
+  %(prog)s update-and-start omelet  # Update Omelet docs and start server
         """,
     )
 
@@ -116,6 +129,13 @@ Examples:
         default="start-server",
         choices=["update-docs", "start-server", "update-and-start"],
         help="Command to execute (default: start-server)",
+    )
+
+    parser.add_argument(
+        "providers",
+        nargs="*",
+        choices=["omelet", "inavi"],
+        help="Provider(s) to update (for update-docs and update-and-start commands). If not specified, updates all providers.",
     )
 
     parser.add_argument(
@@ -132,11 +152,13 @@ Examples:
 
     try:
         if args.command == "update-docs":
-            asyncio.run(update_documents())
+            providers = args.providers if args.providers else None
+            asyncio.run(update_documents(providers))
         elif args.command == "start-server":
             start_server(args.transport)
         elif args.command == "update-and-start":
-            update_and_start(args.transport)
+            providers = args.providers if args.providers else None
+            update_and_start(args.transport, providers)
     except KeyboardInterrupt:
         logger.info("🛑 Operation cancelled by user")
         sys.exit(1)

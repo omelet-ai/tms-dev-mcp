@@ -2,6 +2,16 @@ name: Update Documentation
 
 on:
   workflow_dispatch: # Manual triggering
+    inputs:
+      providers:
+        description: 'Which provider(s) to update'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - inavi
+          - omelet
 
 permissions:
   contents: write # To push commits and tags
@@ -34,7 +44,14 @@ jobs:
       run: chmod +x scripts/update_docs.sh
 
     - name: Run document update script
-      run: bash ./scripts/update_docs.sh
+      run: |
+        if [ "${{ github.event.inputs.providers }}" == "all" ]; then
+          bash ./scripts/update_docs.sh
+        elif [ "${{ github.event.inputs.providers }}" == "both" ]; then
+          bash ./scripts/update_docs.sh omelet inavi
+        else
+          bash ./scripts/update_docs.sh ${{ github.event.inputs.providers }}
+        fi
 
     - name: Get latest tag
       id: get-latest-tag
@@ -73,7 +90,15 @@ jobs:
         git add .
         # Check if there are changes to commit
         if [ -n "$(git status --porcelain -- . ':!uv.lock')" ]; then
-          git commit -m "Update docs and bump version to ${{ env.NEXT_VERSION }}"
+          # Create descriptive commit message based on which providers were updated
+          if [ "${{ github.event.inputs.providers }}" == "all" ]; then
+            commit_msg="Update all provider docs and bump version to ${{ env.NEXT_VERSION }}"
+          elif [ "${{ github.event.inputs.providers }}" == "both" ]; then
+            commit_msg="Update omelet and inavi docs and bump version to ${{ env.NEXT_VERSION }}"
+          else
+            commit_msg="Update ${{ github.event.inputs.providers }} docs and bump version to ${{ env.NEXT_VERSION }}"
+          fi
+          git commit -m "$commit_msg"
           git tag "v${{ env.NEXT_VERSION }}"
           git push --follow-tags
         else
@@ -84,3 +109,4 @@ jobs:
       if: always()
       run: |
         echo "✅ Workflow finished."
+        echo "📚 Providers updated: ${{ github.event.inputs.providers }}"

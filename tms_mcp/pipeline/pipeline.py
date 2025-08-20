@@ -4,7 +4,9 @@ OpenAPI Indexing Pipeline
 Handles the indexing of OpenAPI specifications of Omelet's Routing Engine API
 """
 
+import argparse
 import asyncio
+import shutil
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -220,6 +222,20 @@ async def run_openapi_indexing_pipeline(providers: list[str] | None = None) -> N
         temp_path = Path(temp_dir_str)
         logger.info(f"   📂 Created temporary workspace at {temp_path}.")
 
+        # If updating specific providers (not all), preserve existing docs for other providers
+        if providers and target_path.exists():
+            all_providers = list(provider_configs.keys())
+            providers_to_preserve = [p for p in all_providers if p not in providers]
+
+            if providers_to_preserve:
+                logger.info(f"   📁 Preserving existing docs for: {', '.join(providers_to_preserve)}")
+                for preserve_provider in providers_to_preserve:
+                    source_dir = target_path / preserve_provider
+                    if source_dir.exists():
+                        dest_dir = temp_path / preserve_provider
+                        shutil.copytree(source_dir, dest_dir)
+                        logger.info(f"   ✅ Preserved {preserve_provider} documentation")
+
         # Generate the shared basic_info.md (at root level)
         await generate_basic_info(temp_path)
         logger.info("   📝 Generated shared basic_info.md")
@@ -241,3 +257,57 @@ async def run_openapi_indexing_pipeline(providers: list[str] | None = None) -> N
             logger.error("   ❌ Failed to replace documentation directory.")
 
     logger.info("   🎉 OpenAPI indexing pipeline completed successfully!")
+
+
+def main() -> None:
+    """
+    Main entry point for the OpenAPI indexing pipeline.
+    Accepts optional provider names as command-line arguments.
+    """
+    parser = argparse.ArgumentParser(
+        description="OpenAPI Indexing Pipeline - Generate documentation for TMS providers",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""Examples:
+  # Update all providers
+  uv run python -m tms_mcp.pipeline.pipeline
+
+  # Update specific providers
+  uv run python -m tms_mcp.pipeline.pipeline omelet
+  uv run python -m tms_mcp.pipeline.pipeline omelet inavi
+
+  # List available providers
+  uv run python -m tms_mcp.pipeline.pipeline --list-providers
+""",
+    )
+
+    parser.add_argument(
+        "providers",
+        nargs="*",
+        help="Provider names to update (e.g., omelet, inavi). If not specified, updates all providers.",
+        choices=list(provider_configs.keys()) + [[]],  # Allow empty list
+    )
+
+    parser.add_argument("--list-providers", action="store_true", help="List all available providers and exit")
+
+    args = parser.parse_args()
+
+    # List providers if requested
+    if args.list_providers:
+        print("Available providers:")
+        for provider_key, provider_config in provider_configs.items():
+            print(f"  - {provider_key}: {provider_config.title}")
+        return
+
+    # Run the pipeline with specified providers (or all if none specified)
+    providers_to_update = args.providers if args.providers else None
+
+    if providers_to_update:
+        logger.info(f"Updating specific providers: {', '.join(providers_to_update)}")
+    else:
+        logger.info("Updating all providers")
+
+    asyncio.run(run_openapi_indexing_pipeline(providers_to_update))
+
+
+if __name__ == "__main__":
+    main()
