@@ -1,6 +1,5 @@
 {
-  "additionalProperties": false,
-  "properties": {
+  "response_schema": {
     "routes": {
       "description": "List of routes, where each route is a list of visit indices.",
       "items": {
@@ -31,12 +30,5 @@
       "title": "Job ID",
       "type": "string"
     }
-  },
-  "required": [
-    "routes",
-    "cost",
-    "detailed_cost"
-  ],
-  "title": "AdvancedVrpEngineOutput",
-  "type": "object"
+  }
 }

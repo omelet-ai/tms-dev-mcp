@@ -1,5 +1,4 @@
 {
-  "path": "/api/fsmvrp-long",
   "method": "POST",
   "summary": "OMELET FSMVRP (fleet size and mix vrp) API for multiple days(long version)",
   "description": "Generates cost-optimized delivery schedules over multiple days (up to 31). Supports up to 1,000 visits per day and a time limit of 1,200 seconds for optimization.Supports combination of objectives via the `objective_costs` field. `ownership_type` determines whether vehicles appear in the API result always (`owned`) or only when used (`rented`).",

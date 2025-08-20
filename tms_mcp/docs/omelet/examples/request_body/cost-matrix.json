@@ -15,13 +15,9 @@
     {
       "lng": 128.6014,
       "lat": 35.8714
-    },
-    {
-      "lng": 127.3845,
-      "lat": 36.3504
     }
   ],
   "return_cost_matrix_type": "both",
   "vehicle_type": "car",
-  "curb": false
+  "curb": true
 }

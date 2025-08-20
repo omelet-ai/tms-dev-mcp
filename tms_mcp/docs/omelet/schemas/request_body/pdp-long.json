@@ -433,8 +433,9 @@
                 "car",
                 "walk"
               ],
-              "title": "VehicleType",
-              "type": "string"
+              "title": "Vehicle Type",
+              "type": "string",
+              "default": "car"
             },
             "max_service_radius": {
               "anyOf": [
@@ -491,8 +492,9 @@
                 "lng",
                 "lat"
               ],
-              "title": "Coordinate",
-              "type": "object"
+              "title": "Current Location",
+              "type": "object",
+              "description": "Vehicle's current position."
             }
           },
           "required": [
@@ -573,8 +575,10 @@
               "minsum",
               "minmax"
             ],
-            "title": "ObjectiveType",
-            "type": "string"
+            "title": "Optimization Goal",
+            "type": "string",
+            "default": "minsum",
+            "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
           },
           "distance_type": {
             "enum": [
@@ -582,8 +586,10 @@
               "euclidean",
               "osrm"
             ],
-            "title": "DistanceType",
-            "type": "string"
+            "title": "Distance Calculation Method",
+            "type": "string",
+            "default": "euclidean",
+            "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
           },
           "allow_unassigned_visits": {
             "default": false,
@@ -616,8 +622,19 @@
             "type": "boolean"
           }
         },
-        "title": "ExtendedApiOption",
-        "type": "object"
+        "title": "Extended Solver Options",
+        "type": "object",
+        "default": {
+          "timelimit": 10,
+          "objective_type": "minsum",
+          "distance_type": "euclidean",
+          "allow_unassigned_visits": false,
+          "use_large_size_optimization_algorithm": false,
+          "include_departure_cost_from_depot": true,
+          "include_return_cost_to_depot": true,
+          "is_max_service_radius_hard_constraint": true
+        },
+        "description": "Advanced options for solving extended PDP problems."
       }
     },
     "required": [
@@ -627,9 +644,4396 @@
     "title": "ExtendedPdpEngineInput",
     "type": "object"
   },
-  "_meta": {
-    "source": "Omelet",
-    "path": "/api/pdp-long",
-    "method": "POST"
+  "examples": {
+    "PDPExample": {
+      "value": {
+        "visits": [
+          {
+            "name": "visit_1",
+            "pick_up_visit": {
+              "name": "pu_1",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.07500381909662,
+                "lat": 37.494726151895776
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_1",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.75601605434875,
+                "lat": 37.4182826849803
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_2",
+            "pick_up_visit": {
+              "name": "pu_2",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.16936856377596,
+                "lat": 37.68879923068993
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_2",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.058772633085,
+                "lat": 37.63348451247085
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_3",
+            "pick_up_visit": {
+              "name": "pu_3",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.02504768605708,
+                "lat": 37.695535325323675
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_3",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.1707512185047,
+                "lat": 37.414120586152855
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_4",
+            "pick_up_visit": {
+              "name": "pu_4",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.19299020393659,
+                "lat": 37.423431436464625
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_4",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.12461583631547,
+                "lat": 37.466313716867056
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_5",
+            "pick_up_visit": {
+              "name": "pu_5",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.19608093871472,
+                "lat": 37.57672811325877
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_5",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.89449929661288,
+                "lat": 37.54087748815908
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_6",
+            "pick_up_visit": {
+              "name": "pu_6",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.74924339598884,
+                "lat": 37.45080753989535
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_6",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.09302095235441,
+                "lat": 37.60864103498406
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_7",
+            "pick_up_visit": {
+              "name": "pu_7",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.06345549629256,
+                "lat": 37.529102849300855
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_7",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.26781768788278,
+                "lat": 37.70934835782088
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_8",
+            "pick_up_visit": {
+              "name": "pu_8",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.10100520864368,
+                "lat": 37.6096279774894
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_8",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.10255990136983,
+                "lat": 37.53068565369243
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_9",
+            "pick_up_visit": {
+              "name": "pu_9",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.80639302690062,
+                "lat": 37.63106731911584
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_9",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.01526876724708,
+                "lat": 37.50693709747684
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_10",
+            "pick_up_visit": {
+              "name": "pu_10",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.99411722993075,
+                "lat": 37.68177611843207
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_10",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.23400944082769,
+                "lat": 37.52129054437947
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_11",
+            "pick_up_visit": {
+              "name": "pu_11",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.03998305365234,
+                "lat": 37.51044673513297
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_11",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.05217023366363,
+                "lat": 37.51528878639585
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_12",
+            "pick_up_visit": {
+              "name": "pu_12",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.94369027955769,
+                "lat": 37.682013520134774
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_12",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.85566642299891,
+                "lat": 37.60139618456489
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_13",
+            "pick_up_visit": {
+              "name": "pu_13",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.77905311226888,
+                "lat": 37.664618476883554
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_13",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.15536069162563,
+                "lat": 37.48554503330355
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_14",
+            "pick_up_visit": {
+              "name": "pu_14",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.20320227243566,
+                "lat": 37.430972117057564
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_14",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.91398425373056,
+                "lat": 37.45865420400807
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_15",
+            "pick_up_visit": {
+              "name": "pu_15",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.97511888751487,
+                "lat": 37.65365572141925
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_15",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.85753147630868,
+                "lat": 37.42899605749198
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_16",
+            "pick_up_visit": {
+              "name": "pu_16",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.95061225846848,
+                "lat": 37.47321297884163
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_16",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.7826592988415,
+                "lat": 37.58846094705389
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_17",
+            "pick_up_visit": {
+              "name": "pu_17",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.89395563768801,
+                "lat": 37.61612826196747
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_17",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.84087165349789,
+                "lat": 37.697660479162174
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_18",
+            "pick_up_visit": {
+              "name": "pu_18",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.92950208979885,
+                "lat": 37.4451365896902
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_18",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.07080041040784,
+                "lat": 37.693145403143454
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_19",
+            "pick_up_visit": {
+              "name": "pu_19",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.96978686263276,
+                "lat": 37.70142664002512
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_19",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.00164273688097,
+                "lat": 37.54164458289582
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_20",
+            "pick_up_visit": {
+              "name": "pu_20",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.06603974485493,
+                "lat": 37.71365293404373
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_20",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.24198437841856,
+                "lat": 37.552153564803916
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_21",
+            "pick_up_visit": {
+              "name": "pu_21",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.13964142123014,
+                "lat": 37.56343556898329
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_21",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.01738710094132,
+                "lat": 37.650474770117754
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_22",
+            "pick_up_visit": {
+              "name": "pu_22",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.95602017697139,
+                "lat": 37.63498978682514
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_22",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.11470744687206,
+                "lat": 37.6946259637477
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_23",
+            "pick_up_visit": {
+              "name": "pu_23",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.79560081864777,
+                "lat": 37.6333391939232
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_23",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.23046647219809,
+                "lat": 37.70545187324067
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_24",
+            "pick_up_visit": {
+              "name": "pu_24",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.7419571820751,
+                "lat": 37.67397426119964
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_24",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.25924611531951,
+                "lat": 37.7022173634036
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_25",
+            "pick_up_visit": {
+              "name": "pu_25",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.81370821844715,
+                "lat": 37.70687130853551
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_25",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.21040175781052,
+                "lat": 37.661518493731776
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_26",
+            "pick_up_visit": {
+              "name": "pu_26",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.99098753652005,
+                "lat": 37.48343320969101
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_26",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.16327253274451,
+                "lat": 37.69205141989888
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_27",
+            "pick_up_visit": {
+              "name": "pu_27",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.87652557498765,
+                "lat": 37.57596542266227
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_27",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.9710583828879,
+                "lat": 37.69431133563844
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_28",
+            "pick_up_visit": {
+              "name": "pu_28",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.75576834539584,
+                "lat": 37.63424201809078
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_28",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.06291392109829,
+                "lat": 37.4218557734405
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_29",
+            "pick_up_visit": {
+              "name": "pu_29",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.11903040291119,
+                "lat": 37.418120927647664
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_29",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.13976032523622,
+                "lat": 37.5680645802707
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_30",
+            "pick_up_visit": {
+              "name": "pu_30",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.23136580657608,
+                "lat": 37.433240274728696
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_30",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.18438004098054,
+                "lat": 37.43342364555625
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_31",
+            "pick_up_visit": {
+              "name": "pu_31",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.91836930840545,
+                "lat": 37.543174938952404
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_31",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.25114657718765,
+                "lat": 37.5829974970264
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_32",
+            "pick_up_visit": {
+              "name": "pu_32",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.87263680187992,
+                "lat": 37.48624115586652
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_32",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.20942912817482,
+                "lat": 37.481470202404054
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_33",
+            "pick_up_visit": {
+              "name": "pu_33",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.80075079243069,
+                "lat": 37.50032346736441
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_33",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.0477937173644,
+                "lat": 37.58054012308548
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_34",
+            "pick_up_visit": {
+              "name": "pu_34",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.16746345003791,
+                "lat": 37.5824675008776
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_34",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.88845624449395,
+                "lat": 37.53792221917846
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_35",
+            "pick_up_visit": {
+              "name": "pu_35",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.1719647966879,
+                "lat": 37.60239808411032
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_35",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.24740833131274,
+                "lat": 37.524794658039504
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_36",
+            "pick_up_visit": {
+              "name": "pu_36",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.02985749571876,
+                "lat": 37.59256348709072
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_36",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.18811266194902,
+                "lat": 37.45720358729268
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_37",
+            "pick_up_visit": {
+              "name": "pu_37",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.95166049498602,
+                "lat": 37.68795510302919
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_37",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.75713647543392,
+                "lat": 37.66161884090371
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_38",
+            "pick_up_visit": {
+              "name": "pu_38",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.95640992140201,
+                "lat": 37.66376120511236
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_38",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.7394139298081,
+                "lat": 37.5234791672116
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_39",
+            "pick_up_visit": {
+              "name": "pu_39",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.77617076164198,
+                "lat": 37.61027853110688
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_39",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.88065688379795,
+                "lat": 37.62538179835588
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_40",
+            "pick_up_visit": {
+              "name": "pu_40",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.23923211873509,
+                "lat": 37.45157234732943
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_40",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.19693696315588,
+                "lat": 37.431242600054894
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_41",
+            "pick_up_visit": {
+              "name": "pu_41",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.9378838953107,
+                "lat": 37.54301657285208
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_41",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.99573049870395,
+                "lat": 37.70802841079085
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_42",
+            "pick_up_visit": {
+              "name": "pu_42",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.14925531615181,
+                "lat": 37.50651919750582
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_42",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.87850939351966,
+                "lat": 37.6738173393123
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_43",
+            "pick_up_visit": {
+              "name": "pu_43",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.20578363152853,
+                "lat": 37.567445140926786
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_43",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.91836168260431,
+                "lat": 37.713598857451544
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_44",
+            "pick_up_visit": {
+              "name": "pu_44",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.90318688406943,
+                "lat": 37.468443721742815
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_44",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.20513651697497,
+                "lat": 37.658488504230505
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_45",
+            "pick_up_visit": {
+              "name": "pu_45",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.09155710709693,
+                "lat": 37.702580612202226
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_45",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.22955158458959,
+                "lat": 37.6391445799881
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_46",
+            "pick_up_visit": {
+              "name": "pu_46",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.19475491192516,
+                "lat": 37.48789252495209
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_46",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.80968468841736,
+                "lat": 37.615544798535375
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_47",
+            "pick_up_visit": {
+              "name": "pu_47",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.11656770628105,
+                "lat": 37.46371708897071
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_47",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.94579814149756,
+                "lat": 37.68804469021889
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_48",
+            "pick_up_visit": {
+              "name": "pu_48",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.03456172581207,
+                "lat": 37.58785833422543
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_48",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.83798910769548,
+                "lat": 37.57206802950057
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_49",
+            "pick_up_visit": {
+              "name": "pu_49",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.01424135196994,
+                "lat": 37.440138244716294
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_49",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.25964627792874,
+                "lat": 37.58576347664597
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_50",
+            "pick_up_visit": {
+              "name": "pu_50",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.73751619422401,
+                "lat": 37.64650966224867
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_50",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.25767826669009,
+                "lat": 37.59133977947837
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_51",
+            "pick_up_visit": {
+              "name": "pu_51",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.9051876037794,
+                "lat": 37.46989114140756
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_51",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.09403906763816,
+                "lat": 37.4721850220428
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_52",
+            "pick_up_visit": {
+              "name": "pu_52",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.04327900227287,
+                "lat": 37.59507327075925
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_52",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.2491989000175,
+                "lat": 37.43510647548227
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_53",
+            "pick_up_visit": {
+              "name": "pu_53",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.00168395454268,
+                "lat": 37.637891639049194
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_53",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.82894218217055,
+                "lat": 37.53042767425511
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_54",
+            "pick_up_visit": {
+              "name": "pu_54",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.76774924316057,
+                "lat": 37.63239315404122
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_54",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.78106156719085,
+                "lat": 37.53254808615906
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_55",
+            "pick_up_visit": {
+              "name": "pu_55",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.2016171502416,
+                "lat": 37.55585266134429
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_55",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.22254407443295,
+                "lat": 37.64447765690119
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_56",
+            "pick_up_visit": {
+              "name": "pu_56",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.22399026655083,
+                "lat": 37.45174919684831
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_56",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.7734587060056,
+                "lat": 37.43452120605108
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_57",
+            "pick_up_visit": {
+              "name": "pu_57",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.19911853969205,
+                "lat": 37.60468104849625
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_57",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.9998635848135,
+                "lat": 37.46265778120133
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_58",
+            "pick_up_visit": {
+              "name": "pu_58",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.09468497920759,
+                "lat": 37.50928405032999
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_58",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.11456667481652,
+                "lat": 37.55224719210999
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_59",
+            "pick_up_visit": {
+              "name": "pu_59",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.00569655610995,
+                "lat": 37.651645915019955
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_59",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.783725697137,
+                "lat": 37.58798588788466
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_60",
+            "pick_up_visit": {
+              "name": "pu_60",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.83965107466643,
+                "lat": 37.65722118903066
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_60",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.99572861968728,
+                "lat": 37.71172081072841
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_61",
+            "pick_up_visit": {
+              "name": "pu_61",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.83200184094956,
+                "lat": 37.70397073423597
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_61",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.16275682091884,
+                "lat": 37.558557187025784
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_62",
+            "pick_up_visit": {
+              "name": "pu_62",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.16950976950055,
+                "lat": 37.59525731070907
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_62",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.08472317147479,
+                "lat": 37.689081506124836
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_63",
+            "pick_up_visit": {
+              "name": "pu_63",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.76902035862373,
+                "lat": 37.6653260044946
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_63",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.93844281560743,
+                "lat": 37.51155636321822
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_64",
+            "pick_up_visit": {
+              "name": "pu_64",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.26611397862087,
+                "lat": 37.64908775995623
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_64",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.99395654465332,
+                "lat": 37.54085973254846
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_65",
+            "pick_up_visit": {
+              "name": "pu_65",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.20376140864524,
+                "lat": 37.43949811421447
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_65",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.11324942916923,
+                "lat": 37.65149164246454
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_66",
+            "pick_up_visit": {
+              "name": "pu_66",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.16183588233356,
+                "lat": 37.51057270270875
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_66",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.16046720658525,
+                "lat": 37.48130691156731
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_67",
+            "pick_up_visit": {
+              "name": "pu_67",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.92800227279811,
+                "lat": 37.53929612073966
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_67",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.02386215848846,
+                "lat": 37.4472851961931
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_68",
+            "pick_up_visit": {
+              "name": "pu_68",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.95189463659717,
+                "lat": 37.413384760001186
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_68",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.13249717425929,
+                "lat": 37.67042337347288
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_69",
+            "pick_up_visit": {
+              "name": "pu_69",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.8084457079571,
+                "lat": 37.625723992809725
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_69",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.17356090048602,
+                "lat": 37.7096480791473
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_70",
+            "pick_up_visit": {
+              "name": "pu_70",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.1857038037438,
+                "lat": 37.54130587745993
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_70",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.25843988901208,
+                "lat": 37.707280478776234
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_71",
+            "pick_up_visit": {
+              "name": "pu_71",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.00366651119263,
+                "lat": 37.64071354975963
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_71",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.22319476568038,
+                "lat": 37.55701375605598
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_72",
+            "pick_up_visit": {
+              "name": "pu_72",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.1964059908912,
+                "lat": 37.62505475441155
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_72",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.89140160990398,
+                "lat": 37.64500139351954
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_73",
+            "pick_up_visit": {
+              "name": "pu_73",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.03953076451165,
+                "lat": 37.44162012726716
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_73",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.94356258866891,
+                "lat": 37.435551913742984
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_74",
+            "pick_up_visit": {
+              "name": "pu_74",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.98894246288782,
+                "lat": 37.54264396678225
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_74",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.96088087291386,
+                "lat": 37.59026231242749
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_75",
+            "pick_up_visit": {
+              "name": "pu_75",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.79975310859274,
+                "lat": 37.695141874012464
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_75",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.10020690107096,
+                "lat": 37.661943341435915
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_76",
+            "pick_up_visit": {
+              "name": "pu_76",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.21407643953837,
+                "lat": 37.589362739643335
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_76",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.75561179728366,
+                "lat": 37.62804847150488
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_77",
+            "pick_up_visit": {
+              "name": "pu_77",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.0386428628481,
+                "lat": 37.66260010198269
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_77",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.01891158941531,
+                "lat": 37.65876278450063
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_78",
+            "pick_up_visit": {
+              "name": "pu_78",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.26771083410972,
+                "lat": 37.51910511370847
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_78",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.82562095023506,
+                "lat": 37.531516729792365
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_79",
+            "pick_up_visit": {
+              "name": "pu_79",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.13713718082586,
+                "lat": 37.54587042156318
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_79",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.04900174406926,
+                "lat": 37.45173575380637
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_80",
+            "pick_up_visit": {
+              "name": "pu_80",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.12272545613965,
+                "lat": 37.49783379209698
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_80",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.83610928376724,
+                "lat": 37.673765964622355
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_81",
+            "pick_up_visit": {
+              "name": "pu_81",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.03617385218428,
+                "lat": 37.55953467625885
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_81",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.21515894975512,
+                "lat": 37.43925590768822
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_82",
+            "pick_up_visit": {
+              "name": "pu_82",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.10668526568371,
+                "lat": 37.512291846360256
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_82",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.82796968343577,
+                "lat": 37.61697454970747
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_83",
+            "pick_up_visit": {
+              "name": "pu_83",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.92827737865062,
+                "lat": 37.51286942818414
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_83",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.23916593189479,
+                "lat": 37.47345001185236
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_84",
+            "pick_up_visit": {
+              "name": "pu_84",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.0082141460162,
+                "lat": 37.42054212047744
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_84",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.82152468657878,
+                "lat": 37.67994422714122
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_85",
+            "pick_up_visit": {
+              "name": "pu_85",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.15651101901354,
+                "lat": 37.58136866748241
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_85",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.85314861886948,
+                "lat": 37.58164397259083
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_86",
+            "pick_up_visit": {
+              "name": "pu_86",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.74058712443916,
+                "lat": 37.62850328456867
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_86",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.11770888300472,
+                "lat": 37.60829558386825
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_87",
+            "pick_up_visit": {
+              "name": "pu_87",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.0612897472912,
+                "lat": 37.43554449430696
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_87",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.86596863478532,
+                "lat": 37.58666369565983
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_88",
+            "pick_up_visit": {
+              "name": "pu_88",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.94506461184783,
+                "lat": 37.7127252992918
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_88",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.22849760890114,
+                "lat": 37.4591759132895
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_89",
+            "pick_up_visit": {
+              "name": "pu_89",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.04984765820085,
+                "lat": 37.62343887141116
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_89",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.8071674489192,
+                "lat": 37.507647557525374
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_90",
+            "pick_up_visit": {
+              "name": "pu_90",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.1172631296207,
+                "lat": 37.68528356581066
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_90",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.91699520995658,
+                "lat": 37.485416530993184
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_91",
+            "pick_up_visit": {
+              "name": "pu_91",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.17392962466128,
+                "lat": 37.58986458721664
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_91",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.98916803800748,
+                "lat": 37.49061006631777
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_92",
+            "pick_up_visit": {
+              "name": "pu_92",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.7729745646553,
+                "lat": 37.418694328592125
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_92",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.04450053989243,
+                "lat": 37.470978533830916
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_93",
+            "pick_up_visit": {
+              "name": "pu_93",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.25621563837849,
+                "lat": 37.44573481913885
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_93",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.97605522173238,
+                "lat": 37.532417718488105
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_94",
+            "pick_up_visit": {
+              "name": "pu_94",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.8584249093597,
+                "lat": 37.639297679279466
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_94",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.07861288128444,
+                "lat": 37.63235597389837
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_95",
+            "pick_up_visit": {
+              "name": "pu_95",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.77840722003421,
+                "lat": 37.51976571985039
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_95",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.01231365721054,
+                "lat": 37.54209508330239
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_96",
+            "pick_up_visit": {
+              "name": "pu_96",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 126.75582553455334,
+                "lat": 37.4718590529598
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_96",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.23988681738885,
+                "lat": 37.46236388314982
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_97",
+            "pick_up_visit": {
+              "name": "pu_97",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.19012570964239,
+                "lat": 37.66144705795485
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_97",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.94351620113214,
+                "lat": 37.55418747084627
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_98",
+            "pick_up_visit": {
+              "name": "pu_98",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.17511236749944,
+                "lat": 37.61875167982379
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_98",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.18203921133025,
+                "lat": 37.641966195870985
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_99",
+            "pick_up_visit": {
+              "name": "pu_99",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.1040717775836,
+                "lat": 37.68886519118301
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_99",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 127.17447294781056,
+                "lat": 37.46734210255736
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          },
+          {
+            "name": "visit_100",
+            "pick_up_visit": {
+              "name": "pu_100",
+              "service_time": 1,
+              "coordinate": {
+                "lng": 127.13455433763036,
+                "lat": 37.43945780388757
+              },
+              "volume": 1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            },
+            "drop_off_visit": {
+              "name": "do_100",
+              "service_time": 5,
+              "coordinate": {
+                "lng": 126.96201490621137,
+                "lat": 37.53304919286651
+              },
+              "volume": -1,
+              "weight": 0,
+              "time_window": [
+                "2024-07-30T00:00:00",
+                "2024-07-31T23:00:00"
+              ]
+            }
+          }
+        ],
+        "vehicles": [
+          {
+            "name": "vehicle_1",
+            "volume_capacity": 25,
+            "weight_capacity": 25,
+            "fixed_cost": 100,
+            "visit_preference": [
+              3,
+              0,
+              1,
+              3,
+              3,
+              0,
+              0,
+              0,
+              3,
+              1,
+              2,
+              3,
+              3,
+              1,
+              1,
+              3,
+              1,
+              0,
+              3,
+              2,
+              3,
+              3,
+              2,
+              2,
+              3,
+              3,
+              2,
+              2,
+              2,
+              3,
+              1,
+              3,
+              1,
+              3,
+              0,
+              3,
+              1,
+              2,
+              0,
+              1,
+              0,
+              2,
+              3,
+              0,
+              1,
+              3,
+              0,
+              0,
+              0,
+              2,
+              2,
+              2,
+              0,
+              2,
+              1,
+              3,
+              3,
+              0,
+              1,
+              2,
+              0,
+              1,
+              1,
+              2,
+              2,
+              2,
+              1,
+              2,
+              3,
+              2,
+              3,
+              2,
+              2,
+              1,
+              2,
+              1,
+              1,
+              0,
+              2,
+              2,
+              3,
+              2,
+              0,
+              0,
+              1,
+              3,
+              0,
+              2,
+              1,
+              2,
+              0,
+              3,
+              3,
+              1,
+              3,
+              1,
+              2,
+              1,
+              1,
+              0
+            ],
+            "vehicle_type": "car",
+            "current_coordinate": {
+              "lng": 127.11496312433154,
+              "lat": 37.66807961054231
+            }
+          },
+          {
+            "name": "vehicle_2",
+            "volume_capacity": 25,
+            "weight_capacity": 25,
+            "fixed_cost": 100,
+            "visit_preference": [
+              0,
+              2,
+              1,
+              1,
+              1,
+              2,
+              2,
+              2,
+              0,
+              3,
+              3,
+              1,
+              2,
+              0,
+              2,
+              3,
+              3,
+              3,
+              0,
+              0,
+              2,
+              0,
+              0,
+              2,
+              0,
+              3,
+              0,
+              2,
+              2,
+              0,
+              1,
+              0,
+              3,
+              2,
+              0,
+              3,
+              2,
+              0,
+              1,
+              0,
+              2,
+              2,
+              0,
+              0,
+              1,
+              0,
+              2,
+              3,
+              2,
+              3,
+              3,
+              1,
+              1,
+              1,
+              0,
+              1,
+              2,
+              1,
+              3,
+              2,
+              2,
+              2,
+              3,
+              1,
+              2,
+              2,
+              3,
+              2,
+              2,
+              2,
+              0,
+              1,
+              1,
+              2,
+              1,
+              2,
+              1,
+              1,
+              2,
+              1,
+              0,
+              2,
+              3,
+              2,
+              2,
+              2,
+              3,
+              1,
+              1,
+              2,
+              2,
+              3,
+              0,
+              1,
+              0,
+              3,
+              2,
+              0,
+              0,
+              3
+            ],
+            "vehicle_type": "car",
+            "current_coordinate": {
+              "lng": 127.23811067709349,
+              "lat": 37.49233477268134
+            }
+          },
+          {
+            "name": "vehicle_3",
+            "volume_capacity": 25,
+            "weight_capacity": 25,
+            "fixed_cost": 100,
+            "visit_preference": [
+              2,
+              0,
+              1,
+              1,
+              0,
+              0,
+              3,
+              3,
+              2,
+              3,
+              1,
+              3,
+              0,
+              2,
+              0,
+              2,
+              3,
+              3,
+              0,
+              2,
+              0,
+              0,
+              1,
+              3,
+              2,
+              1,
+              0,
+              3,
+              2,
+              2,
+              2,
+              0,
+              3,
+              1,
+              1,
+              2,
+              0,
+              0,
+              1,
+              0,
+              2,
+              1,
+              0,
+              3,
+              1,
+              2,
+              0,
+              1,
+              2,
+              2,
+              2,
+              1,
+              1,
+              3,
+              3,
+              3,
+              1,
+              3,
+              2,
+              1,
+              3,
+              0,
+              2,
+              0,
+              0,
+              1,
+              1,
+              2,
+              0,
+              0,
+              0,
+              3,
+              0,
+              3,
+              0,
+              1,
+              1,
+              2,
+              1,
+              2,
+              1,
+              2,
+              3,
+              0,
+              0,
+              1,
+              0,
+              2,
+              2,
+              2,
+              3,
+              3,
+              3,
+              1,
+              2,
+              1,
+              1,
+              1,
+              2,
+              0
+            ],
+            "vehicle_type": "car",
+            "current_coordinate": {
+              "lng": 127.08239241152374,
+              "lat": 37.49318655810416
+            }
+          },
+          {
+            "name": "vehicle_4",
+            "volume_capacity": 25,
+            "weight_capacity": 25,
+            "fixed_cost": 100,
+            "visit_preference": [
+              1,
+              3,
+              0,
+              1,
+              2,
+              2,
+              2,
+              2,
+              3,
+              2,
+              2,
+              3,
+              3,
+              0,
+              3,
+              0,
+              3,
+              0,
+              3,
+              0,
+              3,
+              2,
+              2,
+              0,
+              0,
+              3,
+              0,
+              0,
+              1,
+              1,
+              1,
+              1,
+              0,
+              0,
+              1,
+              1,
+              1,
+              0,
+              3,
+              1,
+              1,
+              3,
+              3,
+              1,
+              1,
+              1,
+              1,
+              2,
+              2,
+              2,
+              3,
+              2,
+              1,
+              0,
+              1,
+              2,
+              3,
+              2,
+              1,
+              3,
+              2,
+              2,
+              3,
+              0,
+              1,
+              0,
+              2,
+              1,
+              3,
+              3,
+              3,
+              1,
+              2,
+              3,
+              0,
+              1,
+              1,
+              3,
+              3,
+              1,
+              1,
+              2,
+              1,
+              1,
+              0,
+              3,
+              2,
+              1,
+              2,
+              0,
+              1,
+              2,
+              3,
+              2,
+              0,
+              2,
+              2,
+              2,
+              0,
+              2
+            ],
+            "vehicle_type": "car",
+            "current_coordinate": {
+              "lng": 126.79578617766145,
+              "lat": 37.61528578235947
+            }
+          },
+          {
+            "name": "vehicle_5",
+            "volume_capacity": 25,
+            "weight_capacity": 25,
+            "fixed_cost": 100,
+            "visit_preference": [
+              3,
+              0,
+              1,
+              0,
+              3,
+              1,
+              2,
+              1,
+              3,
+              0,
+              0,
+              1,
+              2,
+              2,
+              3,
+              1,
+              3,
+              2,
+              2,
+              0,
+              2,
+              0,
+              0,
+              2,
+              0,
+              2,
+              2,
+              1,
+              1,
+              0,
+              1,
+              2,
+              1,
+              2,
+              3,
+              0,
+              0,
+              2,
+              1,
+              1,
+              3,
+              3,
+              3,
+              3,
+              0,
+              1,
+              2,
+              3,
+              1,
+              0,
+              2,
+              0,
+              3,
+              0,
+              0,
+              2,
+              0,
+              2,
+              3,
+              1,
+              1,
+              0,
+              1,
+              3,
+              2,
+              0,
+              2,
+              0,
+              1,
+              3,
+              3,
+              1,
+              0,
+              3,
+              3,
+              2,
+              1,
+              3,
+              1,
+              0,
+              3,
+              1,
+              2,
+              1,
+              3,
+              1,
+              2,
+              1,
+              3,
+              3,
+              2,
+              0,
+              1,
+              3,
+              3,
+              3,
+              3,
+              0,
+              1,
+              0
+            ],
+            "vehicle_type": "car",
+            "current_coordinate": {
+              "lng": 126.89077470987733,
+              "lat": 37.53425439995638
+            }
+          },
+          {
+            "name": "vehicle_6",
+            "volume_capacity": 25,
+            "weight_capacity": 25,
+            "fixed_cost": 100,
+            "visit_preference": [
+              1,
+              3,
+              3,
+              0,
+              1,
+              3,
+              1,
+              1,
+              2,
+              0,
+              1,
+              1,
+              1,
+              1,
+              0,
+              0,
+              2,
+              1,
+              3,
+              1,
+              1,
+              3,
+              0,
+              1,
+              3,
+              3,
+              3,
+              0,
+              2,
+              0,
+              1,
+              0,
+              1,
+              2,
+              3,
+              0,
+              1,
+              2,
+              3,
+              3,
+              3,
+              1,
+              2,
+              0,
+              0,
+              2,
+              1,
+              1,
+              2,
+              0,
+              2,
+              0,
+              0,
+              2,
+              1,
+              3,
+              3,
+              3,
+              0,
+              2,
+              3,
+              0,
+              3,
+              0,
+              1,
+              1,
+              1,
+              3,
+              3,
+              2,
+              1,
+              1,
+              1,
+              3,
+              1,
+              1,
+              1,
+              3,
+              1,
+              1,
+              3,
+              3,
+              0,
+              0,
+              3,
+              2,
+              3,
+              1,
+              0,
+              1,
+              0,
+              0,
+              2,
+              3,
+              1,
+              0,
+              3,
+              2,
+              2,
+              2
+            ],
+            "vehicle_type": "car",
+            "current_coordinate": {
+              "lng": 127.19354638337639,
+              "lat": 37.554152161672164
+            }
+          },
+          {
+            "name": "vehicle_7",
+            "volume_capacity": 25,
+            "weight_capacity": 25,
+            "fixed_cost": 100,
+            "visit_preference": [
+              3,
+              3,
+              3,
+              2,
+              1,
+              3,
+              3,
+              2,
+              1,
+              3,
+              1,
+              3,
+              2,
+              3,
+              2,
+              0,
+              0,
+              0,
+              3,
+              2,
+              3,
+              1,
+              2,
+              1,
+              2,
+              0,
+              3,
+              3,
+              2,
+              3,
+              3,
+              0,
+              3,
+              2,
+              3,
+              1,
+              0,
+              3,
+              0,
+              1,
+              2,
+              2,
+              0,
+              2,
+              0,
+              3,
+              2,
+              1,
+              1,
+              3,
+              2,
+              1,
+              2,
+              0,
+              1,
+              3,
+              3,
+              1,
+              1,
+              2,
+              3,
+              2,
+              2,
+              0,
+              1,
+              0,
+              2,
+              3,
+              2,
+              3,
+              1,
+              0,
+              1,
+              3,
+              2,
+              1,
+              3,
+              0,
+              1,
+              3,
+              1,
+              3,
+              3,
+              3,
+              3,
+              0,
+              2,
+              2,
+              3,
+              1,
+              0,
+              1,
+              1,
+              2,
+              0,
+              3,
+              3,
+              1,
+              3,
+              0
+            ],
+            "vehicle_type": "car",
+            "current_coordinate": {
+              "lng": 127.26486045337026,
+              "lat": 37.69074138716158
+            }
+          },
+          {
+            "name": "vehicle_8",
+            "volume_capacity": 25,
+            "weight_capacity": 25,
+            "fixed_cost": 100,
+            "visit_preference": [
+              1,
+              1,
+              1,
+              3,
+              0,
+              0,
+              2,
+              3,
+              0,
+              3,
+              2,
+              0,
+              2,
+              1,
+              2,
+              2,
+              0,
+              1,
+              2,
+              2,
+              0,
+              2,
+              0,
+              0,
+              3,
+              2,
+              3,
+              0,
+              0,
+              0,
+              1,
+              0,
+              1,
+              1,
+              2,
+              0,
+              1,
+              3,
+              3,
+              0,
+              0,
+              1,
+              3,
+              1,
+              0,
+              3,
+              3,
+              1,
+              2,
+              1,
+              0,
+              1,
+              1,
+              3,
+              2,
+              1,
+              0,
+              0,
+              2,
+              2,
+              2,
+              2,
+              0,
+              1,
+              2,
+              0,
+              2,
+              1,
+              3,
+              1,
+              1,
+              3,
+              3,
+              3,
+              2,
+              2,
+              0,
+              0,
+              3,
+              2,
+              1,
+              3,
+              0,
+              0,
+              2,
+              1,
+              0,
+              1,
+              0,
+              2,
+              1,
+              2,
+              0,
+              0,
+              1,
+              1,
+              3,
+              3,
+              0,
+              0
+            ],
+            "vehicle_type": "car",
+            "current_coordinate": {
+              "lng": 126.9326510558912,
+              "lat": 37.514202539777926
+            }
+          },
+          {
+            "name": "vehicle_9",
+            "volume_capacity": 25,
+            "weight_capacity": 25,
+            "fixed_cost": 100,
+            "visit_preference": [
+              3,
+              1,
+              0,
+              3,
+              0,
+              1,
+              0,
+              3,
+              1,
+              2,
+              0,
+              1,
+              0,
+              1,
+              0,
+              3,
+              3,
+              2,
+              2,
+              0,
+              2,
+              0,
+              1,
+              0,
+              0,
+              3,
+              1,
+              1,
+              1,
+              3,
+              1,
+              3,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              3,
+              1,
+              0,
+              1,
+              2,
+              0,
+              0,
+              3,
+              3,
+              2,
+              1,
+              0,
+              2,
+              3,
+              1,
+              1,
+              1,
+              2,
+              0,
+              2,
+              3,
+              0,
+              3,
+              2,
+              3,
+              1,
+              1,
+              2,
+              3,
+              2,
+              0,
+              2,
+              2,
+              1,
+              3,
+              3,
+              1,
+              1,
+              3,
+              2,
+              0,
+              1,
+              2,
+              2,
+              1,
+              3,
+              2,
+              1,
+              1,
+              1,
+              0,
+              1,
+              2,
+              3,
+              1,
+              1,
+              0,
+              2,
+              3,
+              2,
+              3
+            ],
+            "vehicle_type": "car",
+            "current_coordinate": {
+              "lng": 127.02822874958191,
+              "lat": 37.62642131885576
+            }
+          },
+          {
+            "name": "vehicle_10",
+            "volume_capacity": 25,
+            "weight_capacity": 25,
+            "fixed_cost": 100,
+            "visit_preference": [
+              3,
+              1,
+              2,
+              3,
+              1,
+              3,
+              1,
+              3,
+              3,
+              0,
+              2,
+              0,
+              3,
+              2,
+              0,
+              1,
+              3,
+              3,
+              1,
+              3,
+              3,
+              2,
+              0,
+              1,
+              2,
+              2,
+              3,
+              2,
+              2,
+              2,
+              3,
+              3,
+              3,
+              2,
+              0,
+              2,
+              3,
+              2,
+              3,
+              3,
+              3,
+              1,
+              3,
+              3,
+              1,
+              2,
+              2,
+              0,
+              0,
+              1,
+              2,
+              1,
+              3,
+              2,
+              0,
+              3,
+              1,
+              0,
+              2,
+              1,
+              0,
+              2,
+              2,
+              3,
+              0,
+              3,
+              3,
+              2,
+              1,
+              3,
+              1,
+              1,
+              1,
+              3,
+              2,
+              3,
+              1,
+              2,
+              1,
+              0,
+              1,
+              1,
+              3,
+              1,
+              3,
+              3,
+              0,
+              2,
+              2,
+              3,
+              3,
+              1,
+              2,
+              1,
+              2,
+              2,
+              2,
+              1,
+              1,
+              1
+            ],
+            "vehicle_type": "car",
+            "current_coordinate": {
+              "lng": 127.05485011969049,
+              "lat": 37.421831810212005
+            }
+          }
+        ],
+        "delivery_start_time": "2019-08-24T14:15:22Z",
+        "option": {
+          "timelimit": 3,
+          "objective_type": "minsum",
+          "distance_type": "osrm",
+          "use_large_size_optimization_algorithm": false,
+          "include_departure_cost_from_depot": true,
+          "include_return_cost_to_depot": true
+        }
+      },
+      "summary": "PDP Example",
+      "description": "PDP Example"
+    },
+    "PDPBasicExample": {
+      "value": {
+        "visits": [
+          {
+            "name": "서울역-강남역 배송",
+            "pick_up_visit": {
+              "name": "서울역 픽업",
+              "index": 0,
+              "service_time": 10,
+              "coordinate": {
+                "lng": 126.9706,
+                "lat": 37.5546
+              },
+              "volume": 2.5,
+              "weight": 15.0,
+              "extra_demands": [],
+              "unassigned_penalty": 100.0,
+              "time_window": [
+                "2024-12-20T09:00:00+09:00",
+                "2024-12-20T11:00:00+09:00"
+              ],
+              "early_delivery_required": false
+            },
+            "drop_off_visit": {
+              "name": "강남역 드롭오프",
+              "index": 1,
+              "service_time": 15,
+              "coordinate": {
+                "lng": 127.0276,
+                "lat": 37.4979
+              },
+              "volume": 2.5,
+              "weight": 15.0,
+              "extra_demands": [],
+              "unassigned_penalty": 120.0,
+              "time_window": [
+                "2024-12-20T10:30:00+09:00",
+                "2024-12-20T14:00:00+09:00"
+              ],
+              "early_delivery_required": true
+            }
+          },
+          {
+            "name": "홍대-이태원 배송",
+            "pick_up_visit": {
+              "name": "홍대 픽업",
+              "index": 2,
+              "service_time": 8,
+              "coordinate": {
+                "lng": 126.9247,
+                "lat": 37.5563
+              },
+              "volume": 1.8,
+              "weight": 12.5,
+              "extra_demands": [],
+              "unassigned_penalty": 90.0,
+              "time_window": [
+                "2024-12-20T08:30:00+09:00",
+                "2024-12-20T10:30:00+09:00"
+              ],
+              "early_delivery_required": false
+            },
+            "drop_off_visit": {
+              "name": "이태원 드롭오프",
+              "index": 3,
+              "service_time": 12,
+              "coordinate": {
+                "lng": 126.9947,
+                "lat": 37.5347
+              },
+              "volume": 1.8,
+              "weight": 12.5,
+              "extra_demands": [],
+              "unassigned_penalty": 110.0,
+              "time_window": [
+                "2024-12-20T11:00:00+09:00",
+                "2024-12-20T15:00:00+09:00"
+              ],
+              "early_delivery_required": false
+            }
+          }
+        ],
+        "vehicles": [
+          {
+            "name": "배송차량-01",
+            "volume_capacity": 10.0,
+            "weight_capacity": 100.0,
+            "extra_capacities": [],
+            "fixed_cost": 50.0,
+            "unit_distance_cost": 1.2,
+            "unit_duration_cost": 0.5,
+            "work_start_time": "2024-12-20T08:00:00+09:00",
+            "work_end_time": "2024-12-20T18:00:00+09:00",
+            "visit_preference": null,
+            "vehicle_type": "car",
+            "max_service_radius": null,
+            "pre_assigned_visits": null,
+            "max_round": 2,
+            "current_coordinate": {
+              "lng": 126.9784,
+              "lat": 37.5664
+            }
+          },
+          {
+            "name": "배송차량-02",
+            "volume_capacity": 8.0,
+            "weight_capacity": 80.0,
+            "extra_capacities": [],
+            "fixed_cost": 40.0,
+            "unit_distance_cost": 1.0,
+            "unit_duration_cost": 0.3,
+            "work_start_time": "2024-12-20T08:30:00+09:00",
+            "work_end_time": "2024-12-20T17:30:00+09:00",
+            "visit_preference": null,
+            "vehicle_type": "car",
+            "max_service_radius": 15000.0,
+            "pre_assigned_visits": null,
+            "max_round": 1,
+            "current_coordinate": {
+              "lng": 126.952,
+              "lat": 37.545
+            }
+          }
+        ],
+        "distance_matrix": null,
+        "duration_matrix": null,
+        "delivery_start_time": "2024-12-20T08:00:00+09:00",
+        "option": {
+          "timelimit": 1,
+          "objective_type": "minsum",
+          "distance_type": "euclidean",
+          "allow_unassigned_visits": false,
+          "use_large_size_optimization_algorithm": false,
+          "include_departure_cost_from_depot": true,
+          "include_return_cost_to_depot": true,
+          "is_max_service_radius_hard_constraint": true
+        }
+      },
+      "summary": "Pickup and delivery problem with 2 pairs",
+      "description": "Example showing pickup and delivery problem with 2 pickup-delivery pairs."
+    }
   }
 }

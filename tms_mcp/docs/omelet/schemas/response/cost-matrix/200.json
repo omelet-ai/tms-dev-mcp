@@ -1,6 +1,5 @@
 {
-  "additionalProperties": false,
-  "properties": {
+  "response_schema": {
     "distance_matrix": {
       "anyOf": [
         {
@@ -37,11 +36,5 @@
       "description": "Matrix of travel times between locations.",
       "title": "Duration Matrix"
     }
-  },
-  "required": [
-    "distance_matrix",
-    "duration_matrix"
-  ],
-  "title": "CostMatrixOutput",
-  "type": "object"
+  }
 }

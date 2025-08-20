@@ -1,5 +1,4 @@
 {
-  "path": "/api/get-pdp-result/{job_id}",
   "method": "GET",
   "summary": "get PDP API",
   "description": "Returns the result of a long PDP optimization job by job_id.",

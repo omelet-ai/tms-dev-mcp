@@ -1,9 +1,9 @@
 {
   "visits": [
     {
-      "name": "Seoul to Busan Delivery",
+      "name": "Package A - Seoul to Busan",
       "pick_up_visit": {
-        "name": "Seoul Pickup Point",
+        "name": "Seoul Pickup",
         "service_time": 10,
         "coordinate": {
           "lng": 126.978,
@@ -12,12 +12,12 @@
         "volume": 2.5,
         "weight": 15.0,
         "time_window": [
-          "2024-03-15T09:00:00+09:00",
-          "2024-03-15T11:00:00+09:00"
+          "2024-03-20T09:00:00+09:00",
+          "2024-03-20T12:00:00+09:00"
         ]
       },
       "drop_off_visit": {
-        "name": "Busan Drop Point",
+        "name": "Busan Delivery",
         "service_time": 15,
         "coordinate": {
           "lng": 129.0756,
@@ -26,66 +26,84 @@
         "volume": 2.5,
         "weight": 15.0,
         "time_window": [
-          "2024-03-15T14:00:00+09:00",
-          "2024-03-15T18:00:00+09:00"
+          "2024-03-20T14:00:00+09:00",
+          "2024-03-20T18:00:00+09:00"
         ]
       }
     },
     {
-      "name": "Incheon to Daegu Delivery",
+      "name": "Package B - Incheon to Daegu",
       "pick_up_visit": {
-        "name": "Incheon Pickup Point",
+        "name": "Incheon Pickup",
         "service_time": 8,
         "coordinate": {
           "lng": 126.7052,
           "lat": 37.4563
         },
-        "volume": 1.8,
-        "weight": 12.5,
+        "volume": 1.2,
+        "weight": 8.5,
         "time_window": [
-          "2024-03-15T10:30:00+09:00",
-          "2024-03-15T12:30:00+09:00"
+          "2024-03-20T10:00:00+09:00",
+          "2024-03-20T13:00:00+09:00"
         ]
       },
       "drop_off_visit": {
-        "name": "Daegu Drop Point",
+        "name": "Daegu Delivery",
         "service_time": 12,
         "coordinate": {
           "lng": 128.6014,
           "lat": 35.8714
         },
-        "volume": 1.8,
-        "weight": 12.5,
+        "volume": 1.2,
+        "weight": 8.5,
         "time_window": [
-          "2024-03-15T15:00:00+09:00",
-          "2024-03-15T19:00:00+09:00"
+          "2024-03-20T15:00:00+09:00",
+          "2024-03-20T19:00:00+09:00"
         ]
       }
     }
   ],
   "vehicles": [
     {
-      "name": "Vehicle-001",
-      "volume_capacity": 10.0,
-      "weight_capacity": 50.0,
+      "name": "Vehicle 1",
+      "volume_capacity": 50.0,
+      "weight_capacity": 1000.0,
       "fixed_cost": 100.0,
       "unit_distance_cost": 1.2,
       "unit_duration_cost": 0.5,
-      "work_start_time": "2024-03-15T08:00:00+09:00",
-      "work_end_time": "2024-03-15T20:00:00+09:00",
+      "work_start_time": "2024-03-20T08:00:00+09:00",
+      "work_end_time": "2024-03-20T20:00:00+09:00",
       "visit_preference": [
-        5,
-        3
+        10,
+        5
       ],
       "vehicle_type": "car",
-      "max_round": 1,
       "current_coordinate": {
         "lng": 126.978,
         "lat": 37.5665
       }
+    },
+    {
+      "name": "Vehicle 2",
+      "volume_capacity": 30.0,
+      "weight_capacity": 500.0,
+      "fixed_cost": 80.0,
+      "unit_distance_cost": 1.0,
+      "unit_duration_cost": 0.3,
+      "work_start_time": "2024-03-20T09:00:00+09:00",
+      "work_end_time": "2024-03-20T19:00:00+09:00",
+      "visit_preference": [
+        8,
+        12
+      ],
+      "vehicle_type": "car",
+      "current_coordinate": {
+        "lng": 126.7052,
+        "lat": 37.4563
+      }
     }
   ],
-  "delivery_start_time": "2024-03-15T08:00:00+09:00",
+  "delivery_start_time": "2024-03-20T08:00:00+09:00",
   "option": {
     "timelimit": 5,
     "objective_type": "minsum",

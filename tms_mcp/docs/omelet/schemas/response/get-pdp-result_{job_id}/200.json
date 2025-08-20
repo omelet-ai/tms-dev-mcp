@@ -1,5 +1,5 @@
 {
-  "properties": {
+  "response_schema": {
     "result": {
       "additionalProperties": false,
       "properties": {
@@ -59,8 +59,9 @@
                         "type": "number"
                       }
                     },
-                    "title": "RouteCost",
-                    "type": "object"
+                    "title": "Route cost",
+                    "type": "object",
+                    "description": "Detailed cost of the route"
                   }
                 },
                 "required": [
@@ -138,12 +139,23 @@
                   "type": "number"
                 }
               },
-              "title": "SolutionCost",
-              "type": "object"
+              "title": "Total Solution Cost",
+              "type": "object",
+              "default": {
+                "total_objective_cost": 0.0,
+                "total_distance_cost": 0.0,
+                "total_duration_cost": 0.0,
+                "max_distance_cost": 0.0,
+                "max_duration_cost": 0.0,
+                "total_fixed_cost": 0.0,
+                "unassigned_penalty_cost": 0.0
+              },
+              "description": "Summarized cost information across all calculated routes."
             }
           },
-          "title": "RoutingEngineResult",
-          "type": "object"
+          "title": "Engine Result",
+          "type": "object",
+          "description": "Detailed routing solution including routes and costs."
         },
         "status": {
           "enum": [
@@ -152,8 +164,9 @@
             "infeasible",
             "user_input_error"
           ],
-          "title": "ApiStatus",
-          "type": "string"
+          "title": "API Status",
+          "type": "string",
+          "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
         },
         "detail": {
           "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -172,13 +185,9 @@
         "status",
         "detail"
       ],
-      "title": "RoutingEngineOutput",
-      "type": "object"
+      "title": "Routing engine result",
+      "type": "object",
+      "description": "Result of the routing engine."
     }
-  },
-  "required": [
-    "result"
-  ],
-  "title": "GetRoutingEngineOutput",
-  "type": "object"
+  }
 }

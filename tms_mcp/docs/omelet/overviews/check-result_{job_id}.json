@@ -1,5 +1,4 @@
 {
-  "path": "/api/check-result/{job_id}",
   "method": "GET",
   "summary": "check API",
   "description": "API to check the status of a routing job by its job ID. Available only for long-running API jobs.",

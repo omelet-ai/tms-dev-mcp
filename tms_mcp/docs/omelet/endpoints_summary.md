@@ -1,4 +1,4 @@
-# Omelet Routing Engine API
+# Omelet Routing Engine
 **Base URL:** `https://routing.oaasis.cc`
 
 ## Endpoints

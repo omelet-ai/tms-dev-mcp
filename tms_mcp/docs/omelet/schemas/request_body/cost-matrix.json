@@ -36,8 +36,10 @@
           "duration",
           "both"
         ],
-        "title": "ReturnCostMatrixType",
-        "type": "string"
+        "title": "Matrix Type",
+        "type": "string",
+        "default": "distance",
+        "description": "Choose what kind of matrix to return: distance, duration, or both."
       },
       "vehicle_type": {
         "enum": [
@@ -45,8 +47,10 @@
           "car",
           "walk"
         ],
-        "title": "VehicleType",
-        "type": "string"
+        "title": "Vehicle Type",
+        "type": "string",
+        "default": "car",
+        "description": "Vehicle type used to calculate travel time and distance."
       },
       "curb": {
         "default": false,
@@ -61,9 +65,52 @@
     "title": "CostMatrixInput",
     "type": "object"
   },
-  "_meta": {
-    "source": "Omelet",
-    "path": "/api/cost-matrix",
-    "method": "POST"
+  "examples": {
+    "CostMatrixBasicExample": {
+      "value": {
+        "coordinates": [
+          {
+            "lng": 127.0,
+            "lat": 37.5
+          },
+          {
+            "lng": 127.1,
+            "lat": 37.6
+          },
+          {
+            "lng": 127.2,
+            "lat": 37.4
+          },
+          {
+            "lng": 126.9,
+            "lat": 37.7
+          }
+        ],
+        "return_cost_matrix_type": "both"
+      },
+      "summary": "Generate distance and duration matrix from coordinates",
+      "description": "Example showing how to generate distance and duration matrices from a list of coordinates."
+    },
+    "CostMatrixDistanceOnly": {
+      "value": {
+        "coordinates": [
+          {
+            "lng": 127.0,
+            "lat": 37.5
+          },
+          {
+            "lng": 127.1,
+            "lat": 37.6
+          },
+          {
+            "lng": 127.2,
+            "lat": 37.4
+          }
+        ],
+        "return_cost_matrix_type": "distance"
+      },
+      "summary": "Generate only distance matrix from coordinates",
+      "description": "Example showing how to generate only distance matrix from coordinates."
+    }
   }
 }

@@ -1,5 +1,5 @@
 {
-  "properties": {
+  "response_schema": {
     "status_code": {
       "enum": [
         "error",
@@ -17,11 +17,5 @@
       "title": "Message",
       "type": "string"
     }
-  },
-  "required": [
-    "status_code",
-    "message"
-  ],
-  "title": "CheckRoutingEngineOutput",
-  "type": "object"
+  }
 }

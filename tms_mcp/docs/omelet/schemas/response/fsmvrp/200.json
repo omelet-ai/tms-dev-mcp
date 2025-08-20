@@ -1,6 +1,5 @@
 {
-  "additionalProperties": false,
-  "properties": {
+  "response_schema": {
     "fsmvrp_engine_result": {
       "additionalProperties": false,
       "properties": {
@@ -144,8 +143,9 @@
         "total_solution_cost",
         "solution_cost_details"
       ],
-      "title": "FsmvrpEngineResult",
-      "type": "object"
+      "title": "Engine Result",
+      "type": "object",
+      "description": "Detailed routing solution including routes and cost breakdowns."
     },
     "status": {
       "enum": [
@@ -154,8 +154,9 @@
         "infeasible",
         "user_input_error"
       ],
-      "title": "ApiStatus",
-      "type": "string"
+      "title": "API Status",
+      "type": "string",
+      "description": "Status of the routing solution (e.g., feasible, feasible_with_dropped_visits, infeasible, user input error)."
     },
     "detail": {
       "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -168,12 +169,5 @@
       "title": "Job ID",
       "type": "string"
     }
-  },
-  "required": [
-    "fsmvrp_engine_result",
-    "status",
-    "detail"
-  ],
-  "title": "FsmvrpEngineOutput",
-  "type": "object"
+  }
 }

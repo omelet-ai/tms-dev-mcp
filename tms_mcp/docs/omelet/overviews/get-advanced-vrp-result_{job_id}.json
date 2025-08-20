@@ -1,5 +1,4 @@
 {
-  "path": "/api/get-advanced-vrp-result/{job_id}",
   "method": "GET",
   "summary": "get advanced vrp API",
   "description": "Returns the result of a long advanced vrp optimization job by job_id.",
