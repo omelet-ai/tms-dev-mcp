@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "OMELET Routing engine API (v2)",
-    "version": "2.0.27",
+    "version": "2.0.28",
     "description": "Our Routing Optimization API provides comprehensive solutions for a wide range of routing problems, including the Traveling Salesman Problem (TSP), multiple Traveling Salesman Problem (mTSP), and Capacitated Vehicle Routing Problem (CVRP). This API is designed to handle complex constraints to ensure optimal and practical routing solutions. Key features include:",
     "contact": {
       "name": "omelet",
@@ -692,6 +692,35 @@
                         {
                           "properties": {
                             "type": {
+                              "const": "delivery_time_priority",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "is_hard_cost": {
+                              "default": false,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            },
+                            "exp_factor": {
+                              "default": 2.0,
+                              "title": "Exp Factor",
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight"
+                          ],
+                          "title": "DeliveryTimePriorityConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
                               "const": "fixed_contract_vehicle",
                               "title": "Type",
                               "type": "string"
@@ -740,7 +769,7 @@
                         {
                           "properties": {
                             "type": {
-                              "const": "minimum_capacity",
+                              "const": "min_capacity",
                               "title": "Type",
                               "type": "string"
                             },
@@ -748,17 +777,69 @@
                               "title": "Weight",
                               "type": "number"
                             },
+                            "target_ratio": {
+                              "title": "Target Ratio",
+                              "type": "number"
+                            },
+                            "target_riders": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "title": "Target Riders",
+                              "type": "array",
+                              "uniqueItems": true
+                            },
                             "is_hard_cost": {
-                              "default": true,
+                              "default": false,
                               "title": "Is Hard Cost",
                               "type": "boolean"
                             }
                           },
                           "required": [
                             "type",
-                            "weight"
+                            "weight",
+                            "target_ratio",
+                            "target_riders"
                           ],
-                          "title": "MinimumCapacityConstraintDto",
+                          "title": "MinCapacityConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
+                              "const": "minimum_order",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "target_order": {
+                              "title": "Target Order",
+                              "type": "integer"
+                            },
+                            "target_riders": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "title": "Target Riders",
+                              "type": "array",
+                              "uniqueItems": true
+                            },
+                            "is_hard_cost": {
+                              "default": false,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight",
+                            "target_order",
+                            "target_riders"
+                          ],
+                          "title": "MinimumOrderConstraintDto",
                           "type": "object"
                         },
                         {
@@ -9043,6 +9124,35 @@
                         {
                           "properties": {
                             "type": {
+                              "const": "delivery_time_priority",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "is_hard_cost": {
+                              "default": false,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            },
+                            "exp_factor": {
+                              "default": 2.0,
+                              "title": "Exp Factor",
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight"
+                          ],
+                          "title": "DeliveryTimePriorityConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
                               "const": "fixed_contract_vehicle",
                               "title": "Type",
                               "type": "string"
@@ -9091,7 +9201,7 @@
                         {
                           "properties": {
                             "type": {
-                              "const": "minimum_capacity",
+                              "const": "min_capacity",
                               "title": "Type",
                               "type": "string"
                             },
@@ -9099,17 +9209,69 @@
                               "title": "Weight",
                               "type": "number"
                             },
+                            "target_ratio": {
+                              "title": "Target Ratio",
+                              "type": "number"
+                            },
+                            "target_riders": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "title": "Target Riders",
+                              "type": "array",
+                              "uniqueItems": true
+                            },
                             "is_hard_cost": {
-                              "default": true,
+                              "default": false,
                               "title": "Is Hard Cost",
                               "type": "boolean"
                             }
                           },
                           "required": [
                             "type",
-                            "weight"
+                            "weight",
+                            "target_ratio",
+                            "target_riders"
                           ],
-                          "title": "MinimumCapacityConstraintDto",
+                          "title": "MinCapacityConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
+                              "const": "minimum_order",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "target_order": {
+                              "title": "Target Order",
+                              "type": "integer"
+                            },
+                            "target_riders": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "title": "Target Riders",
+                              "type": "array",
+                              "uniqueItems": true
+                            },
+                            "is_hard_cost": {
+                              "default": false,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight",
+                            "target_order",
+                            "target_riders"
+                          ],
+                          "title": "MinimumOrderConstraintDto",
                           "type": "object"
                         },
                         {
@@ -66407,6 +66569,35 @@
                 {
                   "properties": {
                     "type": {
+                      "const": "delivery_time_priority",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "is_hard_cost": {
+                      "default": false,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    },
+                    "exp_factor": {
+                      "default": 2.0,
+                      "title": "Exp Factor",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight"
+                  ],
+                  "title": "DeliveryTimePriorityConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
                       "const": "fixed_contract_vehicle",
                       "title": "Type",
                       "type": "string"
@@ -66455,7 +66646,7 @@
                 {
                   "properties": {
                     "type": {
-                      "const": "minimum_capacity",
+                      "const": "min_capacity",
                       "title": "Type",
                       "type": "string"
                     },
@@ -66463,17 +66654,69 @@
                       "title": "Weight",
                       "type": "number"
                     },
+                    "target_ratio": {
+                      "title": "Target Ratio",
+                      "type": "number"
+                    },
+                    "target_riders": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "Target Riders",
+                      "type": "array",
+                      "uniqueItems": true
+                    },
                     "is_hard_cost": {
-                      "default": true,
+                      "default": false,
                       "title": "Is Hard Cost",
                       "type": "boolean"
                     }
                   },
                   "required": [
                     "type",
-                    "weight"
+                    "weight",
+                    "target_ratio",
+                    "target_riders"
                   ],
-                  "title": "MinimumCapacityConstraintDto",
+                  "title": "MinCapacityConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "const": "minimum_order",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "target_order": {
+                      "title": "Target Order",
+                      "type": "integer"
+                    },
+                    "target_riders": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "Target Riders",
+                      "type": "array",
+                      "uniqueItems": true
+                    },
+                    "is_hard_cost": {
+                      "default": false,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight",
+                    "target_order",
+                    "target_riders"
+                  ],
+                  "title": "MinimumOrderConstraintDto",
                   "type": "object"
                 },
                 {
@@ -67609,6 +67852,35 @@
         "title": "DeliveryLengthConstraintDto",
         "type": "object"
       },
+      "DeliveryTimePriorityConstraintDto": {
+        "properties": {
+          "type": {
+            "const": "delivery_time_priority",
+            "title": "Type",
+            "type": "string"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "number"
+          },
+          "is_hard_cost": {
+            "default": false,
+            "title": "Is Hard Cost",
+            "type": "boolean"
+          },
+          "exp_factor": {
+            "default": 2.0,
+            "title": "Exp Factor",
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "weight"
+        ],
+        "title": "DeliveryTimePriorityConstraintDto",
+        "type": "object"
+      },
       "Depot": {
         "additionalProperties": false,
         "properties": {
@@ -68503,6 +68775,35 @@
                 {
                   "properties": {
                     "type": {
+                      "const": "delivery_time_priority",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "is_hard_cost": {
+                      "default": false,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    },
+                    "exp_factor": {
+                      "default": 2.0,
+                      "title": "Exp Factor",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight"
+                  ],
+                  "title": "DeliveryTimePriorityConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
                       "const": "fixed_contract_vehicle",
                       "title": "Type",
                       "type": "string"
@@ -68551,7 +68852,7 @@
                 {
                   "properties": {
                     "type": {
-                      "const": "minimum_capacity",
+                      "const": "min_capacity",
                       "title": "Type",
                       "type": "string"
                     },
@@ -68559,17 +68860,69 @@
                       "title": "Weight",
                       "type": "number"
                     },
+                    "target_ratio": {
+                      "title": "Target Ratio",
+                      "type": "number"
+                    },
+                    "target_riders": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "Target Riders",
+                      "type": "array",
+                      "uniqueItems": true
+                    },
                     "is_hard_cost": {
-                      "default": true,
+                      "default": false,
                       "title": "Is Hard Cost",
                       "type": "boolean"
                     }
                   },
                   "required": [
                     "type",
-                    "weight"
+                    "weight",
+                    "target_ratio",
+                    "target_riders"
                   ],
-                  "title": "MinimumCapacityConstraintDto",
+                  "title": "MinCapacityConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "const": "minimum_order",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "target_order": {
+                      "title": "Target Order",
+                      "type": "integer"
+                    },
+                    "target_riders": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "Target Riders",
+                      "type": "array",
+                      "uniqueItems": true
+                    },
+                    "is_hard_cost": {
+                      "default": false,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight",
+                    "target_order",
+                    "target_riders"
+                  ],
+                  "title": "MinimumOrderConstraintDto",
                   "type": "object"
                 },
                 {
@@ -72434,10 +72787,10 @@
         "title": "MaxDurationConstraintDto",
         "type": "object"
       },
-      "MinimumCapacityConstraintDto": {
+      "MinCapacityConstraintDto": {
         "properties": {
           "type": {
-            "const": "minimum_capacity",
+            "const": "min_capacity",
             "title": "Type",
             "type": "string"
           },
@@ -72445,17 +72798,69 @@
             "title": "Weight",
             "type": "number"
           },
+          "target_ratio": {
+            "title": "Target Ratio",
+            "type": "number"
+          },
+          "target_riders": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Target Riders",
+            "type": "array",
+            "uniqueItems": true
+          },
           "is_hard_cost": {
-            "default": true,
+            "default": false,
             "title": "Is Hard Cost",
             "type": "boolean"
           }
         },
         "required": [
           "type",
-          "weight"
+          "weight",
+          "target_ratio",
+          "target_riders"
         ],
-        "title": "MinimumCapacityConstraintDto",
+        "title": "MinCapacityConstraintDto",
+        "type": "object"
+      },
+      "MinimumOrderConstraintDto": {
+        "properties": {
+          "type": {
+            "const": "minimum_order",
+            "title": "Type",
+            "type": "string"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "number"
+          },
+          "target_order": {
+            "title": "Target Order",
+            "type": "integer"
+          },
+          "target_riders": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Target Riders",
+            "type": "array",
+            "uniqueItems": true
+          },
+          "is_hard_cost": {
+            "default": false,
+            "title": "Is Hard Cost",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "type",
+          "weight",
+          "target_order",
+          "target_riders"
+        ],
+        "title": "MinimumOrderConstraintDto",
         "type": "object"
       },
       "MinimumRoundConstraintDto": {

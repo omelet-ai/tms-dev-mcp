@@ -6,18 +6,19 @@
         "lng": 126.978,
         "lat": 37.5665
       },
-      "order_placed_at": "2024-01-15T09:00:00Z",
-      "tw_early": "2024-01-15T10:00:00Z",
-      "tw_late": "2024-01-15T12:00:00Z",
+      "order_placed_at": "2024-01-15T09:30:00Z",
+      "tw_early": "2024-01-15T11:00:00Z",
+      "tw_late": "2024-01-15T13:00:00Z",
       "service_time": {
-        "bike": 300,
-        "car": 180,
-        "walk": 600
+        "bike": 5.0,
+        "car": 3.0,
+        "walk": 8.0
       },
-      "volume": 0.5,
-      "weight": 2.0,
-      "unassigned_penalty": 1000.0,
+      "volume": 2.5,
+      "weight": 1.2,
+      "unassigned_penalty": 100.0,
       "extra_demands": [
+        0.5,
         1.0
       ],
       "early_delivery_required": false
@@ -25,150 +26,153 @@
     {
       "id": "delivery_002",
       "coordinate": {
-        "lng": 126.985,
-        "lat": 37.57
+        "lng": 126.952,
+        "lat": 37.5547
       },
-      "order_placed_at": "2024-01-15T09:15:00Z",
-      "tw_early": null,
-      "tw_late": "2024-01-15T15:00:00Z",
+      "order_placed_at": "2024-01-15T10:15:00Z",
+      "tw_early": "2024-01-15T12:00:00Z",
+      "tw_late": "2024-01-15T14:30:00Z",
       "service_time": {
-        "bike": 240,
-        "car": 150,
-        "walk": 480
+        "bike": 4.0,
+        "car": 2.5,
+        "walk": 7.0
       },
-      "volume": 0.3,
-      "weight": 1.5,
-      "unassigned_penalty": 800.0,
+      "volume": 3.2,
+      "weight": 2.1,
+      "unassigned_penalty": 120.0,
       "extra_demands": [
-        0.5
+        0.8,
+        1.5
       ],
       "early_delivery_required": true
     },
     {
       "id": "delivery_003",
       "coordinate": {
-        "lng": 126.972,
-        "lat": 37.56
+        "lng": 127.027,
+        "lat": 37.4979
       },
-      "order_placed_at": "2024-01-15T09:30:00Z",
-      "tw_early": "2024-01-15T11:00:00Z",
-      "tw_late": "2024-01-15T13:00:00Z",
+      "order_placed_at": "2024-01-15T08:45:00Z",
+      "tw_early": null,
+      "tw_late": null,
       "service_time": {
-        "bike": 360,
-        "car": 200,
-        "walk": 720
+        "bike": 6.0,
+        "car": 4.0,
+        "walk": 10.0
       },
-      "volume": 0.8,
-      "weight": 3.2,
-      "unassigned_penalty": 1200.0,
+      "volume": 1.8,
+      "weight": 0.9,
+      "unassigned_penalty": 80.0,
       "extra_demands": [
-        1.5
+        0.3,
+        0.7
       ],
       "early_delivery_required": false
     }
   ],
   "vehicles": [
     {
-      "id": "vehicle_001",
+      "id": "bike_rider_001",
       "vehicle_type": "bike",
       "start_depot": {
-        "id": "depot_start_001",
+        "id": "depot_seoul_central",
         "coordinate": {
-          "lng": 126.976,
-          "lat": 37.565
+          "lng": 126.9784,
+          "lat": 37.5664
         },
         "service_time": {
-          "bike": 0,
-          "car": 0,
-          "walk": 0
+          "bike": 2.0,
+          "car": 1.0,
+          "walk": 3.0
         }
       },
       "end_depot": {
-        "id": "depot_end_001",
+        "id": "depot_seoul_central",
         "coordinate": {
-          "lng": 126.976,
-          "lat": 37.565
+          "lng": 126.9784,
+          "lat": 37.5664
         },
         "service_time": {
-          "bike": 0,
-          "car": 0,
-          "walk": 0
+          "bike": 2.0,
+          "car": 1.0,
+          "walk": 3.0
         }
       },
-      "volume_capacity": 2.0,
+      "volume_capacity": 15.0,
       "weight_capacity": 10.0,
       "unit_distance_cost": 0.5,
-      "unit_duration_cost": 0.1,
-      "work_start_time": "2024-01-15T08:00:00Z",
+      "unit_duration_cost": 0.3,
+      "work_start_time": "2024-01-15T09:00:00Z",
       "work_end_time": "2024-01-15T18:00:00Z",
       "max_round": 3,
       "preassigned_delivery_ids": [],
       "extra_capacities": [
-        5.0
+        5.0,
+        8.0
       ],
       "max_service_radius": 10000.0
     },
     {
-      "id": "vehicle_002",
+      "id": "car_driver_001",
       "vehicle_type": "car",
       "start_depot": {
-        "id": "depot_start_002",
+        "id": "depot_gangnam",
         "coordinate": {
-          "lng": 126.98,
-          "lat": 37.568
+          "lng": 127.0276,
+          "lat": 37.4979
         },
         "service_time": {
-          "bike": 120,
-          "car": 60,
-          "walk": 300
+          "bike": 3.0,
+          "car": 1.5,
+          "walk": 4.0
         }
       },
       "end_depot": null,
-      "volume_capacity": 5.0,
-      "weight_capacity": 50.0,
-      "unit_distance_cost": 1.0,
-      "unit_duration_cost": 0.2,
-      "work_start_time": "2024-01-15T07:00:00Z",
-      "work_end_time": "2024-01-15T19:00:00Z",
+      "volume_capacity": 50.0,
+      "weight_capacity": 40.0,
+      "unit_distance_cost": 1.2,
+      "unit_duration_cost": 0.8,
+      "work_start_time": "2024-01-15T08:00:00Z",
+      "work_end_time": "2024-01-15T17:00:00Z",
       "max_round": 2,
       "preassigned_delivery_ids": [
-        "delivery_001"
+        "delivery_003"
       ],
       "extra_capacities": [
-        10.0
+        15.0,
+        20.0
       ],
-      "max_service_radius": 15000.0
+      "max_service_radius": 25000.0
     }
   ],
   "constraints": [
     {
       "type": "capacity",
-      "weight": 100.0,
+      "weight": 1000.0,
       "is_hard_cost": true
     },
     {
       "type": "time_window",
-      "weight": 50.0,
+      "weight": 500.0,
       "is_hard_cost": false,
       "exp_factor": 2.0
     },
     {
       "type": "distance",
-      "weight": 10.0,
+      "weight": 100.0,
+      "is_hard_cost": false,
+      "exp_factor": 1.0
+    },
+    {
+      "type": "duration",
+      "weight": 150.0,
       "is_hard_cost": false,
       "exp_factor": 1.0
     },
     {
       "type": "fixed_cost",
-      "weight": 5.0,
+      "weight": 200.0,
       "is_hard_cost": false
-    },
-    {
-      "type": "delivery_length",
-      "weight": 20.0,
-      "max_size": 10,
-      "is_hard_cost": false,
-      "exp_factor": 2.0
     }
   ],
   "config": {
