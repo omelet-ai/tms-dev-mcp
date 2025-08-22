@@ -4,7 +4,7 @@ Documentation tools for the Omelet Routing Engine MCP server.
 
 import json
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Any
 
 from tms_mcp.config import settings
 from tms_mcp.server import mcp
@@ -221,20 +221,6 @@ def get_request_body_schema(
 
 
 @mcp.tool
-def get_request_body_example(
-    path: Annotated[str, "API endpoint path (e.g., '/api/fsmvrp', '/api/cost-matrix')"],
-    provider: Annotated[str | None, "Optional provider name. If None, auto-detects from path."] = None,
-) -> str:
-    """
-    Get the request body example for a specific API endpoint.
-
-    Returns:
-        JSON example content for the request body
-    """
-    return _get_json_file_content(path, provider, "examples/request_body", "example")
-
-
-@mcp.tool
 def get_response_schema(
     path: Annotated[str, "API endpoint path (e.g., '/api/fsmvrp', '/api/cost-matrix')"],
     response_code: Annotated[str, "HTTP response code (e.g., '200', '201', '400', '404')"],
@@ -252,3 +238,86 @@ def get_response_schema(
     resolved_provider, path_id = _resolve_provider_and_path_id(path, provider)
     file_path = _get_docs_dir() / resolved_provider / "schemas" / "response" / path_id / f"{response_code}.json"
     return _read_json_file(file_path, f"response schema (code: {response_code})", path, path_id)
+
+
+@mcp.tool
+def list_examples(
+    path: Annotated[str, "API endpoint path (e.g., '/api/vrp', '/api/cost-matrix')"],
+    example_type: Annotated[
+        str | None, "Type of examples to list: 'request', 'response', or 'both' (default: 'both')"
+    ] = "both",
+    provider: Annotated[str | None, "Optional provider name. If None, auto-detects from path."] = None,
+) -> str:
+    """
+    List available request and response examples for a specific API endpoint.
+
+    Returns:
+        JSON containing available example names for request and/or response bodies
+    """
+    resolved_provider, path_id = _resolve_provider_and_path_id(path, provider)
+    docs_dir = _get_docs_dir() / resolved_provider / "examples"
+
+    result: dict[str, Any] = {"endpoint": path, "path_id": path_id}
+
+    # List request examples
+    if example_type in ["request", "both"]:
+        request_dir = docs_dir / "request_body" / path_id
+        if request_dir.exists() and request_dir.is_dir():
+            request_examples = [f.stem for f in request_dir.glob("*.json")]
+            request_examples.sort()
+            result["request_examples"] = request_examples
+        else:
+            result["request_examples"] = []
+
+    # List response examples
+    if example_type in ["response", "both"]:
+        response_dir = docs_dir / "response_body" / path_id
+        if response_dir.exists() and response_dir.is_dir():
+            response_examples = {}
+            # Check for subdirectories named by response codes
+            for code_dir in response_dir.iterdir():
+                if code_dir.is_dir() and code_dir.name.isdigit():
+                    code_examples = [f.stem for f in code_dir.glob("*.json")]
+                    if code_examples:
+                        code_examples.sort()
+                        response_examples[code_dir.name] = code_examples
+            result["response_examples"] = response_examples
+        else:
+            result["response_examples"] = {}
+
+    return json.dumps(result, indent=2, ensure_ascii=False)
+
+
+@mcp.tool
+def get_example(
+    path: Annotated[str, "API endpoint path (e.g., '/api/vrp', '/api/cost-matrix')"],
+    example_name: Annotated[str, "Name of the example"],
+    example_type: Annotated[str, "Type of example: 'request' or 'response'"],
+    response_code: Annotated[
+        str | None, "HTTP response code (required if example_type is 'response', e.g., '200', '201')"
+    ] = None,
+    provider: Annotated[str | None, "Optional provider name. If None, auto-detects from path."] = None,
+) -> str:
+    """
+    Get a specific example for an API endpoint.
+    Check the list of examples using the list_examples tool first for the `example_name`.
+
+    Returns:
+        JSON content of the example
+    """
+    resolved_provider, path_id = _resolve_provider_and_path_id(path, provider)
+    docs_dir = _get_docs_dir() / resolved_provider / "examples"
+
+    if example_type == "request":
+        file_path = docs_dir / "request_body" / path_id / f"{example_name}.json"
+    elif example_type == "response":
+        if response_code is None:
+            return "Error: response_code is required when example_type is 'response'"
+        file_path = docs_dir / "response_body" / path_id / response_code / f"{example_name}.json"
+    else:
+        return f"Error: Invalid example_type '{example_type}'. Must be 'request' or 'response'"
+
+    if not file_path.exists():
+        return f"Error: Example '{example_name}' not found for {example_type} at path '{path}' (path_id: {path_id})"
+
+    return _read_json_file(file_path, f"{example_type} example", path, path_id)

@@ -1,5 +1,5 @@
 {
-  "response_schema": {
+  "properties": {
     "result": {
       "additionalProperties": false,
       "properties": {
@@ -39,9 +39,13 @@
         "cost",
         "detailed_cost"
       ],
-      "title": "Alns engine result",
-      "type": "object",
-      "description": "Result of the alns engine."
+      "title": "AdvancedVrpEngineOutput",
+      "type": "object"
     }
-  }
+  },
+  "required": [
+    "result"
+  ],
+  "title": "GetAlnsEngineOutput",
+  "type": "object"
 }

@@ -99,6 +99,13 @@
             "early_delivery_required": {
               "title": "Early Delivery Required",
               "type": "boolean"
+            },
+            "early_delivery_priority": {
+              "default": 1,
+              "maximum": 10,
+              "minimum": 1,
+              "title": "Early Delivery Priority",
+              "type": "integer"
             }
           },
           "required": [
@@ -1145,18 +1152,15 @@
               "euclidean",
               "osrm"
             ],
-            "title": "Distance Calculation Method",
-            "type": "string",
-            "default": "euclidean",
-            "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+            "title": "DistanceType",
+            "type": "string"
           }
         },
         "required": [
           "timelimit"
         ],
-        "title": "Extended Solver Config",
-        "type": "object",
-        "description": "Extended solver configuration."
+        "title": "ExtendedAdvancedVrpConfig",
+        "type": "object"
       }
     },
     "required": [
@@ -4335,5 +4339,10 @@
       "summary": "Advanced VRP Example",
       "description": "Advanced VRP Example"
     }
+  },
+  "_meta": {
+    "source": "Omelet",
+    "path": "/api/advanced-vrp-long",
+    "method": "POST"
   }
 }

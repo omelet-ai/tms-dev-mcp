@@ -36,10 +36,8 @@
           "duration",
           "both"
         ],
-        "title": "Matrix Type",
-        "type": "string",
-        "default": "distance",
-        "description": "Choose what kind of matrix to return: distance, duration, or both."
+        "title": "ReturnCostMatrixType",
+        "type": "string"
       },
       "vehicle_type": {
         "enum": [
@@ -47,10 +45,8 @@
           "car",
           "walk"
         ],
-        "title": "Vehicle Type",
-        "type": "string",
-        "default": "car",
-        "description": "Vehicle type used to calculate travel time and distance."
+        "title": "VehicleType",
+        "type": "string"
       },
       "curb": {
         "default": false,
@@ -112,5 +108,10 @@
       "summary": "Generate only distance matrix from coordinates",
       "description": "Example showing how to generate only distance matrix from coordinates."
     }
+  },
+  "_meta": {
+    "source": "Omelet",
+    "path": "/api/cost-matrix",
+    "method": "POST"
   }
 }

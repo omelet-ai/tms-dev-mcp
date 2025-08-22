@@ -13,7 +13,6 @@ class ProviderSettings(BaseModel):
     title: str
     description: str = ""
     path_prefix: str = "/"
-    skip_llm_examples: bool = False
 
 
 class PipelineSettings(BaseModel):
@@ -36,7 +35,6 @@ class PipelineSettings(BaseModel):
             title="Omelet Routing Engine API",
             description="Advanced routing optimization solutions",
             path_prefix="/api/",
-            skip_llm_examples=False,
         ),
         "inavi": ProviderSettings(
             name="iNavi",
@@ -45,7 +43,6 @@ class PipelineSettings(BaseModel):
             title="iNavi Maps API",
             description="Comprehensive location and routing services",
             path_prefix="/maps/v3.0/appkeys/{appkey}/",
-            skip_llm_examples=True,
         ),
     }
 
@@ -69,7 +66,6 @@ class Settings(BaseSettings):
     ROUTING_API_DOCS_URL: str = Field(
         default="https://routing.oaasis.cc/docs/json", description="URL for OpenAPI JSON documentation"
     )
-    ROUTING_API_KEY: str = Field(default="test", description="API key for Omelet Routing Engine API")
 
     # iNAVI Maps API configuration
     IMAPS_API_BASE_URL: str = Field(default="https://dev-maps.inavi.com", description="Base URL for iNAVI Maps API")
@@ -80,12 +76,6 @@ class Settings(BaseSettings):
 
     # Development settings
     LOG_LEVEL: str = Field(default="INFO", description="Logging level")
-
-    # AWS Bedrock
-    AWS_ACCESS_KEY_ID: str = Field(default="", description="AWS Access Key ID")
-    AWS_SECRET_ACCESS_KEY: str = Field(default="", description="AWS Secret Access Key")
-    AWS_DEFAULT_REGION: str = Field(default="", description="AWS Default Region")
-    AWS_BEDROCK_MODEL_ID: str = Field(default="", description="AWS Bedrock Model ID")
 
     # Pipeline configuration
     pipeline_config: PipelineSettings = Field(default_factory=PipelineSettings, description="Pipeline configuration")

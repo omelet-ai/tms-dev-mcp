@@ -1,0 +1,59 @@
+{
+  "depot": {
+    "name": "Distribution Center",
+    "index": 0,
+    "coordinate": {
+      "lng": 127.0,
+      "lat": 37.5
+    }
+  },
+  "visits": [
+    {
+      "name": "Store A",
+      "index": 1,
+      "service_time": 30,
+      "coordinate": {
+        "lng": 127.1,
+        "lat": 37.6
+      },
+      "volume": 1.0,
+      "weight": 20.0,
+      "time_window": [
+        "2024-01-15T09:00:00+09:00",
+        "2024-01-15T12:00:00+09:00"
+      ]
+    },
+    {
+      "name": "Store B",
+      "index": 2,
+      "service_time": 45,
+      "coordinate": {
+        "lng": 127.2,
+        "lat": 37.4
+      },
+      "volume": 1.5,
+      "weight": 30.0,
+      "time_window": [
+        "2024-01-15T13:00:00+09:00",
+        "2024-01-15T17:00:00+09:00"
+      ]
+    }
+  ],
+  "vehicles": [
+    {
+      "name": "Delivery Van",
+      "volume_capacity": 3.0,
+      "weight_capacity": 100.0,
+      "fixed_cost": 200.0,
+      "unit_distance_cost": 1.5,
+      "work_start_time": "2024-01-15T08:00:00+09:00",
+      "work_end_time": "2024-01-15T18:00:00+09:00"
+    }
+  ],
+  "delivery_start_time": "2024-01-15T08:00:00+09:00",
+  "option": {
+    "timelimit": 1,
+    "objective_type": "minsum",
+    "distance_type": "osrm"
+  }
+}

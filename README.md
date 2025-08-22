@@ -8,7 +8,7 @@ A FastMCP-based MCP server providing intelligent tools to navigate through **Ome
 
 - 🚀 **Multi-Provider Support**: Seamlessly access both Omelet and iNavi API documents through unified tools
 - 📚 **Smart Documentation**: Provider-aware tools with automatic API detection
-- 🔄 **Auto-Generated Examples**: LLM-powered request body examples with API validation
+- 🔄 **Auto-Generated Examples**: Request and response body examples from OpenAPI specifications
 - 🎯 **Provider Filtering**: Query specific provider documentation or get combined results
 
 For the API keys, please visit [Omelet's Routing Engine Homepage](https://routing.oaasis.cc/) and [iNavi's iMPS Homepage](https://mapsapi.inavisys.com/).
@@ -71,8 +71,7 @@ tms_mcp/
 ├── main.py                # Entry point with CLI
 ├── config.py              # Configuration management
 ├── pipeline/
-│   ├── pipeline.py        # Document indexing pipeline
-│   └── graph.py           # LLM-powered example generation
+│   └── pipeline.py        # Document indexing pipeline
 ├── tools/
 │   └── doc_tools.py       # Documentation query tools
 └── docs/                  # Generated documentation
@@ -98,27 +97,42 @@ tms_mcp/
 - `list_endpoints(provider)`: Get a list of available API endpoints with filtering by provider (omelet/inavi).
 - `get_endpoint_overview(path, provider)`: Get detailed overview information for a specific API endpoint.
 - `get_request_body_schema(path, provider)`: Get the request body schema for a specific API endpoint.
-- `get_request_body_example(path, provider)`: Get the request body example for a specific API endpoint.
 - `get_response_schema(path, response_code, provider)`: Get the response schema for a specific API endpoint and response code.
+- `list_examples(path, example_type, provider)`: List available request and response examples for a specific API endpoint.
+- `get_example(path, example_name, example_type, response_code, provider)`: Get a specific example for an API endpoint.
 
 
 ## Document Generation Pipeline
 
 The pipeline automatically:
 1. Fetches OpenAPI specifications from configured URLs
-2. Resolves all `$ref` references
-3. Splits documentation by provider
-4. Generates provider-specific documentation structure
-5. Creates LLM-powered examples (Omelet only)
-6. Validates examples against live APIs
+2. Resolves all `$ref` references using jsonref
+3. Splits documentation by provider (Omelet/iNavi)
+4. Generates provider-specific documentation structure:
+   - Endpoint summaries and overviews
+   - Request/response schemas
+   - Request/response examples extracted from OpenAPI specs
+5. Atomically replaces old documentation to ensure consistency
 
 ### Document Update
 
+Use the `update_docs.sh` script to update OpenAPI documentation:
+
 ```bash
 cd scripts
-bash update_docs.sh
-```
-or
-```bash
-python -m tms_mcp.main update-docs
+
+# Update all providers
+./update_docs.sh
+
+# Update only Omelet provider
+./update_docs.sh omelet
+
+# Update only iNavi provider
+./update_docs.sh inavi
+
+# Update multiple providers
+./update_docs.sh omelet inavi
+
+# Show usage information
+./update_docs.sh --help
 ```
