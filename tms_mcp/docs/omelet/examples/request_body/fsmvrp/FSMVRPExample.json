@@ -1,0 +1,669 @@
+{
+  "depots": [
+    {
+      "name": "depot_1",
+      "coordinate": {
+        "lng": 127.07500381909662,
+        "lat": 37.494726151895776
+      }
+    },
+    {
+      "name": "depot_2",
+      "coordinate": {
+        "lng": 126.75601605434875,
+        "lat": 37.4182826849803
+      }
+    }
+  ],
+  "daily_visits": [
+    {
+      "day_id": "1일",
+      "delivery_start_time": "2024-07-30T00:00:00",
+      "visits": [
+        {
+          "name": "visit_1",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.16936856377596,
+            "lat": 37.68879923068993
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_2",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.058772633085,
+            "lat": 37.63348451247085
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_3",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.02504768605708,
+            "lat": 37.695535325323675
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_4",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.1707512185047,
+            "lat": 37.414120586152855
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_5",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.19299020393659,
+            "lat": 37.423431436464625
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_6",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.12461583631547,
+            "lat": 37.466313716867056
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_7",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.19608093871472,
+            "lat": 37.57672811325877
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_8",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 126.89449929661288,
+            "lat": 37.54087748815908
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_9",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 126.74924339598884,
+            "lat": 37.45080753989535
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_10",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.09302095235441,
+            "lat": 37.60864103498406
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        }
+      ]
+    },
+    {
+      "day_id": "2일",
+      "delivery_start_time": "2024-07-30T00:00:00",
+      "visits": [
+        {
+          "name": "visit_1",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.06345549629256,
+            "lat": 37.529102849300855
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_2",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.26781768788278,
+            "lat": 37.70934835782088
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_3",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.10100520864368,
+            "lat": 37.6096279774894
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_4",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.10255990136983,
+            "lat": 37.53068565369243
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_5",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 126.80639302690062,
+            "lat": 37.63106731911584
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_6",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.01526876724708,
+            "lat": 37.50693709747684
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_7",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 126.99411722993075,
+            "lat": 37.68177611843207
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_8",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.23400944082769,
+            "lat": 37.52129054437947
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_9",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.03998305365234,
+            "lat": 37.51044673513297
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        },
+        {
+          "name": "visit_10",
+          "service_time": 5,
+          "coordinate": {
+            "lng": 127.05217023366363,
+            "lat": 37.51528878639585
+          },
+          "volume": 1,
+          "weight": 1,
+          "time_window": [
+            "2024-07-30T00:00:00",
+            "2024-07-31T23:00:00"
+          ]
+        }
+      ]
+    }
+  ],
+  "vehicles": [
+    {
+      "name": "vehicle_1",
+      "volume_capacity": 3,
+      "weight_capacity": 3,
+      "work_start_time": null,
+      "work_end_time": null,
+      "vehicle_type": "car",
+      "ownership_type": "rented",
+      "start_depot_name": "depot_1",
+      "end_depot_name": "depot_2",
+      "fixed_cost_default": 1000000,
+      "fixed_cost_if_assigned": 1000,
+      "fuel_cost_per_km": 1,
+      "visit_preference": {},
+      "first_visit_costs": {
+        "visit_0": 100,
+        "visit_1": 200,
+        "visit_2": 300,
+        "visit_3": 400,
+        "visit_4": 500,
+        "visit_5": 600,
+        "visit_6": 700,
+        "visit_7": 800,
+        "visit_8": 900,
+        "visit_9": 1000
+      },
+      "consecutive_visit_tiered_costs": [
+        [
+          10000,
+          1000
+        ],
+        [
+          20000,
+          2000
+        ],
+        [
+          30000,
+          3000
+        ],
+        [
+          40000,
+          4000
+        ],
+        [
+          50000,
+          5000
+        ],
+        [
+          60000,
+          6000
+        ],
+        [
+          70000,
+          7000
+        ],
+        [
+          80000,
+          8000
+        ],
+        [
+          90000,
+          9000
+        ],
+        [
+          100000,
+          10000
+        ]
+      ]
+    },
+    {
+      "name": "vehicle_2",
+      "volume_capacity": 3,
+      "weight_capacity": 3,
+      "work_start_time": null,
+      "work_end_time": null,
+      "vehicle_type": "car",
+      "ownership_type": "rented",
+      "start_depot_name": "depot_1",
+      "end_depot_name": "depot_2",
+      "fixed_cost_default": 1000000,
+      "fixed_cost_if_assigned": 1000,
+      "fuel_cost_per_km": 1,
+      "visit_preference": {},
+      "first_visit_costs": {
+        "visit_0": 100,
+        "visit_1": 200,
+        "visit_2": 300,
+        "visit_3": 400,
+        "visit_4": 500,
+        "visit_5": 600,
+        "visit_6": 700,
+        "visit_7": 800,
+        "visit_8": 900,
+        "visit_9": 1000
+      },
+      "consecutive_visit_tiered_costs": [
+        [
+          10000,
+          1000
+        ],
+        [
+          20000,
+          2000
+        ],
+        [
+          30000,
+          3000
+        ],
+        [
+          40000,
+          4000
+        ],
+        [
+          50000,
+          5000
+        ],
+        [
+          60000,
+          6000
+        ],
+        [
+          70000,
+          7000
+        ],
+        [
+          80000,
+          8000
+        ],
+        [
+          90000,
+          9000
+        ],
+        [
+          100000,
+          10000
+        ]
+      ]
+    },
+    {
+      "name": "vehicle_3",
+      "volume_capacity": 3,
+      "weight_capacity": 3,
+      "work_start_time": null,
+      "work_end_time": null,
+      "vehicle_type": "car",
+      "ownership_type": "rented",
+      "start_depot_name": "depot_1",
+      "end_depot_name": "depot_2",
+      "fixed_cost_default": 1000000,
+      "fixed_cost_if_assigned": 1000,
+      "fuel_cost_per_km": 1,
+      "visit_preference": {},
+      "first_visit_costs": {
+        "visit_0": 100,
+        "visit_1": 200,
+        "visit_2": 300,
+        "visit_3": 400,
+        "visit_4": 500,
+        "visit_5": 600,
+        "visit_6": 700,
+        "visit_7": 800,
+        "visit_8": 900,
+        "visit_9": 1000
+      },
+      "consecutive_visit_tiered_costs": [
+        [
+          10000,
+          1000
+        ],
+        [
+          20000,
+          2000
+        ],
+        [
+          30000,
+          3000
+        ],
+        [
+          40000,
+          4000
+        ],
+        [
+          50000,
+          5000
+        ],
+        [
+          60000,
+          6000
+        ],
+        [
+          70000,
+          7000
+        ],
+        [
+          80000,
+          8000
+        ],
+        [
+          90000,
+          9000
+        ],
+        [
+          100000,
+          10000
+        ]
+      ]
+    },
+    {
+      "name": "vehicle_4",
+      "volume_capacity": 3,
+      "weight_capacity": 3,
+      "work_start_time": null,
+      "work_end_time": null,
+      "vehicle_type": "car",
+      "ownership_type": "rented",
+      "start_depot_name": "depot_1",
+      "end_depot_name": "depot_2",
+      "fixed_cost_default": 1000000,
+      "fixed_cost_if_assigned": 1000,
+      "fuel_cost_per_km": 1,
+      "visit_preference": {},
+      "first_visit_costs": {
+        "visit_0": 100,
+        "visit_1": 200,
+        "visit_2": 300,
+        "visit_3": 400,
+        "visit_4": 500,
+        "visit_5": 600,
+        "visit_6": 700,
+        "visit_7": 800,
+        "visit_8": 900,
+        "visit_9": 1000
+      },
+      "consecutive_visit_tiered_costs": [
+        [
+          10000,
+          1000
+        ],
+        [
+          20000,
+          2000
+        ],
+        [
+          30000,
+          3000
+        ],
+        [
+          40000,
+          4000
+        ],
+        [
+          50000,
+          5000
+        ],
+        [
+          60000,
+          6000
+        ],
+        [
+          70000,
+          7000
+        ],
+        [
+          80000,
+          8000
+        ],
+        [
+          90000,
+          9000
+        ],
+        [
+          100000,
+          10000
+        ]
+      ]
+    },
+    {
+      "name": "vehicle_5",
+      "volume_capacity": 3,
+      "weight_capacity": 3,
+      "work_start_time": null,
+      "work_end_time": null,
+      "vehicle_type": "car",
+      "ownership_type": "rented",
+      "start_depot_name": "depot_1",
+      "end_depot_name": "depot_2",
+      "fixed_cost_default": 1000000,
+      "fixed_cost_if_assigned": 1000,
+      "fuel_cost_per_km": 1,
+      "visit_preference": {},
+      "first_visit_costs": {
+        "visit_0": 100,
+        "visit_1": 200,
+        "visit_2": 300,
+        "visit_3": 400,
+        "visit_4": 500,
+        "visit_5": 600,
+        "visit_6": 700,
+        "visit_7": 800,
+        "visit_8": 900,
+        "visit_9": 1000
+      },
+      "consecutive_visit_tiered_costs": [
+        [
+          10000,
+          1000
+        ],
+        [
+          20000,
+          2000
+        ],
+        [
+          30000,
+          3000
+        ],
+        [
+          40000,
+          4000
+        ],
+        [
+          50000,
+          5000
+        ],
+        [
+          60000,
+          6000
+        ],
+        [
+          70000,
+          7000
+        ],
+        [
+          80000,
+          8000
+        ],
+        [
+          90000,
+          9000
+        ],
+        [
+          100000,
+          10000
+        ]
+      ]
+    }
+  ],
+  "objective_costs": [
+    "first_visit_cost",
+    "consecutive_visit_tiered_cost",
+    "fixed_cost",
+    "fuel_cost"
+  ],
+  "option": {
+    "timelimit": 5,
+    "distance_type": "osrm"
+  }
+}

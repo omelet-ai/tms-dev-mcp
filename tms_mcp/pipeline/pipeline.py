@@ -167,15 +167,11 @@ async def process_provider_documentation(spec: OpenAPISpec, provider: str, temp_
     example_gen = ExampleGenerator(temp_path)
 
     # Generate documentation in parallel
-    await asyncio.gather(endpoint_gen.generate(spec, provider), schema_gen.generate(spec, provider))
-
-    # Generate examples (configurable per provider)
-    if not provider_configs[provider].skip_llm_examples:
-        await example_gen.smart_generate_request_examples(
-            current_docs_path=target_path, new_docs_path=temp_path, provider=provider
-        )
-    else:
-        logger.info(f"   ⏭️  Skipping example generation for {provider} provider.")
+    await asyncio.gather(
+        endpoint_gen.generate(spec, provider),
+        schema_gen.generate(spec, provider),
+        example_gen.generate(spec, provider),
+    )
 
     # Save provider-specific OpenAPI JSON
     provider_openapi_path = temp_path / provider / "openapi.json"
@@ -194,7 +190,7 @@ async def run_openapi_indexing_pipeline(providers: list[str] | None = None) -> N
     This function will:
     1. Download OpenAPI specs for specified providers
     2. Generate documentation for each provider
-    3. Generate comprehensive request body examples smartly
+    3. Extract request and response examples from OpenAPI specs
     4. Atomically replace old documentation
     """
     if providers:

@@ -1,5 +1,6 @@
 {
-  "response_schema": {
+  "additionalProperties": false,
+  "properties": {
     "result_url": {
       "description": "GET endpoint to retrieve the result using the job ID in long-running API mode.",
       "title": "Result URL",
@@ -10,5 +11,11 @@
       "title": "Job ID",
       "type": "string"
     }
-  }
+  },
+  "required": [
+    "result_url",
+    "job_id"
+  ],
+  "title": "LongApiOutput",
+  "type": "object"
 }

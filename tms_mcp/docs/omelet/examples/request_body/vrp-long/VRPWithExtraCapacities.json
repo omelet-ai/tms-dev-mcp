@@ -1,0 +1,60 @@
+{
+  "depot": {
+    "name": "Cold Storage Facility",
+    "index": 0,
+    "coordinate": {
+      "lng": 127.0,
+      "lat": 37.5
+    }
+  },
+  "visits": [
+    {
+      "name": "Restaurant A",
+      "index": 1,
+      "service_time": 20,
+      "coordinate": {
+        "lng": 127.1,
+        "lat": 37.6
+      },
+      "volume": 0.5,
+      "weight": 10.0,
+      "extra_demands": [
+        50,
+        20
+      ]
+    },
+    {
+      "name": "Restaurant B",
+      "index": 2,
+      "service_time": 25,
+      "coordinate": {
+        "lng": 127.2,
+        "lat": 37.4
+      },
+      "volume": 0.8,
+      "weight": 15.0,
+      "extra_demands": [
+        30,
+        15
+      ]
+    }
+  ],
+  "vehicles": [
+    {
+      "name": "Refrigerated Truck",
+      "volume_capacity": 2.0,
+      "weight_capacity": 50.0,
+      "extra_capacities": [
+        100,
+        50
+      ],
+      "fixed_cost": 300.0,
+      "unit_distance_cost": 2.0
+    }
+  ],
+  "option": {
+    "timelimit": 1,
+    "objective_type": "minsum",
+    "distance_type": "euclidean"
+  }
+}

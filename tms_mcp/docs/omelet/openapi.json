@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OMELET Routing engine API (v2)",
-    "version": "2.0.28",
-    "description": "Our Routing Optimization API provides comprehensive solutions for a wide range of routing problems, including the Traveling Salesman Problem (TSP), multiple Traveling Salesman Problem (mTSP), and Capacitated Vehicle Routing Problem (CVRP). This API is designed to handle complex constraints to ensure optimal and practical routing solutions. Key features include:",
+    "title": "Omelet Routing Engine API",
+    "version": "2.0.29",
+    "description": "Advanced routing optimization solutions",
     "contact": {
       "name": "omelet",
       "url": "https://omelet.ai/en/contact",
@@ -151,6 +151,13 @@
                         "early_delivery_required": {
                           "title": "Early Delivery Required",
                           "type": "boolean"
+                        },
+                        "early_delivery_priority": {
+                          "default": 1,
+                          "maximum": 10,
+                          "minimum": 1,
+                          "title": "Early Delivery Priority",
+                          "type": "integer"
                         }
                       },
                       "required": [
@@ -1197,18 +1204,15 @@
                           "euclidean",
                           "osrm"
                         ],
-                        "title": "Distance Calculation Method",
-                        "type": "string",
-                        "default": "euclidean",
-                        "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                        "title": "DistanceType",
+                        "type": "string"
                       }
                     },
                     "required": [
                       "timelimit"
                     ],
-                    "title": "Solver Config",
-                    "type": "object",
-                    "description": "Solver configuration."
+                    "title": "AdvancedVrpConfig",
+                    "type": "object"
                   }
                 },
                 "required": [
@@ -8583,6 +8587,13 @@
                         "early_delivery_required": {
                           "title": "Early Delivery Required",
                           "type": "boolean"
+                        },
+                        "early_delivery_priority": {
+                          "default": 1,
+                          "maximum": 10,
+                          "minimum": 1,
+                          "title": "Early Delivery Priority",
+                          "type": "integer"
                         }
                       },
                       "required": [
@@ -9629,18 +9640,15 @@
                           "euclidean",
                           "osrm"
                         ],
-                        "title": "Distance Calculation Method",
-                        "type": "string",
-                        "default": "euclidean",
-                        "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                        "title": "DistanceType",
+                        "type": "string"
                       }
                     },
                     "required": [
                       "timelimit"
                     ],
-                    "title": "Extended Solver Config",
-                    "type": "object",
-                    "description": "Extended solver configuration."
+                    "title": "ExtendedAdvancedVrpConfig",
+                    "type": "object"
                   }
                 },
                 "required": [
@@ -17981,10 +17989,8 @@
                       "duration",
                       "both"
                     ],
-                    "title": "Matrix Type",
-                    "type": "string",
-                    "default": "distance",
-                    "description": "Choose what kind of matrix to return: distance, duration, or both."
+                    "title": "ReturnCostMatrixType",
+                    "type": "string"
                   },
                   "vehicle_type": {
                     "enum": [
@@ -17992,10 +17998,8 @@
                       "car",
                       "walk"
                     ],
-                    "title": "Vehicle Type",
-                    "type": "string",
-                    "default": "car",
-                    "description": "Vehicle type used to calculate travel time and distance."
+                    "title": "VehicleType",
+                    "type": "string"
                   },
                   "curb": {
                     "default": false,
@@ -19252,6 +19256,14 @@
                                 "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                                 "title": "Requires Early Delivery",
                                 "type": "boolean"
+                              },
+                              "early_delivery_priority": {
+                                "default": 1,
+                                "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                                "maximum": 10,
+                                "minimum": 1,
+                                "title": "Early Delivery Priority",
+                                "type": "integer"
                               }
                             },
                             "title": "Visit",
@@ -19356,19 +19368,16 @@
                             "car",
                             "walk"
                           ],
-                          "title": "Vehicle Type",
-                          "type": "string",
-                          "default": "car"
+                          "title": "VehicleType",
+                          "type": "string"
                         },
                         "ownership_type": {
                           "enum": [
                             "rented",
                             "owned"
                           ],
-                          "title": "Ownership Type",
-                          "type": "string",
-                          "default": "rented",
-                          "description": "Indicates whether the vehicle is rented or owned. Rented vehicles may be excluded from the final schedule if no visits are assigned. Owned vehicles are always included in the final schedule, even if no visits are assigned."
+                          "title": "VehicleOwnershipType",
+                          "type": "string"
                         },
                         "start_depot_name": {
                           "anyOf": [
@@ -19502,19 +19511,12 @@
                           "euclidean",
                           "osrm"
                         ],
-                        "title": "Distance Calculation Method",
-                        "type": "string",
-                        "default": "euclidean",
-                        "description": "How distances are calculated when distance_matrix is not explicitly provided. OSRM supports only Korean region."
+                        "title": "DistanceType",
+                        "type": "string"
                       }
                     },
-                    "title": "Solver Options",
-                    "type": "object",
-                    "default": {
-                      "timelimit": 10,
-                      "distance_type": "euclidean"
-                    },
-                    "description": "Advanced options for solving the FSMVRP problem."
+                    "title": "FsmvrpApiOption",
+                    "type": "object"
                   }
                 },
                 "required": [
@@ -20354,9 +20356,8 @@
                         "total_solution_cost",
                         "solution_cost_details"
                       ],
-                      "title": "Engine Result",
-                      "type": "object",
-                      "description": "Detailed routing solution including routes and cost breakdowns."
+                      "title": "FsmvrpEngineResult",
+                      "type": "object"
                     },
                     "status": {
                       "enum": [
@@ -20365,9 +20366,8 @@
                         "infeasible",
                         "user_input_error"
                       ],
-                      "title": "API Status",
-                      "type": "string",
-                      "description": "Status of the routing solution (e.g., feasible, feasible_with_dropped_visits, infeasible, user input error)."
+                      "title": "ApiStatus",
+                      "type": "string"
                     },
                     "detail": {
                       "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -21212,9 +21212,8 @@
                         "total_solution_cost",
                         "solution_cost_details"
                       ],
-                      "title": "Engine Result",
-                      "type": "object",
-                      "description": "Detailed routing solution including routes and cost breakdowns."
+                      "title": "FsmvrpEngineResult",
+                      "type": "object"
                     },
                     "status": {
                       "enum": [
@@ -21223,9 +21222,8 @@
                         "infeasible",
                         "user_input_error"
                       ],
-                      "title": "API Status",
-                      "type": "string",
-                      "description": "Status of the routing solution (e.g., feasible, feasible_with_dropped_visits, infeasible, user input error)."
+                      "title": "ApiStatus",
+                      "type": "string"
                     },
                     "detail": {
                       "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -22289,6 +22287,14 @@
                                 "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                                 "title": "Requires Early Delivery",
                                 "type": "boolean"
+                              },
+                              "early_delivery_priority": {
+                                "default": 1,
+                                "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                                "maximum": 10,
+                                "minimum": 1,
+                                "title": "Early Delivery Priority",
+                                "type": "integer"
                               }
                             },
                             "title": "Visit",
@@ -22393,19 +22399,16 @@
                             "car",
                             "walk"
                           ],
-                          "title": "Vehicle Type",
-                          "type": "string",
-                          "default": "car"
+                          "title": "VehicleType",
+                          "type": "string"
                         },
                         "ownership_type": {
                           "enum": [
                             "rented",
                             "owned"
                           ],
-                          "title": "Ownership Type",
-                          "type": "string",
-                          "default": "rented",
-                          "description": "Indicates whether the vehicle is rented or owned. Rented vehicles may be excluded from the final schedule if no visits are assigned. Owned vehicles are always included in the final schedule, even if no visits are assigned."
+                          "title": "VehicleOwnershipType",
+                          "type": "string"
                         },
                         "start_depot_name": {
                           "anyOf": [
@@ -22539,19 +22542,12 @@
                           "euclidean",
                           "osrm"
                         ],
-                        "title": "Distance Calculation Method",
-                        "type": "string",
-                        "default": "euclidean",
-                        "description": "How distances are calculated when distance_matrix is not explicitly provided. OSRM supports only Korean region."
+                        "title": "DistanceType",
+                        "type": "string"
                       }
                     },
-                    "title": "Extended Solver Options",
-                    "type": "object",
-                    "default": {
-                      "timelimit": 10,
-                      "distance_type": "euclidean"
-                    },
-                    "description": "Advanced options for solving extended problems."
+                    "title": "ExtendedFsmvrpApiOption",
+                    "type": "object"
                   }
                 },
                 "required": [
@@ -24847,9 +24843,8 @@
                         "cost",
                         "detailed_cost"
                       ],
-                      "title": "Alns engine result",
-                      "type": "object",
-                      "description": "Result of the alns engine."
+                      "title": "AdvancedVrpEngineOutput",
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -24901,9 +24896,8 @@
                         "cost",
                         "detailed_cost"
                       ],
-                      "title": "Alns engine result",
-                      "type": "object",
-                      "description": "Result of the alns engine."
+                      "title": "AdvancedVrpEngineOutput",
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -26033,9 +26027,8 @@
                             "total_solution_cost",
                             "solution_cost_details"
                           ],
-                          "title": "Engine Result",
-                          "type": "object",
-                          "description": "Detailed routing solution including routes and cost breakdowns."
+                          "title": "FsmvrpEngineResult",
+                          "type": "object"
                         },
                         "status": {
                           "enum": [
@@ -26044,9 +26037,8 @@
                             "infeasible",
                             "user_input_error"
                           ],
-                          "title": "API Status",
-                          "type": "string",
-                          "description": "Status of the routing solution (e.g., feasible, feasible_with_dropped_visits, infeasible, user input error)."
+                          "title": "ApiStatus",
+                          "type": "string"
                         },
                         "detail": {
                           "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -26065,9 +26057,8 @@
                         "status",
                         "detail"
                       ],
-                      "title": "Fsmvrp engine result",
-                      "type": "object",
-                      "description": "Result of the fsmvrp engine."
+                      "title": "FsmvrpEngineOutput",
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -26226,9 +26217,8 @@
                             "total_solution_cost",
                             "solution_cost_details"
                           ],
-                          "title": "Engine Result",
-                          "type": "object",
-                          "description": "Detailed routing solution including routes and cost breakdowns."
+                          "title": "FsmvrpEngineResult",
+                          "type": "object"
                         },
                         "status": {
                           "enum": [
@@ -26237,9 +26227,8 @@
                             "infeasible",
                             "user_input_error"
                           ],
-                          "title": "API Status",
-                          "type": "string",
-                          "description": "Status of the routing solution (e.g., feasible, feasible_with_dropped_visits, infeasible, user input error)."
+                          "title": "ApiStatus",
+                          "type": "string"
                         },
                         "detail": {
                           "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -26258,9 +26247,8 @@
                         "status",
                         "detail"
                       ],
-                      "title": "Fsmvrp engine result",
-                      "type": "object",
-                      "description": "Result of the fsmvrp engine."
+                      "title": "FsmvrpEngineOutput",
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -27303,9 +27291,8 @@
                                         "type": "number"
                                       }
                                     },
-                                    "title": "Route cost",
-                                    "type": "object",
-                                    "description": "Detailed cost of the route"
+                                    "title": "RouteCost",
+                                    "type": "object"
                                   }
                                 },
                                 "required": [
@@ -27383,23 +27370,12 @@
                                   "type": "number"
                                 }
                               },
-                              "title": "Total Solution Cost",
-                              "type": "object",
-                              "default": {
-                                "total_objective_cost": 0.0,
-                                "total_distance_cost": 0.0,
-                                "total_duration_cost": 0.0,
-                                "max_distance_cost": 0.0,
-                                "max_duration_cost": 0.0,
-                                "total_fixed_cost": 0.0,
-                                "unassigned_penalty_cost": 0.0
-                              },
-                              "description": "Summarized cost information across all calculated routes."
+                              "title": "SolutionCost",
+                              "type": "object"
                             }
                           },
-                          "title": "Engine Result",
-                          "type": "object",
-                          "description": "Detailed routing solution including routes and costs."
+                          "title": "RoutingEngineResult",
+                          "type": "object"
                         },
                         "status": {
                           "enum": [
@@ -27408,9 +27384,8 @@
                             "infeasible",
                             "user_input_error"
                           ],
-                          "title": "API Status",
-                          "type": "string",
-                          "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+                          "title": "ApiStatus",
+                          "type": "string"
                         },
                         "detail": {
                           "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -27429,9 +27404,8 @@
                         "status",
                         "detail"
                       ],
-                      "title": "Routing engine result",
-                      "type": "object",
-                      "description": "Result of the routing engine."
+                      "title": "RoutingEngineOutput",
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -27503,9 +27477,8 @@
                                         "type": "number"
                                       }
                                     },
-                                    "title": "Route cost",
-                                    "type": "object",
-                                    "description": "Detailed cost of the route"
+                                    "title": "RouteCost",
+                                    "type": "object"
                                   }
                                 },
                                 "required": [
@@ -27583,23 +27556,12 @@
                                   "type": "number"
                                 }
                               },
-                              "title": "Total Solution Cost",
-                              "type": "object",
-                              "default": {
-                                "total_objective_cost": 0.0,
-                                "total_distance_cost": 0.0,
-                                "total_duration_cost": 0.0,
-                                "max_distance_cost": 0.0,
-                                "max_duration_cost": 0.0,
-                                "total_fixed_cost": 0.0,
-                                "unassigned_penalty_cost": 0.0
-                              },
-                              "description": "Summarized cost information across all calculated routes."
+                              "title": "SolutionCost",
+                              "type": "object"
                             }
                           },
-                          "title": "Engine Result",
-                          "type": "object",
-                          "description": "Detailed routing solution including routes and costs."
+                          "title": "RoutingEngineResult",
+                          "type": "object"
                         },
                         "status": {
                           "enum": [
@@ -27608,9 +27570,8 @@
                             "infeasible",
                             "user_input_error"
                           ],
-                          "title": "API Status",
-                          "type": "string",
-                          "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+                          "title": "ApiStatus",
+                          "type": "string"
                         },
                         "detail": {
                           "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -27629,9 +27590,8 @@
                         "status",
                         "detail"
                       ],
-                      "title": "Routing engine result",
-                      "type": "object",
-                      "description": "Result of the routing engine."
+                      "title": "RoutingEngineOutput",
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -28674,9 +28634,8 @@
                                         "type": "number"
                                       }
                                     },
-                                    "title": "Route cost",
-                                    "type": "object",
-                                    "description": "Detailed cost of the route"
+                                    "title": "RouteCost",
+                                    "type": "object"
                                   }
                                 },
                                 "required": [
@@ -28754,23 +28713,12 @@
                                   "type": "number"
                                 }
                               },
-                              "title": "Total Solution Cost",
-                              "type": "object",
-                              "default": {
-                                "total_objective_cost": 0.0,
-                                "total_distance_cost": 0.0,
-                                "total_duration_cost": 0.0,
-                                "max_distance_cost": 0.0,
-                                "max_duration_cost": 0.0,
-                                "total_fixed_cost": 0.0,
-                                "unassigned_penalty_cost": 0.0
-                              },
-                              "description": "Summarized cost information across all calculated routes."
+                              "title": "SolutionCost",
+                              "type": "object"
                             }
                           },
-                          "title": "Engine Result",
-                          "type": "object",
-                          "description": "Detailed routing solution including routes and costs."
+                          "title": "RoutingEngineResult",
+                          "type": "object"
                         },
                         "status": {
                           "enum": [
@@ -28779,9 +28727,8 @@
                             "infeasible",
                             "user_input_error"
                           ],
-                          "title": "API Status",
-                          "type": "string",
-                          "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+                          "title": "ApiStatus",
+                          "type": "string"
                         },
                         "detail": {
                           "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -28800,9 +28747,8 @@
                         "status",
                         "detail"
                       ],
-                      "title": "Routing engine result",
-                      "type": "object",
-                      "description": "Result of the routing engine."
+                      "title": "RoutingEngineOutput",
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -28874,9 +28820,8 @@
                                         "type": "number"
                                       }
                                     },
-                                    "title": "Route cost",
-                                    "type": "object",
-                                    "description": "Detailed cost of the route"
+                                    "title": "RouteCost",
+                                    "type": "object"
                                   }
                                 },
                                 "required": [
@@ -28954,23 +28899,12 @@
                                   "type": "number"
                                 }
                               },
-                              "title": "Total Solution Cost",
-                              "type": "object",
-                              "default": {
-                                "total_objective_cost": 0.0,
-                                "total_distance_cost": 0.0,
-                                "total_duration_cost": 0.0,
-                                "max_distance_cost": 0.0,
-                                "max_duration_cost": 0.0,
-                                "total_fixed_cost": 0.0,
-                                "unassigned_penalty_cost": 0.0
-                              },
-                              "description": "Summarized cost information across all calculated routes."
+                              "title": "SolutionCost",
+                              "type": "object"
                             }
                           },
-                          "title": "Engine Result",
-                          "type": "object",
-                          "description": "Detailed routing solution including routes and costs."
+                          "title": "RoutingEngineResult",
+                          "type": "object"
                         },
                         "status": {
                           "enum": [
@@ -28979,9 +28913,8 @@
                             "infeasible",
                             "user_input_error"
                           ],
-                          "title": "API Status",
-                          "type": "string",
-                          "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+                          "title": "ApiStatus",
+                          "type": "string"
                         },
                         "detail": {
                           "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -29000,9 +28933,8 @@
                         "status",
                         "detail"
                       ],
-                      "title": "Routing engine result",
-                      "type": "object",
-                      "description": "Result of the routing engine."
+                      "title": "RoutingEngineOutput",
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -30129,6 +30061,14 @@
                                   "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                                   "title": "Requires Early Delivery",
                                   "type": "boolean"
+                                },
+                                "early_delivery_priority": {
+                                  "default": 1,
+                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                                  "maximum": 10,
+                                  "minimum": 1,
+                                  "title": "Early Delivery Priority",
+                                  "type": "integer"
                                 }
                               },
                               "title": "Visit",
@@ -30275,6 +30215,14 @@
                                   "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                                   "title": "Requires Early Delivery",
                                   "type": "boolean"
+                                },
+                                "early_delivery_priority": {
+                                  "default": 1,
+                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                                  "maximum": 10,
+                                  "minimum": 1,
+                                  "title": "Early Delivery Priority",
+                                  "type": "integer"
                                 }
                               },
                               "title": "Visit",
@@ -30409,9 +30357,8 @@
                             "car",
                             "walk"
                           ],
-                          "title": "Vehicle Type",
-                          "type": "string",
-                          "default": "car"
+                          "title": "VehicleType",
+                          "type": "string"
                         },
                         "max_service_radius": {
                           "anyOf": [
@@ -30468,9 +30415,8 @@
                             "lng",
                             "lat"
                           ],
-                          "title": "Current Location",
-                          "type": "object",
-                          "description": "Vehicle's current position."
+                          "title": "Coordinate",
+                          "type": "object"
                         }
                       },
                       "required": [
@@ -30551,10 +30497,8 @@
                           "minsum",
                           "minmax"
                         ],
-                        "title": "Optimization Goal",
-                        "type": "string",
-                        "default": "minsum",
-                        "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
+                        "title": "ObjectiveType",
+                        "type": "string"
                       },
                       "distance_type": {
                         "enum": [
@@ -30562,10 +30506,8 @@
                           "euclidean",
                           "osrm"
                         ],
-                        "title": "Distance Calculation Method",
-                        "type": "string",
-                        "default": "euclidean",
-                        "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                        "title": "DistanceType",
+                        "type": "string"
                       },
                       "allow_unassigned_visits": {
                         "default": false,
@@ -30598,19 +30540,8 @@
                         "type": "boolean"
                       }
                     },
-                    "title": "Solver Options",
-                    "type": "object",
-                    "default": {
-                      "timelimit": 10,
-                      "objective_type": "minsum",
-                      "distance_type": "euclidean",
-                      "allow_unassigned_visits": false,
-                      "use_large_size_optimization_algorithm": false,
-                      "include_departure_cost_from_depot": true,
-                      "include_return_cost_to_depot": true,
-                      "is_max_service_radius_hard_constraint": true
-                    },
-                    "description": "Advanced options for solving the PDP problem."
+                    "title": "ApiOption",
+                    "type": "object"
                   }
                 },
                 "required": [
@@ -35079,9 +35010,8 @@
                                     "type": "number"
                                   }
                                 },
-                                "title": "Route cost",
-                                "type": "object",
-                                "description": "Detailed cost of the route"
+                                "title": "RouteCost",
+                                "type": "object"
                               }
                             },
                             "required": [
@@ -35159,23 +35089,12 @@
                               "type": "number"
                             }
                           },
-                          "title": "Total Solution Cost",
-                          "type": "object",
-                          "default": {
-                            "total_objective_cost": 0.0,
-                            "total_distance_cost": 0.0,
-                            "total_duration_cost": 0.0,
-                            "max_distance_cost": 0.0,
-                            "max_duration_cost": 0.0,
-                            "total_fixed_cost": 0.0,
-                            "unassigned_penalty_cost": 0.0
-                          },
-                          "description": "Summarized cost information across all calculated routes."
+                          "title": "SolutionCost",
+                          "type": "object"
                         }
                       },
-                      "title": "Engine Result",
-                      "type": "object",
-                      "description": "Detailed routing solution including routes and costs."
+                      "title": "RoutingEngineResult",
+                      "type": "object"
                     },
                     "status": {
                       "enum": [
@@ -35184,9 +35103,8 @@
                         "infeasible",
                         "user_input_error"
                       ],
-                      "title": "API Status",
-                      "type": "string",
-                      "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+                      "title": "ApiStatus",
+                      "type": "string"
                     },
                     "detail": {
                       "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -39661,9 +39579,8 @@
                                     "type": "number"
                                   }
                                 },
-                                "title": "Route cost",
-                                "type": "object",
-                                "description": "Detailed cost of the route"
+                                "title": "RouteCost",
+                                "type": "object"
                               }
                             },
                             "required": [
@@ -39741,23 +39658,12 @@
                               "type": "number"
                             }
                           },
-                          "title": "Total Solution Cost",
-                          "type": "object",
-                          "default": {
-                            "total_objective_cost": 0.0,
-                            "total_distance_cost": 0.0,
-                            "total_duration_cost": 0.0,
-                            "max_distance_cost": 0.0,
-                            "max_duration_cost": 0.0,
-                            "total_fixed_cost": 0.0,
-                            "unassigned_penalty_cost": 0.0
-                          },
-                          "description": "Summarized cost information across all calculated routes."
+                          "title": "SolutionCost",
+                          "type": "object"
                         }
                       },
-                      "title": "Engine Result",
-                      "type": "object",
-                      "description": "Detailed routing solution including routes and costs."
+                      "title": "RoutingEngineResult",
+                      "type": "object"
                     },
                     "status": {
                       "enum": [
@@ -39766,9 +39672,8 @@
                         "infeasible",
                         "user_input_error"
                       ],
-                      "title": "API Status",
-                      "type": "string",
-                      "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+                      "title": "ApiStatus",
+                      "type": "string"
                     },
                     "detail": {
                       "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -40777,6 +40682,14 @@
                                   "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                                   "title": "Requires Early Delivery",
                                   "type": "boolean"
+                                },
+                                "early_delivery_priority": {
+                                  "default": 1,
+                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                                  "maximum": 10,
+                                  "minimum": 1,
+                                  "title": "Early Delivery Priority",
+                                  "type": "integer"
                                 }
                               },
                               "title": "Visit",
@@ -40923,6 +40836,14 @@
                                   "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                                   "title": "Requires Early Delivery",
                                   "type": "boolean"
+                                },
+                                "early_delivery_priority": {
+                                  "default": 1,
+                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                                  "maximum": 10,
+                                  "minimum": 1,
+                                  "title": "Early Delivery Priority",
+                                  "type": "integer"
                                 }
                               },
                               "title": "Visit",
@@ -41057,9 +40978,8 @@
                             "car",
                             "walk"
                           ],
-                          "title": "Vehicle Type",
-                          "type": "string",
-                          "default": "car"
+                          "title": "VehicleType",
+                          "type": "string"
                         },
                         "max_service_radius": {
                           "anyOf": [
@@ -41116,9 +41036,8 @@
                             "lng",
                             "lat"
                           ],
-                          "title": "Current Location",
-                          "type": "object",
-                          "description": "Vehicle's current position."
+                          "title": "Coordinate",
+                          "type": "object"
                         }
                       },
                       "required": [
@@ -41199,10 +41118,8 @@
                           "minsum",
                           "minmax"
                         ],
-                        "title": "Optimization Goal",
-                        "type": "string",
-                        "default": "minsum",
-                        "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
+                        "title": "ObjectiveType",
+                        "type": "string"
                       },
                       "distance_type": {
                         "enum": [
@@ -41210,10 +41127,8 @@
                           "euclidean",
                           "osrm"
                         ],
-                        "title": "Distance Calculation Method",
-                        "type": "string",
-                        "default": "euclidean",
-                        "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                        "title": "DistanceType",
+                        "type": "string"
                       },
                       "allow_unassigned_visits": {
                         "default": false,
@@ -41246,19 +41161,8 @@
                         "type": "boolean"
                       }
                     },
-                    "title": "Extended Solver Options",
-                    "type": "object",
-                    "default": {
-                      "timelimit": 10,
-                      "objective_type": "minsum",
-                      "distance_type": "euclidean",
-                      "allow_unassigned_visits": false,
-                      "use_large_size_optimization_algorithm": false,
-                      "include_departure_cost_from_depot": true,
-                      "include_return_cost_to_depot": true,
-                      "is_max_service_radius_hard_constraint": true
-                    },
-                    "description": "Advanced options for solving extended PDP problems."
+                    "title": "ExtendedApiOption",
+                    "type": "object"
                   }
                 },
                 "required": [
@@ -50994,9 +50898,8 @@
                         "title": "Depot Location"
                       }
                     },
-                    "title": "Depot Info",
-                    "type": "object",
-                    "description": "Depot details including location and index."
+                    "title": "Depot",
+                    "type": "object"
                   },
                   "visits": {
                     "description": "List of customer locations to be served. Maximum 3,000 visits allowed.",
@@ -51131,6 +51034,14 @@
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                           "title": "Requires Early Delivery",
                           "type": "boolean"
+                        },
+                        "early_delivery_priority": {
+                          "default": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                          "maximum": 10,
+                          "minimum": 1,
+                          "title": "Early Delivery Priority",
+                          "type": "integer"
                         }
                       },
                       "title": "Visit",
@@ -51253,9 +51164,8 @@
                             "car",
                             "walk"
                           ],
-                          "title": "Vehicle Type",
-                          "type": "string",
-                          "default": "car"
+                          "title": "VehicleType",
+                          "type": "string"
                         },
                         "max_service_radius": {
                           "anyOf": [
@@ -51370,10 +51280,8 @@
                           "minsum",
                           "minmax"
                         ],
-                        "title": "Optimization Goal",
-                        "type": "string",
-                        "default": "minsum",
-                        "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
+                        "title": "ObjectiveType",
+                        "type": "string"
                       },
                       "distance_type": {
                         "enum": [
@@ -51381,10 +51289,8 @@
                           "euclidean",
                           "osrm"
                         ],
-                        "title": "Distance Calculation Method",
-                        "type": "string",
-                        "default": "euclidean",
-                        "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                        "title": "DistanceType",
+                        "type": "string"
                       },
                       "allow_unassigned_visits": {
                         "default": false,
@@ -51417,19 +51323,8 @@
                         "type": "boolean"
                       }
                     },
-                    "title": "Solver Options",
-                    "type": "object",
-                    "default": {
-                      "timelimit": 10,
-                      "objective_type": "minsum",
-                      "distance_type": "euclidean",
-                      "allow_unassigned_visits": false,
-                      "use_large_size_optimization_algorithm": false,
-                      "include_departure_cost_from_depot": true,
-                      "include_return_cost_to_depot": true,
-                      "is_max_service_radius_hard_constraint": true
-                    },
-                    "description": "Advanced options for solving the routing problem."
+                    "title": "ApiOption",
+                    "type": "object"
                   }
                 },
                 "required": [
@@ -54476,9 +54371,8 @@
                                     "type": "number"
                                   }
                                 },
-                                "title": "Route cost",
-                                "type": "object",
-                                "description": "Detailed cost of the route"
+                                "title": "RouteCost",
+                                "type": "object"
                               }
                             },
                             "required": [
@@ -54556,23 +54450,12 @@
                               "type": "number"
                             }
                           },
-                          "title": "Total Solution Cost",
-                          "type": "object",
-                          "default": {
-                            "total_objective_cost": 0.0,
-                            "total_distance_cost": 0.0,
-                            "total_duration_cost": 0.0,
-                            "max_distance_cost": 0.0,
-                            "max_duration_cost": 0.0,
-                            "total_fixed_cost": 0.0,
-                            "unassigned_penalty_cost": 0.0
-                          },
-                          "description": "Summarized cost information across all calculated routes."
+                          "title": "SolutionCost",
+                          "type": "object"
                         }
                       },
-                      "title": "Engine Result",
-                      "type": "object",
-                      "description": "Detailed routing solution including routes and costs."
+                      "title": "RoutingEngineResult",
+                      "type": "object"
                     },
                     "status": {
                       "enum": [
@@ -54581,9 +54464,8 @@
                         "infeasible",
                         "user_input_error"
                       ],
-                      "title": "API Status",
-                      "type": "string",
-                      "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+                      "title": "ApiStatus",
+                      "type": "string"
                     },
                     "detail": {
                       "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -57635,9 +57517,8 @@
                                     "type": "number"
                                   }
                                 },
-                                "title": "Route cost",
-                                "type": "object",
-                                "description": "Detailed cost of the route"
+                                "title": "RouteCost",
+                                "type": "object"
                               }
                             },
                             "required": [
@@ -57715,23 +57596,12 @@
                               "type": "number"
                             }
                           },
-                          "title": "Total Solution Cost",
-                          "type": "object",
-                          "default": {
-                            "total_objective_cost": 0.0,
-                            "total_distance_cost": 0.0,
-                            "total_duration_cost": 0.0,
-                            "max_distance_cost": 0.0,
-                            "max_duration_cost": 0.0,
-                            "total_fixed_cost": 0.0,
-                            "unassigned_penalty_cost": 0.0
-                          },
-                          "description": "Summarized cost information across all calculated routes."
+                          "title": "SolutionCost",
+                          "type": "object"
                         }
                       },
-                      "title": "Engine Result",
-                      "type": "object",
-                      "description": "Detailed routing solution including routes and costs."
+                      "title": "RoutingEngineResult",
+                      "type": "object"
                     },
                     "status": {
                       "enum": [
@@ -57740,9 +57610,8 @@
                         "infeasible",
                         "user_input_error"
                       ],
-                      "title": "API Status",
-                      "type": "string",
-                      "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+                      "title": "ApiStatus",
+                      "type": "string"
                     },
                     "detail": {
                       "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -58654,9 +58523,8 @@
                         "title": "Depot Location"
                       }
                     },
-                    "title": "Depot Info",
-                    "type": "object",
-                    "description": "Depot details including location and index."
+                    "title": "Depot",
+                    "type": "object"
                   },
                   "visits": {
                     "description": "List of customer visits for large-scale problems. Up to 10,000 visits allowed.",
@@ -58791,6 +58659,14 @@
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                           "title": "Requires Early Delivery",
                           "type": "boolean"
+                        },
+                        "early_delivery_priority": {
+                          "default": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                          "maximum": 10,
+                          "minimum": 1,
+                          "title": "Early Delivery Priority",
+                          "type": "integer"
                         }
                       },
                       "title": "Visit",
@@ -58913,9 +58789,8 @@
                             "car",
                             "walk"
                           ],
-                          "title": "Vehicle Type",
-                          "type": "string",
-                          "default": "car"
+                          "title": "VehicleType",
+                          "type": "string"
                         },
                         "max_service_radius": {
                           "anyOf": [
@@ -59030,10 +58905,8 @@
                           "minsum",
                           "minmax"
                         ],
-                        "title": "Optimization Goal",
-                        "type": "string",
-                        "default": "minsum",
-                        "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
+                        "title": "ObjectiveType",
+                        "type": "string"
                       },
                       "distance_type": {
                         "enum": [
@@ -59041,10 +58914,8 @@
                           "euclidean",
                           "osrm"
                         ],
-                        "title": "Distance Calculation Method",
-                        "type": "string",
-                        "default": "euclidean",
-                        "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                        "title": "DistanceType",
+                        "type": "string"
                       },
                       "allow_unassigned_visits": {
                         "default": false,
@@ -59077,19 +58948,8 @@
                         "type": "boolean"
                       }
                     },
-                    "title": "Extended Solver Options",
-                    "type": "object",
-                    "default": {
-                      "timelimit": 10,
-                      "objective_type": "minsum",
-                      "distance_type": "euclidean",
-                      "allow_unassigned_visits": false,
-                      "use_large_size_optimization_algorithm": false,
-                      "include_departure_cost_from_depot": true,
-                      "include_return_cost_to_depot": true,
-                      "is_max_service_radius_hard_constraint": true
-                    },
-                    "description": "Advanced options for large-scale vehicle routing problems."
+                    "title": "ExtendedApiOption",
+                    "type": "object"
                   }
                 },
                 "required": [
@@ -65916,10 +65776,8 @@
               "euclidean",
               "osrm"
             ],
-            "title": "Distance Calculation Method",
-            "type": "string",
-            "default": "euclidean",
-            "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+            "title": "DistanceType",
+            "type": "string"
           }
         },
         "required": [
@@ -66028,6 +65886,13 @@
                 "early_delivery_required": {
                   "title": "Early Delivery Required",
                   "type": "boolean"
+                },
+                "early_delivery_priority": {
+                  "default": 1,
+                  "maximum": 10,
+                  "minimum": 1,
+                  "title": "Early Delivery Priority",
+                  "type": "integer"
                 }
               },
               "required": [
@@ -67074,18 +66939,15 @@
                   "euclidean",
                   "osrm"
                 ],
-                "title": "Distance Calculation Method",
-                "type": "string",
-                "default": "euclidean",
-                "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                "title": "DistanceType",
+                "type": "string"
               }
             },
             "required": [
               "timelimit"
             ],
-            "title": "Solver Config",
-            "type": "object",
-            "description": "Solver configuration."
+            "title": "AdvancedVrpConfig",
+            "type": "object"
           }
         },
         "required": [
@@ -67155,10 +67017,8 @@
               "minsum",
               "minmax"
             ],
-            "title": "Optimization Goal",
-            "type": "string",
-            "default": "minsum",
-            "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
+            "title": "ObjectiveType",
+            "type": "string"
           },
           "distance_type": {
             "enum": [
@@ -67166,10 +67026,8 @@
               "euclidean",
               "osrm"
             ],
-            "title": "Distance Calculation Method",
-            "type": "string",
-            "default": "euclidean",
-            "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+            "title": "DistanceType",
+            "type": "string"
           },
           "allow_unassigned_visits": {
             "default": false,
@@ -67348,10 +67206,8 @@
               "duration",
               "both"
             ],
-            "title": "Matrix Type",
-            "type": "string",
-            "default": "distance",
-            "description": "Choose what kind of matrix to return: distance, duration, or both."
+            "title": "ReturnCostMatrixType",
+            "type": "string"
           },
           "vehicle_type": {
             "enum": [
@@ -67359,10 +67215,8 @@
               "car",
               "walk"
             ],
-            "title": "Vehicle Type",
-            "type": "string",
-            "default": "car",
-            "description": "Vehicle type used to calculate travel time and distance."
+            "title": "VehicleType",
+            "type": "string"
           },
           "curb": {
             "default": false,
@@ -67673,6 +67527,14 @@
                   "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                   "title": "Requires Early Delivery",
                   "type": "boolean"
+                },
+                "early_delivery_priority": {
+                  "default": 1,
+                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                  "maximum": 10,
+                  "minimum": 1,
+                  "title": "Early Delivery Priority",
+                  "type": "integer"
                 }
               },
               "title": "Visit",
@@ -67800,6 +67662,13 @@
           "early_delivery_required": {
             "title": "Early Delivery Required",
             "type": "boolean"
+          },
+          "early_delivery_priority": {
+            "default": 1,
+            "maximum": 10,
+            "minimum": 1,
+            "title": "Early Delivery Priority",
+            "type": "integer"
           }
         },
         "required": [
@@ -68122,10 +67991,8 @@
               "euclidean",
               "osrm"
             ],
-            "title": "Distance Calculation Method",
-            "type": "string",
-            "default": "euclidean",
-            "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+            "title": "DistanceType",
+            "type": "string"
           }
         },
         "required": [
@@ -68234,6 +68101,13 @@
                 "early_delivery_required": {
                   "title": "Early Delivery Required",
                   "type": "boolean"
+                },
+                "early_delivery_priority": {
+                  "default": 1,
+                  "maximum": 10,
+                  "minimum": 1,
+                  "title": "Early Delivery Priority",
+                  "type": "integer"
                 }
               },
               "required": [
@@ -69280,18 +69154,15 @@
                   "euclidean",
                   "osrm"
                 ],
-                "title": "Distance Calculation Method",
-                "type": "string",
-                "default": "euclidean",
-                "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                "title": "DistanceType",
+                "type": "string"
               }
             },
             "required": [
               "timelimit"
             ],
-            "title": "Extended Solver Config",
-            "type": "object",
-            "description": "Extended solver configuration."
+            "title": "ExtendedAdvancedVrpConfig",
+            "type": "object"
           }
         },
         "required": [
@@ -69319,10 +69190,8 @@
               "minsum",
               "minmax"
             ],
-            "title": "Optimization Goal",
-            "type": "string",
-            "default": "minsum",
-            "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
+            "title": "ObjectiveType",
+            "type": "string"
           },
           "distance_type": {
             "enum": [
@@ -69330,10 +69199,8 @@
               "euclidean",
               "osrm"
             ],
-            "title": "Distance Calculation Method",
-            "type": "string",
-            "default": "euclidean",
-            "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+            "title": "DistanceType",
+            "type": "string"
           },
           "allow_unassigned_visits": {
             "default": false,
@@ -69386,10 +69253,8 @@
               "euclidean",
               "osrm"
             ],
-            "title": "Distance Calculation Method",
-            "type": "string",
-            "default": "euclidean",
-            "description": "How distances are calculated when distance_matrix is not explicitly provided. OSRM supports only Korean region."
+            "title": "DistanceType",
+            "type": "string"
           }
         },
         "title": "ExtendedFsmvrpApiOption",
@@ -69604,6 +69469,14 @@
                         "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                         "title": "Requires Early Delivery",
                         "type": "boolean"
+                      },
+                      "early_delivery_priority": {
+                        "default": 1,
+                        "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                        "maximum": 10,
+                        "minimum": 1,
+                        "title": "Early Delivery Priority",
+                        "type": "integer"
                       }
                     },
                     "title": "Visit",
@@ -69708,19 +69581,16 @@
                     "car",
                     "walk"
                   ],
-                  "title": "Vehicle Type",
-                  "type": "string",
-                  "default": "car"
+                  "title": "VehicleType",
+                  "type": "string"
                 },
                 "ownership_type": {
                   "enum": [
                     "rented",
                     "owned"
                   ],
-                  "title": "Ownership Type",
-                  "type": "string",
-                  "default": "rented",
-                  "description": "Indicates whether the vehicle is rented or owned. Rented vehicles may be excluded from the final schedule if no visits are assigned. Owned vehicles are always included in the final schedule, even if no visits are assigned."
+                  "title": "VehicleOwnershipType",
+                  "type": "string"
                 },
                 "start_depot_name": {
                   "anyOf": [
@@ -69854,19 +69724,12 @@
                   "euclidean",
                   "osrm"
                 ],
-                "title": "Distance Calculation Method",
-                "type": "string",
-                "default": "euclidean",
-                "description": "How distances are calculated when distance_matrix is not explicitly provided. OSRM supports only Korean region."
+                "title": "DistanceType",
+                "type": "string"
               }
             },
-            "title": "Extended Solver Options",
-            "type": "object",
-            "default": {
-              "timelimit": 10,
-              "distance_type": "euclidean"
-            },
-            "description": "Advanced options for solving extended problems."
+            "title": "ExtendedFsmvrpApiOption",
+            "type": "object"
           }
         },
         "required": [
@@ -70031,6 +69894,14 @@
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                           "title": "Requires Early Delivery",
                           "type": "boolean"
+                        },
+                        "early_delivery_priority": {
+                          "default": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                          "maximum": 10,
+                          "minimum": 1,
+                          "title": "Early Delivery Priority",
+                          "type": "integer"
                         }
                       },
                       "title": "Visit",
@@ -70177,6 +70048,14 @@
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                           "title": "Requires Early Delivery",
                           "type": "boolean"
+                        },
+                        "early_delivery_priority": {
+                          "default": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                          "maximum": 10,
+                          "minimum": 1,
+                          "title": "Early Delivery Priority",
+                          "type": "integer"
                         }
                       },
                       "title": "Visit",
@@ -70311,9 +70190,8 @@
                     "car",
                     "walk"
                   ],
-                  "title": "Vehicle Type",
-                  "type": "string",
-                  "default": "car"
+                  "title": "VehicleType",
+                  "type": "string"
                 },
                 "max_service_radius": {
                   "anyOf": [
@@ -70370,9 +70248,8 @@
                     "lng",
                     "lat"
                   ],
-                  "title": "Current Location",
-                  "type": "object",
-                  "description": "Vehicle's current position."
+                  "title": "Coordinate",
+                  "type": "object"
                 }
               },
               "required": [
@@ -70453,10 +70330,8 @@
                   "minsum",
                   "minmax"
                 ],
-                "title": "Optimization Goal",
-                "type": "string",
-                "default": "minsum",
-                "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
+                "title": "ObjectiveType",
+                "type": "string"
               },
               "distance_type": {
                 "enum": [
@@ -70464,10 +70339,8 @@
                   "euclidean",
                   "osrm"
                 ],
-                "title": "Distance Calculation Method",
-                "type": "string",
-                "default": "euclidean",
-                "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                "title": "DistanceType",
+                "type": "string"
               },
               "allow_unassigned_visits": {
                 "default": false,
@@ -70500,19 +70373,8 @@
                 "type": "boolean"
               }
             },
-            "title": "Extended Solver Options",
-            "type": "object",
-            "default": {
-              "timelimit": 10,
-              "objective_type": "minsum",
-              "distance_type": "euclidean",
-              "allow_unassigned_visits": false,
-              "use_large_size_optimization_algorithm": false,
-              "include_departure_cost_from_depot": true,
-              "include_return_cost_to_depot": true,
-              "is_max_service_radius_hard_constraint": true
-            },
-            "description": "Advanced options for solving extended PDP problems."
+            "title": "ExtendedApiOption",
+            "type": "object"
           }
         },
         "required": [
@@ -70579,9 +70441,8 @@
                 "title": "Depot Location"
               }
             },
-            "title": "Depot Info",
-            "type": "object",
-            "description": "Depot details including location and index."
+            "title": "Depot",
+            "type": "object"
           },
           "visits": {
             "description": "List of customer visits for large-scale problems. Up to 10,000 visits allowed.",
@@ -70716,6 +70577,14 @@
                   "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                   "title": "Requires Early Delivery",
                   "type": "boolean"
+                },
+                "early_delivery_priority": {
+                  "default": 1,
+                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                  "maximum": 10,
+                  "minimum": 1,
+                  "title": "Early Delivery Priority",
+                  "type": "integer"
                 }
               },
               "title": "Visit",
@@ -70838,9 +70707,8 @@
                     "car",
                     "walk"
                   ],
-                  "title": "Vehicle Type",
-                  "type": "string",
-                  "default": "car"
+                  "title": "VehicleType",
+                  "type": "string"
                 },
                 "max_service_radius": {
                   "anyOf": [
@@ -70955,10 +70823,8 @@
                   "minsum",
                   "minmax"
                 ],
-                "title": "Optimization Goal",
-                "type": "string",
-                "default": "minsum",
-                "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
+                "title": "ObjectiveType",
+                "type": "string"
               },
               "distance_type": {
                 "enum": [
@@ -70966,10 +70832,8 @@
                   "euclidean",
                   "osrm"
                 ],
-                "title": "Distance Calculation Method",
-                "type": "string",
-                "default": "euclidean",
-                "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                "title": "DistanceType",
+                "type": "string"
               },
               "allow_unassigned_visits": {
                 "default": false,
@@ -71002,19 +70866,8 @@
                 "type": "boolean"
               }
             },
-            "title": "Extended Solver Options",
-            "type": "object",
-            "default": {
-              "timelimit": 10,
-              "objective_type": "minsum",
-              "distance_type": "euclidean",
-              "allow_unassigned_visits": false,
-              "use_large_size_optimization_algorithm": false,
-              "include_departure_cost_from_depot": true,
-              "include_return_cost_to_depot": true,
-              "is_max_service_radius_hard_constraint": true
-            },
-            "description": "Advanced options for large-scale vehicle routing problems."
+            "title": "ExtendedApiOption",
+            "type": "object"
           }
         },
         "required": [
@@ -71164,10 +71017,8 @@
               "euclidean",
               "osrm"
             ],
-            "title": "Distance Calculation Method",
-            "type": "string",
-            "default": "euclidean",
-            "description": "How distances are calculated when distance_matrix is not explicitly provided. OSRM supports only Korean region."
+            "title": "DistanceType",
+            "type": "string"
           }
         },
         "title": "FsmvrpApiOption",
@@ -71382,6 +71233,14 @@
                         "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                         "title": "Requires Early Delivery",
                         "type": "boolean"
+                      },
+                      "early_delivery_priority": {
+                        "default": 1,
+                        "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                        "maximum": 10,
+                        "minimum": 1,
+                        "title": "Early Delivery Priority",
+                        "type": "integer"
                       }
                     },
                     "title": "Visit",
@@ -71486,19 +71345,16 @@
                     "car",
                     "walk"
                   ],
-                  "title": "Vehicle Type",
-                  "type": "string",
-                  "default": "car"
+                  "title": "VehicleType",
+                  "type": "string"
                 },
                 "ownership_type": {
                   "enum": [
                     "rented",
                     "owned"
                   ],
-                  "title": "Ownership Type",
-                  "type": "string",
-                  "default": "rented",
-                  "description": "Indicates whether the vehicle is rented or owned. Rented vehicles may be excluded from the final schedule if no visits are assigned. Owned vehicles are always included in the final schedule, even if no visits are assigned."
+                  "title": "VehicleOwnershipType",
+                  "type": "string"
                 },
                 "start_depot_name": {
                   "anyOf": [
@@ -71632,19 +71488,12 @@
                   "euclidean",
                   "osrm"
                 ],
-                "title": "Distance Calculation Method",
-                "type": "string",
-                "default": "euclidean",
-                "description": "How distances are calculated when distance_matrix is not explicitly provided. OSRM supports only Korean region."
+                "title": "DistanceType",
+                "type": "string"
               }
             },
-            "title": "Solver Options",
-            "type": "object",
-            "default": {
-              "timelimit": 10,
-              "distance_type": "euclidean"
-            },
-            "description": "Advanced options for solving the FSMVRP problem."
+            "title": "FsmvrpApiOption",
+            "type": "object"
           }
         },
         "required": [
@@ -71801,9 +71650,8 @@
               "total_solution_cost",
               "solution_cost_details"
             ],
-            "title": "Engine Result",
-            "type": "object",
-            "description": "Detailed routing solution including routes and cost breakdowns."
+            "title": "FsmvrpEngineResult",
+            "type": "object"
           },
           "status": {
             "enum": [
@@ -71812,9 +71660,8 @@
               "infeasible",
               "user_input_error"
             ],
-            "title": "API Status",
-            "type": "string",
-            "description": "Status of the routing solution (e.g., feasible, feasible_with_dropped_visits, infeasible, user input error)."
+            "title": "ApiStatus",
+            "type": "string"
           },
           "detail": {
             "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -72099,19 +71946,16 @@
               "car",
               "walk"
             ],
-            "title": "Vehicle Type",
-            "type": "string",
-            "default": "car"
+            "title": "VehicleType",
+            "type": "string"
           },
           "ownership_type": {
             "enum": [
               "rented",
               "owned"
             ],
-            "title": "Ownership Type",
-            "type": "string",
-            "default": "rented",
-            "description": "Indicates whether the vehicle is rented or owned. Rented vehicles may be excluded from the final schedule if no visits are assigned. Owned vehicles are always included in the final schedule, even if no visits are assigned."
+            "title": "VehicleOwnershipType",
+            "type": "string"
           },
           "start_depot_name": {
             "anyOf": [
@@ -72269,9 +72113,8 @@
               "cost",
               "detailed_cost"
             ],
-            "title": "Alns engine result",
-            "type": "object",
-            "description": "Result of the alns engine."
+            "title": "AdvancedVrpEngineOutput",
+            "type": "object"
           }
         },
         "required": [
@@ -72428,9 +72271,8 @@
                   "total_solution_cost",
                   "solution_cost_details"
                 ],
-                "title": "Engine Result",
-                "type": "object",
-                "description": "Detailed routing solution including routes and cost breakdowns."
+                "title": "FsmvrpEngineResult",
+                "type": "object"
               },
               "status": {
                 "enum": [
@@ -72439,9 +72281,8 @@
                   "infeasible",
                   "user_input_error"
                 ],
-                "title": "API Status",
-                "type": "string",
-                "description": "Status of the routing solution (e.g., feasible, feasible_with_dropped_visits, infeasible, user input error)."
+                "title": "ApiStatus",
+                "type": "string"
               },
               "detail": {
                 "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -72460,9 +72301,8 @@
               "status",
               "detail"
             ],
-            "title": "Fsmvrp engine result",
-            "type": "object",
-            "description": "Result of the fsmvrp engine."
+            "title": "FsmvrpEngineOutput",
+            "type": "object"
           }
         },
         "required": [
@@ -72532,9 +72372,8 @@
                               "type": "number"
                             }
                           },
-                          "title": "Route cost",
-                          "type": "object",
-                          "description": "Detailed cost of the route"
+                          "title": "RouteCost",
+                          "type": "object"
                         }
                       },
                       "required": [
@@ -72612,23 +72451,12 @@
                         "type": "number"
                       }
                     },
-                    "title": "Total Solution Cost",
-                    "type": "object",
-                    "default": {
-                      "total_objective_cost": 0.0,
-                      "total_distance_cost": 0.0,
-                      "total_duration_cost": 0.0,
-                      "max_distance_cost": 0.0,
-                      "max_duration_cost": 0.0,
-                      "total_fixed_cost": 0.0,
-                      "unassigned_penalty_cost": 0.0
-                    },
-                    "description": "Summarized cost information across all calculated routes."
+                    "title": "SolutionCost",
+                    "type": "object"
                   }
                 },
-                "title": "Engine Result",
-                "type": "object",
-                "description": "Detailed routing solution including routes and costs."
+                "title": "RoutingEngineResult",
+                "type": "object"
               },
               "status": {
                 "enum": [
@@ -72637,9 +72465,8 @@
                   "infeasible",
                   "user_input_error"
                 ],
-                "title": "API Status",
-                "type": "string",
-                "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+                "title": "ApiStatus",
+                "type": "string"
               },
               "detail": {
                 "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -72658,9 +72485,8 @@
               "status",
               "detail"
             ],
-            "title": "Routing engine result",
-            "type": "object",
-            "description": "Result of the routing engine."
+            "title": "RoutingEngineOutput",
+            "type": "object"
           }
         },
         "required": [
@@ -72954,9 +72780,8 @@
                 "type": "number"
               }
             },
-            "title": "Route cost",
-            "type": "object",
-            "description": "Detailed cost of the route"
+            "title": "RouteCost",
+            "type": "object"
           }
         },
         "required": [
@@ -73122,6 +72947,14 @@
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                           "title": "Requires Early Delivery",
                           "type": "boolean"
+                        },
+                        "early_delivery_priority": {
+                          "default": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                          "maximum": 10,
+                          "minimum": 1,
+                          "title": "Early Delivery Priority",
+                          "type": "integer"
                         }
                       },
                       "title": "Visit",
@@ -73268,6 +73101,14 @@
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                           "title": "Requires Early Delivery",
                           "type": "boolean"
+                        },
+                        "early_delivery_priority": {
+                          "default": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                          "maximum": 10,
+                          "minimum": 1,
+                          "title": "Early Delivery Priority",
+                          "type": "integer"
                         }
                       },
                       "title": "Visit",
@@ -73402,9 +73243,8 @@
                     "car",
                     "walk"
                   ],
-                  "title": "Vehicle Type",
-                  "type": "string",
-                  "default": "car"
+                  "title": "VehicleType",
+                  "type": "string"
                 },
                 "max_service_radius": {
                   "anyOf": [
@@ -73461,9 +73301,8 @@
                     "lng",
                     "lat"
                   ],
-                  "title": "Current Location",
-                  "type": "object",
-                  "description": "Vehicle's current position."
+                  "title": "Coordinate",
+                  "type": "object"
                 }
               },
               "required": [
@@ -73544,10 +73383,8 @@
                   "minsum",
                   "minmax"
                 ],
-                "title": "Optimization Goal",
-                "type": "string",
-                "default": "minsum",
-                "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
+                "title": "ObjectiveType",
+                "type": "string"
               },
               "distance_type": {
                 "enum": [
@@ -73555,10 +73392,8 @@
                   "euclidean",
                   "osrm"
                 ],
-                "title": "Distance Calculation Method",
-                "type": "string",
-                "default": "euclidean",
-                "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                "title": "DistanceType",
+                "type": "string"
               },
               "allow_unassigned_visits": {
                 "default": false,
@@ -73591,19 +73426,8 @@
                 "type": "boolean"
               }
             },
-            "title": "Solver Options",
-            "type": "object",
-            "default": {
-              "timelimit": 10,
-              "objective_type": "minsum",
-              "distance_type": "euclidean",
-              "allow_unassigned_visits": false,
-              "use_large_size_optimization_algorithm": false,
-              "include_departure_cost_from_depot": true,
-              "include_return_cost_to_depot": true,
-              "is_max_service_radius_hard_constraint": true
-            },
-            "description": "Advanced options for solving the PDP problem."
+            "title": "ApiOption",
+            "type": "object"
           }
         },
         "required": [
@@ -73723,9 +73547,8 @@
               "car",
               "walk"
             ],
-            "title": "Vehicle Type",
-            "type": "string",
-            "default": "car"
+            "title": "VehicleType",
+            "type": "string"
           },
           "max_service_radius": {
             "anyOf": [
@@ -73782,9 +73605,8 @@
               "lng",
               "lat"
             ],
-            "title": "Current Location",
-            "type": "object",
-            "description": "Vehicle's current position."
+            "title": "Coordinate",
+            "type": "object"
           }
         },
         "required": [
@@ -73942,6 +73764,14 @@
                     "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                     "title": "Requires Early Delivery",
                     "type": "boolean"
+                  },
+                  "early_delivery_priority": {
+                    "default": 1,
+                    "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                    "maximum": 10,
+                    "minimum": 1,
+                    "title": "Early Delivery Priority",
+                    "type": "integer"
                   }
                 },
                 "title": "Visit",
@@ -74088,6 +73918,14 @@
                     "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                     "title": "Requires Early Delivery",
                     "type": "boolean"
+                  },
+                  "early_delivery_priority": {
+                    "default": 1,
+                    "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                    "maximum": 10,
+                    "minimum": 1,
+                    "title": "Early Delivery Priority",
+                    "type": "integer"
                   }
                 },
                 "title": "Visit",
@@ -74695,9 +74533,8 @@
                           "type": "number"
                         }
                       },
-                      "title": "Route cost",
-                      "type": "object",
-                      "description": "Detailed cost of the route"
+                      "title": "RouteCost",
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -74775,23 +74612,12 @@
                     "type": "number"
                   }
                 },
-                "title": "Total Solution Cost",
-                "type": "object",
-                "default": {
-                  "total_objective_cost": 0.0,
-                  "total_distance_cost": 0.0,
-                  "total_duration_cost": 0.0,
-                  "max_distance_cost": 0.0,
-                  "max_duration_cost": 0.0,
-                  "total_fixed_cost": 0.0,
-                  "unassigned_penalty_cost": 0.0
-                },
-                "description": "Summarized cost information across all calculated routes."
+                "title": "SolutionCost",
+                "type": "object"
               }
             },
-            "title": "Engine Result",
-            "type": "object",
-            "description": "Detailed routing solution including routes and costs."
+            "title": "RoutingEngineResult",
+            "type": "object"
           },
           "status": {
             "enum": [
@@ -74800,9 +74626,8 @@
               "infeasible",
               "user_input_error"
             ],
-            "title": "API Status",
-            "type": "string",
-            "description": "Status of the routing solution (e.g., feasible, infeasible, user_input_error)."
+            "title": "ApiStatus",
+            "type": "string"
           },
           "detail": {
             "description": "Explanation of the result status for debugging or understanding the outcome.",
@@ -74880,9 +74705,8 @@
                       "type": "number"
                     }
                   },
-                  "title": "Route cost",
-                  "type": "object",
-                  "description": "Detailed cost of the route"
+                  "title": "RouteCost",
+                  "type": "object"
                 }
               },
               "required": [
@@ -74960,18 +74784,8 @@
                 "type": "number"
               }
             },
-            "title": "Total Solution Cost",
-            "type": "object",
-            "default": {
-              "total_objective_cost": 0.0,
-              "total_distance_cost": 0.0,
-              "total_duration_cost": 0.0,
-              "max_distance_cost": 0.0,
-              "max_duration_cost": 0.0,
-              "total_fixed_cost": 0.0,
-              "unassigned_penalty_cost": 0.0
-            },
-            "description": "Summarized cost information across all calculated routes."
+            "title": "SolutionCost",
+            "type": "object"
           }
         },
         "title": "RoutingEngineResult",
@@ -75164,9 +74978,8 @@
               "car",
               "walk"
             ],
-            "title": "Vehicle Type",
-            "type": "string",
-            "default": "car"
+            "title": "VehicleType",
+            "type": "string"
           },
           "max_service_radius": {
             "anyOf": [
@@ -75357,6 +75170,14 @@
             "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
             "title": "Requires Early Delivery",
             "type": "boolean"
+          },
+          "early_delivery_priority": {
+            "default": 1,
+            "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+            "maximum": 10,
+            "minimum": 1,
+            "title": "Early Delivery Priority",
+            "type": "integer"
           }
         },
         "title": "Visit",
@@ -75419,9 +75240,8 @@
                 "title": "Depot Location"
               }
             },
-            "title": "Depot Info",
-            "type": "object",
-            "description": "Depot details including location and index."
+            "title": "Depot",
+            "type": "object"
           },
           "visits": {
             "description": "List of customer locations to be served. Maximum 3,000 visits allowed.",
@@ -75556,6 +75376,14 @@
                   "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                   "title": "Requires Early Delivery",
                   "type": "boolean"
+                },
+                "early_delivery_priority": {
+                  "default": 1,
+                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                  "maximum": 10,
+                  "minimum": 1,
+                  "title": "Early Delivery Priority",
+                  "type": "integer"
                 }
               },
               "title": "Visit",
@@ -75678,9 +75506,8 @@
                     "car",
                     "walk"
                   ],
-                  "title": "Vehicle Type",
-                  "type": "string",
-                  "default": "car"
+                  "title": "VehicleType",
+                  "type": "string"
                 },
                 "max_service_radius": {
                   "anyOf": [
@@ -75795,10 +75622,8 @@
                   "minsum",
                   "minmax"
                 ],
-                "title": "Optimization Goal",
-                "type": "string",
-                "default": "minsum",
-                "description": "Choose minsum to minimize total cost, or minmax to balance workload across vehicles."
+                "title": "ObjectiveType",
+                "type": "string"
               },
               "distance_type": {
                 "enum": [
@@ -75806,10 +75631,8 @@
                   "euclidean",
                   "osrm"
                 ],
-                "title": "Distance Calculation Method",
-                "type": "string",
-                "default": "euclidean",
-                "description": "How distances are calculated when distance_matrix is not explicitly provided. Available options:\n- EUCLIDEAN: Straight-line distance between coordinates\n- MANHATTAN: Sum of absolute differences in latitude and longitude\n- OSRM: Real road network distance using Open Source Routing Machine. OSRM supports only Korean region and provides the most accurate travel distances."
+                "title": "DistanceType",
+                "type": "string"
               },
               "allow_unassigned_visits": {
                 "default": false,
@@ -75842,19 +75665,8 @@
                 "type": "boolean"
               }
             },
-            "title": "Solver Options",
-            "type": "object",
-            "default": {
-              "timelimit": 10,
-              "objective_type": "minsum",
-              "distance_type": "euclidean",
-              "allow_unassigned_visits": false,
-              "use_large_size_optimization_algorithm": false,
-              "include_departure_cost_from_depot": true,
-              "include_return_cost_to_depot": true,
-              "is_max_service_radius_hard_constraint": true
-            },
-            "description": "Advanced options for solving the routing problem."
+            "title": "ApiOption",
+            "type": "object"
           }
         },
         "required": [

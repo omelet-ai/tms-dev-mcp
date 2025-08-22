@@ -208,6 +208,14 @@
                     "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
                     "title": "Requires Early Delivery",
                     "type": "boolean"
+                  },
+                  "early_delivery_priority": {
+                    "default": 1,
+                    "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
+                    "maximum": 10,
+                    "minimum": 1,
+                    "title": "Early Delivery Priority",
+                    "type": "integer"
                   }
                 },
                 "title": "Visit",
@@ -312,19 +320,16 @@
                 "car",
                 "walk"
               ],
-              "title": "Vehicle Type",
-              "type": "string",
-              "default": "car"
+              "title": "VehicleType",
+              "type": "string"
             },
             "ownership_type": {
               "enum": [
                 "rented",
                 "owned"
               ],
-              "title": "Ownership Type",
-              "type": "string",
-              "default": "rented",
-              "description": "Indicates whether the vehicle is rented or owned. Rented vehicles may be excluded from the final schedule if no visits are assigned. Owned vehicles are always included in the final schedule, even if no visits are assigned."
+              "title": "VehicleOwnershipType",
+              "type": "string"
             },
             "start_depot_name": {
               "anyOf": [
@@ -458,19 +463,12 @@
               "euclidean",
               "osrm"
             ],
-            "title": "Distance Calculation Method",
-            "type": "string",
-            "default": "euclidean",
-            "description": "How distances are calculated when distance_matrix is not explicitly provided. OSRM supports only Korean region."
+            "title": "DistanceType",
+            "type": "string"
           }
         },
-        "title": "Extended Solver Options",
-        "type": "object",
-        "default": {
-          "timelimit": 10,
-          "distance_type": "euclidean"
-        },
-        "description": "Advanced options for solving extended problems."
+        "title": "ExtendedFsmvrpApiOption",
+        "type": "object"
       }
     },
     "required": [
@@ -1155,5 +1153,10 @@
       "summary": "FSMVRP Example",
       "description": "FSMVRP Example"
     }
+  },
+  "_meta": {
+    "source": "Omelet",
+    "path": "/api/fsmvrp-long",
+    "method": "POST"
   }
 }
