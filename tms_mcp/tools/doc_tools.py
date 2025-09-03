@@ -250,6 +250,7 @@ def list_examples(
 ) -> str:
     """
     List available request and response examples for a specific API endpoint.
+    Currently, only usable for "omelet" provider endpoints.
 
     Returns:
         JSON containing available example names for request and/or response bodies
@@ -301,6 +302,7 @@ def get_example(
     """
     Get a specific example for an API endpoint.
     Check the list of examples using the list_examples tool first for the `example_name`.
+    Currently, only usable for "omelet" provider endpoints.
 
     Returns:
         JSON content of the example
