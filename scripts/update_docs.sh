@@ -42,7 +42,7 @@ export PYTHONPATH="${PROJECT_ROOT}:${PYTHONPATH}"
 # Build the command with provider arguments
 if [ $# -eq 0 ]; then
     echo "🚀 Starting document indexing pipeline for all providers..."
-    uv run python -m tms_mcp.main update-docs
+    uv run python -m tms_mcp.main update-docs omelet inavi
 else
     echo "🚀 Starting document indexing pipeline for: $*"
     uv run python -m tms_mcp.main update-docs "$@"
