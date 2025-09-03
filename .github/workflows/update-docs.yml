@@ -106,6 +106,26 @@ jobs:
           echo "No changes to commit."
         fi
 
+    - name: Create GitHub Release
+      if: env.NEXT_VERSION != ''
+      run: |
+        # Create release notes based on which providers were updated
+        if [ "${{ github.event.inputs.providers }}" == "all" ]; then
+          release_notes="Updated documentation for all providers"
+        elif [ "${{ github.event.inputs.providers }}" == "both" ]; then
+          release_notes="Updated documentation for omelet and inavi providers"
+        else
+          release_notes="Updated documentation for ${{ github.event.inputs.providers }} provider"
+        fi
+
+        # Create the release using GitHub CLI
+        gh release create "v${{ env.NEXT_VERSION }}" \
+          --title "v${{ env.NEXT_VERSION }}" \
+          --notes "$release_notes" \
+          --target main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Summary
       if: always()
       run: |
