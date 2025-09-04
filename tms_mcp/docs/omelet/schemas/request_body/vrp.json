@@ -18,12 +18,6 @@
             "description": "Name of the depot.",
             "title": "Depot Name"
           },
-          "index": {
-            "default": 0,
-            "description": "Index of the depot in the distance matrix.",
-            "title": "Depot Index",
-            "type": "integer"
-          },
           "coordinate": {
             "anyOf": [
               {
@@ -76,19 +70,6 @@
               "default": null,
               "description": "Name of the visit location.",
               "title": "Visit Name"
-            },
-            "index": {
-              "anyOf": [
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": null,
-              "description": "Index of the visit in the distance matrix.",
-              "title": "Visit Index"
             },
             "service_time": {
               "default": 0,

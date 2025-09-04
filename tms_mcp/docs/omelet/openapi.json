@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Omelet Routing Engine API",
-    "version": "2.0.32",
+    "version": "2.0.34",
     "description": "Advanced routing optimization solutions",
     "contact": {
       "name": "omelet",
@@ -19051,7 +19051,7 @@
                 "additionalProperties": false,
                 "properties": {
                   "depots": {
-                    "description": "Depot details including location and name.\nEach depot name within this list must be unique (no duplicates allowed).\nNote: The `index` field in each Depot will be **ignored**.",
+                    "description": "Depot details including name and location.\nEach depot name within this list must be unique (no duplicates allowed).\n",
                     "items": {
                       "additionalProperties": false,
                       "properties": {
@@ -19067,12 +19067,6 @@
                           "default": null,
                           "description": "Name of the depot.",
                           "title": "Depot Name"
-                        },
-                        "index": {
-                          "default": 0,
-                          "description": "Index of the depot in the distance matrix.",
-                          "title": "Depot Index",
-                          "type": "integer"
                         },
                         "coordinate": {
                           "anyOf": [
@@ -19124,7 +19118,7 @@
                           "type": "string"
                         },
                         "visits": {
-                          "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Note: The `index` field in each Visit will be **ignored**.\nEach visit name within this list must be unique (no duplicates allowed).",
+                          "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Each visit name within this list must be unique (no duplicates allowed).",
                           "items": {
                             "additionalProperties": false,
                             "properties": {
@@ -19140,19 +19134,6 @@
                                 "default": null,
                                 "description": "Name of the visit location.",
                                 "title": "Visit Name"
-                              },
-                              "index": {
-                                "anyOf": [
-                                  {
-                                    "type": "integer"
-                                  },
-                                  {
-                                    "type": "null"
-                                  }
-                                ],
-                                "default": null,
-                                "description": "Index of the visit in the distance matrix.",
-                                "title": "Visit Index"
                               },
                               "service_time": {
                                 "default": 0,
@@ -22082,7 +22063,7 @@
                 "additionalProperties": false,
                 "properties": {
                   "depots": {
-                    "description": "Depot details including location and name.\nEach depot name within this list must be unique (no duplicates allowed).\nNote: The `index` field in each Depot will be **ignored**.",
+                    "description": "Depot details including name and location.\nEach depot name within this list must be unique (no duplicates allowed).\n",
                     "items": {
                       "additionalProperties": false,
                       "properties": {
@@ -22098,12 +22079,6 @@
                           "default": null,
                           "description": "Name of the depot.",
                           "title": "Depot Name"
-                        },
-                        "index": {
-                          "default": 0,
-                          "description": "Index of the depot in the distance matrix.",
-                          "title": "Depot Index",
-                          "type": "integer"
                         },
                         "coordinate": {
                           "anyOf": [
@@ -22155,7 +22130,7 @@
                           "type": "string"
                         },
                         "visits": {
-                          "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Note: The `index` field in each Visit will be **ignored**.\nEach visit name within this list must be unique (no duplicates allowed).",
+                          "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Each visit name within this list must be unique (no duplicates allowed).",
                           "items": {
                             "additionalProperties": false,
                             "properties": {
@@ -22171,19 +22146,6 @@
                                 "default": null,
                                 "description": "Name of the visit location.",
                                 "title": "Visit Name"
-                              },
-                              "index": {
-                                "anyOf": [
-                                  {
-                                    "type": "integer"
-                                  },
-                                  {
-                                    "type": "null"
-                                  }
-                                ],
-                                "default": null,
-                                "description": "Index of the visit in the distance matrix.",
-                                "title": "Visit Index"
                               },
                               "service_time": {
                                 "default": 0,
@@ -29946,19 +29908,6 @@
                                   "description": "Name of the visit location.",
                                   "title": "Visit Name"
                                 },
-                                "index": {
-                                  "anyOf": [
-                                    {
-                                      "type": "integer"
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ],
-                                  "default": null,
-                                  "description": "Index of the visit in the distance matrix.",
-                                  "title": "Visit Index"
-                                },
                                 "service_time": {
                                   "default": 0,
                                   "description": "Time (in minutes) to serve this visit.",
@@ -30099,19 +30048,6 @@
                                   "default": null,
                                   "description": "Name of the visit location.",
                                   "title": "Visit Name"
-                                },
-                                "index": {
-                                  "anyOf": [
-                                    {
-                                      "type": "integer"
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ],
-                                  "default": null,
-                                  "description": "Index of the visit in the distance matrix.",
-                                  "title": "Visit Index"
                                 },
                                 "service_time": {
                                   "default": 0,
@@ -40567,19 +40503,6 @@
                                   "description": "Name of the visit location.",
                                   "title": "Visit Name"
                                 },
-                                "index": {
-                                  "anyOf": [
-                                    {
-                                      "type": "integer"
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ],
-                                  "default": null,
-                                  "description": "Index of the visit in the distance matrix.",
-                                  "title": "Visit Index"
-                                },
                                 "service_time": {
                                   "default": 0,
                                   "description": "Time (in minutes) to serve this visit.",
@@ -40720,19 +40643,6 @@
                                   "default": null,
                                   "description": "Name of the visit location.",
                                   "title": "Visit Name"
-                                },
-                                "index": {
-                                  "anyOf": [
-                                    {
-                                      "type": "integer"
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ],
-                                  "default": null,
-                                  "description": "Index of the visit in the distance matrix.",
-                                  "title": "Visit Index"
                                 },
                                 "service_time": {
                                   "default": 0,
@@ -50860,12 +50770,6 @@
                         "description": "Name of the depot.",
                         "title": "Depot Name"
                       },
-                      "index": {
-                        "default": 0,
-                        "description": "Index of the depot in the distance matrix.",
-                        "title": "Depot Index",
-                        "type": "integer"
-                      },
                       "coordinate": {
                         "anyOf": [
                           {
@@ -50918,19 +50822,6 @@
                           "default": null,
                           "description": "Name of the visit location.",
                           "title": "Visit Name"
-                        },
-                        "index": {
-                          "anyOf": [
-                            {
-                              "type": "integer"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "default": null,
-                          "description": "Index of the visit in the distance matrix.",
-                          "title": "Visit Index"
                         },
                         "service_time": {
                           "default": 0,
@@ -58485,12 +58376,6 @@
                         "description": "Name of the depot.",
                         "title": "Depot Name"
                       },
-                      "index": {
-                        "default": 0,
-                        "description": "Index of the depot in the distance matrix.",
-                        "title": "Depot Index",
-                        "type": "integer"
-                      },
                       "coordinate": {
                         "anyOf": [
                           {
@@ -58543,19 +58428,6 @@
                           "default": null,
                           "description": "Name of the visit location.",
                           "title": "Visit Name"
-                        },
-                        "index": {
-                          "anyOf": [
-                            {
-                              "type": "integer"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "default": null,
-                          "description": "Index of the visit in the distance matrix.",
-                          "title": "Visit Index"
                         },
                         "service_time": {
                           "default": 0,
@@ -67395,7 +67267,7 @@
             "type": "string"
           },
           "visits": {
-            "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Note: The `index` field in each Visit will be **ignored**.\nEach visit name within this list must be unique (no duplicates allowed).",
+            "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Each visit name within this list must be unique (no duplicates allowed).",
             "items": {
               "additionalProperties": false,
               "properties": {
@@ -67411,19 +67283,6 @@
                   "default": null,
                   "description": "Name of the visit location.",
                   "title": "Visit Name"
-                },
-                "index": {
-                  "anyOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ],
-                  "default": null,
-                  "description": "Index of the visit in the distance matrix.",
-                  "title": "Visit Index"
                 },
                 "service_time": {
                   "default": 0,
@@ -67765,12 +67624,6 @@
             "default": null,
             "description": "Name of the depot.",
             "title": "Depot Name"
-          },
-          "index": {
-            "default": 0,
-            "description": "Index of the depot in the distance matrix.",
-            "title": "Depot Index",
-            "type": "integer"
           },
           "coordinate": {
             "anyOf": [
@@ -69264,7 +69117,7 @@
         "additionalProperties": false,
         "properties": {
           "depots": {
-            "description": "Depot details including location and name.\nEach depot name within this list must be unique (no duplicates allowed).\nNote: The `index` field in each Depot will be **ignored**.",
+            "description": "Depot details including name and location.\nEach depot name within this list must be unique (no duplicates allowed).\n",
             "items": {
               "additionalProperties": false,
               "properties": {
@@ -69280,12 +69133,6 @@
                   "default": null,
                   "description": "Name of the depot.",
                   "title": "Depot Name"
-                },
-                "index": {
-                  "default": 0,
-                  "description": "Index of the depot in the distance matrix.",
-                  "title": "Depot Index",
-                  "type": "integer"
                 },
                 "coordinate": {
                   "anyOf": [
@@ -69337,7 +69184,7 @@
                   "type": "string"
                 },
                 "visits": {
-                  "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Note: The `index` field in each Visit will be **ignored**.\nEach visit name within this list must be unique (no duplicates allowed).",
+                  "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Each visit name within this list must be unique (no duplicates allowed).",
                   "items": {
                     "additionalProperties": false,
                     "properties": {
@@ -69353,19 +69200,6 @@
                         "default": null,
                         "description": "Name of the visit location.",
                         "title": "Visit Name"
-                      },
-                      "index": {
-                        "anyOf": [
-                          {
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Index of the visit in the distance matrix.",
-                        "title": "Visit Index"
                       },
                       "service_time": {
                         "default": 0,
@@ -69779,19 +69613,6 @@
                           "description": "Name of the visit location.",
                           "title": "Visit Name"
                         },
-                        "index": {
-                          "anyOf": [
-                            {
-                              "type": "integer"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "default": null,
-                          "description": "Index of the visit in the distance matrix.",
-                          "title": "Visit Index"
-                        },
                         "service_time": {
                           "default": 0,
                           "description": "Time (in minutes) to serve this visit.",
@@ -69932,19 +69753,6 @@
                           "default": null,
                           "description": "Name of the visit location.",
                           "title": "Visit Name"
-                        },
-                        "index": {
-                          "anyOf": [
-                            {
-                              "type": "integer"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "default": null,
-                          "description": "Index of the visit in the distance matrix.",
-                          "title": "Visit Index"
                         },
                         "service_time": {
                           "default": 0,
@@ -70403,12 +70211,6 @@
                 "description": "Name of the depot.",
                 "title": "Depot Name"
               },
-              "index": {
-                "default": 0,
-                "description": "Index of the depot in the distance matrix.",
-                "title": "Depot Index",
-                "type": "integer"
-              },
               "coordinate": {
                 "anyOf": [
                   {
@@ -70461,19 +70263,6 @@
                   "default": null,
                   "description": "Name of the visit location.",
                   "title": "Visit Name"
-                },
-                "index": {
-                  "anyOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ],
-                  "default": null,
-                  "description": "Index of the visit in the distance matrix.",
-                  "title": "Visit Index"
                 },
                 "service_time": {
                   "default": 0,
@@ -71028,7 +70817,7 @@
         "additionalProperties": false,
         "properties": {
           "depots": {
-            "description": "Depot details including location and name.\nEach depot name within this list must be unique (no duplicates allowed).\nNote: The `index` field in each Depot will be **ignored**.",
+            "description": "Depot details including name and location.\nEach depot name within this list must be unique (no duplicates allowed).\n",
             "items": {
               "additionalProperties": false,
               "properties": {
@@ -71044,12 +70833,6 @@
                   "default": null,
                   "description": "Name of the depot.",
                   "title": "Depot Name"
-                },
-                "index": {
-                  "default": 0,
-                  "description": "Index of the depot in the distance matrix.",
-                  "title": "Depot Index",
-                  "type": "integer"
                 },
                 "coordinate": {
                   "anyOf": [
@@ -71101,7 +70884,7 @@
                   "type": "string"
                 },
                 "visits": {
-                  "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Note: The `index` field in each Visit will be **ignored**.\nEach visit name within this list must be unique (no duplicates allowed).",
+                  "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Each visit name within this list must be unique (no duplicates allowed).",
                   "items": {
                     "additionalProperties": false,
                     "properties": {
@@ -71117,19 +70900,6 @@
                         "default": null,
                         "description": "Name of the visit location.",
                         "title": "Visit Name"
-                      },
-                      "index": {
-                        "anyOf": [
-                          {
-                            "type": "integer"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "default": null,
-                        "description": "Index of the visit in the distance matrix.",
-                        "title": "Visit Index"
                       },
                       "service_time": {
                         "default": 0,
@@ -72832,19 +72602,6 @@
                           "description": "Name of the visit location.",
                           "title": "Visit Name"
                         },
-                        "index": {
-                          "anyOf": [
-                            {
-                              "type": "integer"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "default": null,
-                          "description": "Index of the visit in the distance matrix.",
-                          "title": "Visit Index"
-                        },
                         "service_time": {
                           "default": 0,
                           "description": "Time (in minutes) to serve this visit.",
@@ -72985,19 +72742,6 @@
                           "default": null,
                           "description": "Name of the visit location.",
                           "title": "Visit Name"
-                        },
-                        "index": {
-                          "anyOf": [
-                            {
-                              "type": "integer"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "default": null,
-                          "description": "Index of the visit in the distance matrix.",
-                          "title": "Visit Index"
                         },
                         "service_time": {
                           "default": 0,
@@ -73649,19 +73393,6 @@
                     "description": "Name of the visit location.",
                     "title": "Visit Name"
                   },
-                  "index": {
-                    "anyOf": [
-                      {
-                        "type": "integer"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "default": null,
-                    "description": "Index of the visit in the distance matrix.",
-                    "title": "Visit Index"
-                  },
                   "service_time": {
                     "default": 0,
                     "description": "Time (in minutes) to serve this visit.",
@@ -73802,19 +73533,6 @@
                     "default": null,
                     "description": "Name of the visit location.",
                     "title": "Visit Name"
-                  },
-                  "index": {
-                    "anyOf": [
-                      {
-                        "type": "integer"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ],
-                    "default": null,
-                    "description": "Index of the visit in the distance matrix.",
-                    "title": "Visit Index"
                   },
                   "service_time": {
                     "default": 0,
@@ -75055,19 +74773,6 @@
             "description": "Name of the visit location.",
             "title": "Visit Name"
           },
-          "index": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "default": null,
-            "description": "Index of the visit in the distance matrix.",
-            "title": "Visit Index"
-          },
           "service_time": {
             "default": 0,
             "description": "Time (in minutes) to serve this visit.",
@@ -75202,12 +74907,6 @@
                 "description": "Name of the depot.",
                 "title": "Depot Name"
               },
-              "index": {
-                "default": 0,
-                "description": "Index of the depot in the distance matrix.",
-                "title": "Depot Index",
-                "type": "integer"
-              },
               "coordinate": {
                 "anyOf": [
                   {
@@ -75260,19 +74959,6 @@
                   "default": null,
                   "description": "Name of the visit location.",
                   "title": "Visit Name"
-                },
-                "index": {
-                  "anyOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ],
-                  "default": null,
-                  "description": "Index of the visit in the distance matrix.",
-                  "title": "Visit Index"
                 },
                 "service_time": {
                   "default": 0,

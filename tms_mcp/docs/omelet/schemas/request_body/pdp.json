@@ -38,19 +38,6 @@
                       "description": "Name of the visit location.",
                       "title": "Visit Name"
                     },
-                    "index": {
-                      "anyOf": [
-                        {
-                          "type": "integer"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ],
-                      "default": null,
-                      "description": "Index of the visit in the distance matrix.",
-                      "title": "Visit Index"
-                    },
                     "service_time": {
                       "default": 0,
                       "description": "Time (in minutes) to serve this visit.",
@@ -191,19 +178,6 @@
                       "default": null,
                       "description": "Name of the visit location.",
                       "title": "Visit Name"
-                    },
-                    "index": {
-                      "anyOf": [
-                        {
-                          "type": "integer"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ],
-                      "default": null,
-                      "description": "Index of the visit in the distance matrix.",
-                      "title": "Visit Index"
                     },
                     "service_time": {
                       "default": 0,
