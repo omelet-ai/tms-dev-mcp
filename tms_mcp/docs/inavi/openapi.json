@@ -28,7 +28,7 @@
           "Route"
         ],
         "summary": "General Route Prediction Search",
-        "description": "Returns detailed guidance and route information searched using the coordinates of an origin, destination, and optional waypoints, based on a specified estimated departure or arrival time.",
+        "description": "Predicts a route and returns detailed guidance based on a specified estimated departure or arrival time, using the coordinates of an origin, destination, and optional waypoints.",
         "operationId": "routeTime",
         "parameters": [
           {
@@ -628,7 +628,7 @@
           "Route"
         ],
         "summary": "Multi-Waypoint Route Search",
-        "description": "Returns optimized route information based on a search using an origin, a destination, up to 100 waypoints, and other settings.",
+        "description": "Returns optimized route information based on a search using an origin, a destination, and up to 100 waypoints. Performs route searches using various strategies based on request parameters, such as reflecting real-time traffic, prioritizing the shortest distance, or optimizing for motorcycles.",
         "operationId": "routeNormalVia",
         "parameters": [
           {
@@ -1244,7 +1244,7 @@
           "Search"
         ],
         "summary": "Multi Optimal Point Search",
-        "description": "Converts and returns a list of coordinates to optimal point coordinates according to options.",
+        "description": "Converts a list of coordinates to the nearest designated points for a specific purpose, such as a vehicle entrance, a taxi stand, or a delivery drop-off location, as determined by the type parameter.",
         "operationId": "getMultiOptimalSearches",
         "parameters": [
           {

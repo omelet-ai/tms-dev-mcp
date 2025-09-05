@@ -2,7 +2,7 @@
   "path": "/maps/v3.0/appkeys/{appkey}/multi-optimal-searches",
   "method": "POST",
   "summary": "Multi Optimal Point Search",
-  "description": "Converts and returns a list of coordinates to optimal point coordinates according to options.",
+  "description": "Converts a list of coordinates to the nearest designated points for a specific purpose, such as a vehicle entrance, a taxi stand, or a delivery drop-off location, as determined by the type parameter.",
   "parameters": [
     {
       "name": "appkey",

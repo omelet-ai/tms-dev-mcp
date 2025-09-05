@@ -2,7 +2,7 @@
   "path": "/maps/v3.0/appkeys/{appkey}/route-normal-via",
   "method": "POST",
   "summary": "Multi-Waypoint Route Search",
-  "description": "Returns optimized route information based on a search using an origin, a destination, up to 100 waypoints, and other settings.",
+  "description": "Returns optimized route information based on a search using an origin, a destination, and up to 100 waypoints. Performs route searches using various strategies based on request parameters, such as reflecting real-time traffic, prioritizing the shortest distance, or optimizing for motorcycles.",
   "parameters": [
     {
       "name": "appkey",
