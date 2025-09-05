@@ -2,7 +2,7 @@
   "path": "/api/advanced-vrp-long",
   "method": "POST",
   "summary": "Advanced Vehicle Routing API for long request",
-  "description": "Solves the vehicle routing problem (VRP) to minimize total objective cost. Supports up to 10,000 visits and a time limit of 1,200 seconds for optimization. ",
+  "description": "Low-level, highly configurable endpoint for solving realistic VRP variants at scale. Offers extensive control over operators and constraints but is typically less aggressively optimized than /vrp; with identical settings, it may be slightly slower. Supports up to 10,000 visits and a time limit of 1,200 seconds for optimization.",
   "parameters": [
     {
       "in": "header",

@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Omelet Routing Engine API",
-    "version": "2.0.34",
+    "version": "2.0.35",
     "description": "Advanced routing optimization solutions",
     "contact": {
       "name": "omelet",
@@ -14,7 +14,7 @@
     "/api/advanced-vrp": {
       "post": {
         "operationId": "api_advanced_vrp_create",
-        "description": "Solves the vehicle routing problem (VRP) to minimize total objective cost. Supports up to 3,000 visits and a time limit of 120 seconds for optimization. ",
+        "description": "Low-level, highly configurable endpoint for solving realistic VRP variants at scale. Offers extensive control over operators and constraints but is typically less aggressively optimized than /vrp; with identical settings, it may be slightly slower. Supports up to 3,000 visits and a time limit of 120 seconds for optimization.",
         "summary": "Advanced Vehicle Routing API",
         "parameters": [
           {
@@ -8450,7 +8450,7 @@
     "/api/advanced-vrp-long": {
       "post": {
         "operationId": "api_advanced_vrp_long_create",
-        "description": "Solves the vehicle routing problem (VRP) to minimize total objective cost. Supports up to 10,000 visits and a time limit of 1,200 seconds for optimization. ",
+        "description": "Low-level, highly configurable endpoint for solving realistic VRP variants at scale. Offers extensive control over operators and constraints but is typically less aggressively optimized than /vrp; with identical settings, it may be slightly slower. Supports up to 10,000 visits and a time limit of 1,200 seconds for optimization.",
         "summary": "Advanced Vehicle Routing API for long request",
         "parameters": [
           {
@@ -50714,7 +50714,7 @@
     "/api/vrp": {
       "post": {
         "operationId": "api_vrp_create",
-        "description": "Solves the classic vehicle routing problem (VRP) to minimize total objective cost. Supports up to 3,000 visits and a time limit of 120 seconds for optimization.",
+        "description": "Solves the classic vehicle routing problem (VRP) to minimize total objective cost. Supports up to 3,000 visits and a time limit of 120 seconds for optimization. This endpoint offers a simplified option set and is highly optimized for common use cases, often delivering excellent performance with minimal configuration. For fine-grained control or uncommon constraints, consider the Advanced VRP endpoint (/advanced_vrp).",
         "summary": "OMELET Vehicle Routing API",
         "parameters": [
           {
@@ -58320,7 +58320,7 @@
     "/api/vrp-long": {
       "post": {
         "operationId": "api_vrp_long_create",
-        "description": "Solves the classic vehicle routing problem (VRP) to minimize total objective cost. Supports up to 10,000 visits and a time limit of 1,200 seconds for optimization.",
+        "description": "Solves the classic vehicle routing problem (VRP) to minimize total objective cost. Supports up to 10,000 visits and a time limit of 1,200 seconds for optimization. This endpoint offers a simplified option set and is highly optimized for common use cases, often delivering excellent performance with minimal configuration. For fine-grained control or uncommon constraints, consider the Advanced VRP endpoint (/advanced_vrp).",
         "summary": "OMELET Vehicle Routing API for long request",
         "parameters": [
           {
