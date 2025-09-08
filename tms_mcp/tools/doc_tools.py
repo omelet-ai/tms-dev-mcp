@@ -172,9 +172,8 @@ def list_endpoints(
     if provider:
         # Return provider-specific endpoints
         file_path = docs_dir / provider / "endpoints_summary.md"
-        if not file_path.exists():
-            return f"Error: No endpoints found for provider '{provider}'."
-        return _read_text_file(file_path)
+        if file_path.exists():
+            return _read_text_file(file_path)
 
     # Return combined endpoints from both providers
     content_parts = []
