@@ -27,15 +27,6 @@
             "example": "성남시",
             "minLength": 1
           },
-          "coordtype": {
-            "type": "string",
-            "description": "Coordinate system type. 0 indicates TW coordinates, 1 indicates WGS84 coordinates, 2 indicates TM coordinates.",
-            "examples": [
-              "0",
-              "1",
-              "2"
-            ]
-          },
           "startposition": {
             "type": "string",
             "default": "0",
