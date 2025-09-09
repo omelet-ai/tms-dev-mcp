@@ -209,10 +209,5 @@
       "startX",
       "startY"
     ]
-  },
-  "_meta": {
-    "source": "iNavi",
-    "path": "/maps/v3.0/appkeys/{appkey}/route-normal-via",
-    "method": "POST"
   }
 }

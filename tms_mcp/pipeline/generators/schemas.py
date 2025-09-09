@@ -7,7 +7,7 @@ import copy
 from typing import Any
 
 from ...config import settings
-from ..models import OpenAPISpec, SchemaMetadata
+from ..models import OpenAPISpec
 from ..utils import get_endpoint_filename, safe_remove_directory, write_json_file
 from .base import BaseGenerator
 
@@ -55,6 +55,9 @@ class SchemaGenerator(BaseGenerator):
                 content = request_body.get("content", {})
                 app_json = content.get("application/json")
                 if not app_json:
+                    continue
+                # Ensure a schema exists; skip if absent
+                if not isinstance(app_json, dict) or not app_json.get("schema"):
                     continue
 
                 # Save schema with metadata
@@ -136,14 +139,11 @@ class SchemaGenerator(BaseGenerator):
         Returns:
             Schema with metadata attached
         """
-        schema_to_save = copy.deepcopy(app_json)
+        # Only persist the JSON Schema, excluding any examples or other fields
+        schema_only: dict[str, Any] = {"schema": copy.deepcopy(app_json.get("schema"))}
 
-        # Determine source based on provider
-        source = settings.pipeline_config.provider_configs[provider].name
-        metadata = SchemaMetadata(source=source, path=path, method=method.upper())
-        schema_to_save["_meta"] = metadata.__dict__
-
-        return schema_to_save
+        # Intentionally do not include examples or metadata to keep only the schema
+        return schema_only
 
     def _get_path_id(self, provider: str, path: str) -> str:
         """

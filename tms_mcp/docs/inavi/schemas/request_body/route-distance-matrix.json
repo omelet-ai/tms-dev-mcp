@@ -52,10 +52,5 @@
     "required": [
       "points"
     ]
-  },
-  "_meta": {
-    "source": "iNavi",
-    "path": "/maps/v3.0/appkeys/{appkey}/route-distance-matrix",
-    "method": "POST"
   }
 }

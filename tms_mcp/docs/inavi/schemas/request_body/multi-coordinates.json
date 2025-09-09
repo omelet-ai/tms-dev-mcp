@@ -32,10 +32,5 @@
         "minItems": 1
       }
     }
-  },
-  "_meta": {
-    "source": "iNavi",
-    "path": "/maps/v3.0/appkeys/{appkey}/multi-coordinates",
-    "method": "POST"
   }
 }
