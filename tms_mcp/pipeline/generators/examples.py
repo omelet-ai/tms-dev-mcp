@@ -95,6 +95,19 @@ class ExampleGenerator(BaseGenerator):
                             status_code=status_code,
                         )
 
+    def _truncate_lists(self, data: object, limit: int) -> object:
+        """Recursively truncate lists in any nested structure to the first `limit` elements."""
+        try:
+            if isinstance(data, list):
+                truncated = data[: limit if limit is not None and limit >= 0 else None]
+                return [self._truncate_lists(item, limit) for item in truncated]
+            if isinstance(data, dict):
+                return {k: self._truncate_lists(v, limit) for k, v in data.items()}
+            return data
+        except Exception:
+            # In case of any unexpected structure, return data as-is
+            return data
+
     def _save_example(
         self,
         example_data: dict,
@@ -140,6 +153,13 @@ class ExampleGenerator(BaseGenerator):
         example_filename = f"{example_name}.json"
         example_file_path = endpoint_dir / example_filename
 
+        # Recursively truncate any lists in the data to the configured limit
+        limit = getattr(settings, "EXAMPLE_LENGTH_LIMIT", None)
+        if isinstance(limit, int):
+            data_to_save = self._truncate_lists(example_data, limit)
+        else:
+            data_to_save = example_data
+
         # Save the example
-        write_json_file(example_file_path, example_data)
+        write_json_file(example_file_path, data_to_save)
         self.log_progress(f"Saved example '{example_name}' to {example_file_path}")

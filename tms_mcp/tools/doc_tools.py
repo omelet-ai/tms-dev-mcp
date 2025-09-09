@@ -303,6 +303,8 @@ def get_example(
     Check the list of examples using the list_examples tool first for the `example_name`.
     Currently, only usable for "omelet" provider endpoints.
 
+    Note: Saved examples may be truncated, so the returned example may not be complete.
+
     Returns:
         JSON content of the example
     """

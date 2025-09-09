@@ -77,6 +77,12 @@ class Settings(BaseSettings):
     # Development settings
     LOG_LEVEL: str = Field(default="INFO", description="Logging level")
 
+    # Example generation
+    EXAMPLE_LENGTH_LIMIT: int = Field(
+        default=3,
+        description="Max elements to keep when a top-level value is a list in saved examples",
+    )
+
     # Pipeline configuration
     pipeline_config: PipelineSettings = Field(default_factory=PipelineSettings, description="Pipeline configuration")
 
