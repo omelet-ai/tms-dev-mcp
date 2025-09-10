@@ -1719,40 +1719,45 @@
             }
           },
           {
-            "name": "searchCondition",
+            "name": "query",
             "in": "query",
-            "description": "Geocoding search conditions",
+            "description": "Search keyword",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "query": {
-                  "type": "string",
-                  "description": "Search keyword",
-                  "example": "성남시",
-                  "minLength": 1
-                },
-                "startposition": {
-                  "type": "string",
-                  "default": "0",
-                  "description": "Search start position. 0 means the first position.",
-                  "example": 0
-                },
-                "reqcount": {
-                  "type": "string",
-                  "description": "Request count. When set to 0, it will be set to the maximum count of 100",
-                  "example": 10
-                },
-                "admcode": {
-                  "type": "string",
-                  "description": "Administrative district code",
-                  "example": 1100000000
-                }
-              },
-              "required": [
-                "query"
-              ]
-            }
+              "type": "string",
+              "minLength": 1
+            },
+            "example": "성남시"
+          },
+          {
+            "name": "startposition",
+            "in": "query",
+            "description": "Search start position. 0 means the first position. Default value is 0.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": 0
+          },
+          {
+            "name": "reqcount",
+            "in": "query",
+            "description": "Request count. When set to 0, it will be set to the maximum count of 100",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": 10
+          },
+          {
+            "name": "admcode",
+            "in": "query",
+            "description": "Administrative district code",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1100000000
           }
         ],
         "responses": {
@@ -5175,36 +5180,6 @@
             }
           }
         }
-      },
-      "CoordinatesSearchCondition": {
-        "type": "object",
-        "properties": {
-          "query": {
-            "type": "string",
-            "description": "Search keyword",
-            "example": "성남시",
-            "minLength": 1
-          },
-          "startposition": {
-            "type": "string",
-            "default": "0",
-            "description": "Search start position. 0 means the first position.",
-            "example": 0
-          },
-          "reqcount": {
-            "type": "string",
-            "description": "Request count. When set to 0, it will be set to the maximum count of 100",
-            "example": 10
-          },
-          "admcode": {
-            "type": "string",
-            "description": "Administrative district code",
-            "example": 1100000000
-          }
-        },
-        "required": [
-          "query"
-        ]
       },
       "Address": {
         "type": "object",
