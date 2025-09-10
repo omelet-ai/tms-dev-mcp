@@ -105,19 +105,19 @@ class EndpointGenerator(BaseGenerator):
 
         self.log_progress(f"Generated endpoint overviews in {overviews_path}")
 
-    def _extract_endpoint_rows(self, spec: OpenAPISpec) -> list[tuple[str, str, str]]:
-        """Extract endpoint information for summary table."""
+    def _extract_endpoint_rows(self, spec: OpenAPISpec) -> list[tuple[str, str, str, str]]:
+        """Extract endpoint information for summary table, including HTTP method."""
         rows = []
         paths = spec.paths
 
         for path, path_data in paths.items():
-            for _, method_data in path_data.items():
+            for method, method_data in path_data.items():
                 if not isinstance(method_data, dict):
                     continue
 
                 summary = method_data.get("summary", "")
                 description = method_data.get("description", "None")
-                rows.append((path, summary, description))
+                rows.append((path, method.upper(), summary, description))
 
         return rows
 
@@ -138,21 +138,28 @@ class EndpointGenerator(BaseGenerator):
 
         return title, base_url
 
-    def _build_summary_markdown(self, title: str, base_url: str, rows: list[tuple[str, str, str]]) -> str:
+    def _build_summary_markdown(self, title: str, base_url: str, rows: list[tuple[str, str, str, str]]) -> str:
         """Build markdown content for endpoints summary."""
         lines = [title]
 
         if base_url:
             lines.extend([f"**Base URL:** `{base_url}`", ""])
 
-        lines.extend(["## Endpoints", "| Path | Summary | Description |", "|------|---------|-------------|"])
+        lines.extend(
+            [
+                "## Endpoints",
+                "| Path | Method | Summary | Description |",
+                "|------|--------|---------|-------------|",
+            ]
+        )
 
         # Add rows to table
-        for path, summary, description in rows:
+        for path, method, summary, description in rows:
             path_escaped = escape_markdown_table_content(path)
+            method_escaped = escape_markdown_table_content(method)
             summary_escaped = escape_markdown_table_content(summary)
             description_escaped = escape_markdown_table_content(description)
-            lines.append(f"| {path_escaped} | {summary_escaped} | {description_escaped} |")
+            lines.append(f"| {path_escaped} | {method_escaped} | {summary_escaped} | {description_escaped} |")
 
         return "\n".join(lines)
 
