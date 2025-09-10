@@ -211,7 +211,7 @@ def get_request_body_schema(
     provider: Annotated[str | None, "Optional provider name. If None, auto-detects from path."] = None,
 ) -> str:
     """
-    Get the request body schema for a specific API endpoint.
+    Get the request body schema for a specific API endpoint (only works for endpoints that require a request body, typically POST/PUT methods).
 
     Returns:
         JSON schema content for the request body
