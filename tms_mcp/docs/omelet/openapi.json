@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Omelet Routing Engine API",
-    "version": "2.0.41",
+    "version": "2.0.42",
     "description": "Advanced routing optimization solutions",
     "contact": {
       "name": "omelet",
@@ -12899,43 +12899,22 @@
                 "schema": {
                   "additionalProperties": false,
                   "properties": {
-                    "routes": {
-                      "description": "List of routes, where each route is a list of visit indices.",
-                      "items": {
-                        "items": {
-                          "type": "string"
-                        },
-                        "type": "array"
-                      },
-                      "title": "Routes",
-                      "type": "array"
-                    },
-                    "cost": {
-                      "description": "Total cost of the solution.",
-                      "title": "Total Cost",
-                      "type": "number"
-                    },
-                    "detailed_cost": {
-                      "additionalProperties": {
-                        "type": "number"
-                      },
-                      "description": "Detailed cost of the solution.",
-                      "title": "Detailed Cost",
-                      "type": "object"
+                    "result_url": {
+                      "description": "GET endpoint to retrieve the result using the job ID in long-running API mode.",
+                      "title": "Result URL",
+                      "type": "string"
                     },
                     "job_id": {
-                      "default": "",
-                      "description": "Unique identifier for the routing job. Only needed when contacting Omelet for support.",
+                      "description": "Unique identifier for the routing job. Use with the check API to monitor progress, or with the get API to retrieve the result within 10 days.",
                       "title": "Job ID",
                       "type": "string"
                     }
                   },
                   "required": [
-                    "routes",
-                    "cost",
-                    "detailed_cost"
+                    "result_url",
+                    "job_id"
                   ],
-                  "title": "AdvancedVrpEngineOutput",
+                  "title": "LongApiOutput",
                   "type": "object"
                 },
                 "examples": {
@@ -16111,43 +16090,22 @@
                 "schema": {
                   "additionalProperties": false,
                   "properties": {
-                    "routes": {
-                      "description": "List of routes, where each route is a list of visit indices.",
-                      "items": {
-                        "items": {
-                          "type": "string"
-                        },
-                        "type": "array"
-                      },
-                      "title": "Routes",
-                      "type": "array"
-                    },
-                    "cost": {
-                      "description": "Total cost of the solution.",
-                      "title": "Total Cost",
-                      "type": "number"
-                    },
-                    "detailed_cost": {
-                      "additionalProperties": {
-                        "type": "number"
-                      },
-                      "description": "Detailed cost of the solution.",
-                      "title": "Detailed Cost",
-                      "type": "object"
+                    "result_url": {
+                      "description": "GET endpoint to retrieve the result using the job ID in long-running API mode.",
+                      "title": "Result URL",
+                      "type": "string"
                     },
                     "job_id": {
-                      "default": "",
-                      "description": "Unique identifier for the routing job. Only needed when contacting Omelet for support.",
+                      "description": "Unique identifier for the routing job. Use with the check API to monitor progress, or with the get API to retrieve the result within 10 days.",
                       "title": "Job ID",
                       "type": "string"
                     }
                   },
                   "required": [
-                    "routes",
-                    "cost",
-                    "detailed_cost"
+                    "result_url",
+                    "job_id"
                   ],
-                  "title": "AdvancedVrpEngineOutput",
+                  "title": "LongApiOutput",
                   "type": "object"
                 }
               }
