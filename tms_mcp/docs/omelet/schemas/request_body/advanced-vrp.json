@@ -8,7 +8,8 @@
           "additionalProperties": false,
           "properties": {
             "id": {
-              "title": "Id",
+              "description": "Unique identifier for the delivery.",
+              "title": "Delivery ID",
               "type": "string"
             },
             "coordinate": {
@@ -33,6 +34,7 @@
               "type": "object"
             },
             "order_placed_at": {
+              "description": "Datetime for order placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
               "format": "date-time",
               "title": "Order Placed At",
               "type": "string"
@@ -47,7 +49,9 @@
                   "type": "null"
                 }
               ],
-              "title": "Tw Early"
+              "default": null,
+              "description": "Datetime for time window early. Required if time window is given. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+              "title": "Time Window Early"
             },
             "tw_late": {
               "anyOf": [
@@ -59,12 +63,15 @@
                   "type": "null"
                 }
               ],
-              "title": "Tw Late"
+              "default": null,
+              "description": "Datetime for time window late. Required if time window is given. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+              "title": "Time Window Late"
             },
             "service_time": {
               "additionalProperties": {
                 "type": "number"
               },
+              "description": "Service time for each vehicle type (in seconds).",
               "propertyNames": {
                 "enum": [
                   "bike",
@@ -78,18 +85,22 @@
               "type": "object"
             },
             "volume": {
+              "description": "Volume of the delivery.",
               "title": "Volume",
               "type": "number"
             },
             "weight": {
+              "description": "Weight of the delivery.",
               "title": "Weight",
               "type": "number"
             },
             "unassigned_penalty": {
+              "description": "Unassigned penalty of the delivery.",
               "title": "Unassigned Penalty",
               "type": "number"
             },
             "extra_demands": {
+              "description": "Extra demands of the delivery.",
               "items": {
                 "type": "number"
               },
@@ -97,11 +108,14 @@
               "type": "array"
             },
             "early_delivery_required": {
+              "default": false,
+              "description": "Early delivery required of the delivery.",
               "title": "Early Delivery Required",
               "type": "boolean"
             },
             "early_delivery_priority": {
               "default": 1,
+              "description": "Early delivery priority of the delivery.",
               "maximum": 10,
               "minimum": 1,
               "title": "Early Delivery Priority",
@@ -112,14 +126,11 @@
             "id",
             "coordinate",
             "order_placed_at",
-            "tw_early",
-            "tw_late",
             "service_time",
             "volume",
             "weight",
             "unassigned_penalty",
-            "extra_demands",
-            "early_delivery_required"
+            "extra_demands"
           ],
           "title": "DeliveryDto",
           "type": "object"
@@ -135,7 +146,8 @@
           "additionalProperties": false,
           "properties": {
             "id": {
-              "title": "Id",
+              "description": "Unique identifier for the rider.",
+              "title": "Rider ID",
               "type": "string"
             },
             "vehicle_type": {
@@ -153,7 +165,8 @@
                   "additionalProperties": false,
                   "properties": {
                     "id": {
-                      "title": "Id",
+                      "description": "Unique identifier for the depot.",
+                      "title": "Depot ID",
                       "type": "string"
                     },
                     "coordinate": {
@@ -181,6 +194,7 @@
                       "additionalProperties": {
                         "type": "number"
                       },
+                      "description": "Service time for each vehicle type.",
                       "propertyNames": {
                         "enum": [
                           "bike",
@@ -205,7 +219,9 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Depot the rider will start at.",
+              "title": "Start Depot"
             },
             "end_depot": {
               "anyOf": [
@@ -213,7 +229,8 @@
                   "additionalProperties": false,
                   "properties": {
                     "id": {
-                      "title": "Id",
+                      "description": "Unique identifier for the depot.",
+                      "title": "Depot ID",
                       "type": "string"
                     },
                     "coordinate": {
@@ -241,6 +258,7 @@
                       "additionalProperties": {
                         "type": "number"
                       },
+                      "description": "Service time for each vehicle type.",
                       "propertyNames": {
                         "enum": [
                           "bike",
@@ -265,21 +283,27 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Depot the rider will end at.",
+              "title": "End Depot"
             },
             "volume_capacity": {
+              "description": "Volume capacity of the rider.",
               "title": "Volume Capacity",
               "type": "number"
             },
             "weight_capacity": {
+              "description": "Weight capacity of the rider.",
               "title": "Weight Capacity",
               "type": "number"
             },
             "unit_distance_cost": {
+              "description": "Unit distance cost of the rider.",
               "title": "Unit Distance Cost",
               "type": "number"
             },
             "unit_duration_cost": {
+              "description": "Unit duration cost of the rider.",
               "title": "Unit Duration Cost",
               "type": "number"
             },
@@ -293,7 +317,9 @@
                   "type": "null"
                 }
               ],
-              "title": "Work Start Time"
+              "default": null,
+              "description": "Datetime for driver shift start. Required if driver has working hours. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+              "title": "Driver Shift Start Time"
             },
             "work_end_time": {
               "anyOf": [
@@ -305,21 +331,26 @@
                   "type": "null"
                 }
               ],
-              "title": "Work End Time"
+              "default": null,
+              "description": "Datetime for driver shift end. Required if driver has working hours. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+              "title": "Driver Shift End Time"
             },
             "max_round": {
+              "description": "Max round of the rider.",
               "title": "Max Round",
               "type": "integer"
             },
             "preassigned_delivery_ids": {
+              "description": "Preassigned delivery IDs of the rider.",
               "items": {
                 "type": "string"
               },
-              "title": "Preassigned Delivery Ids",
+              "title": "Preassigned Delivery IDs",
               "type": "array",
               "uniqueItems": true
             },
             "extra_capacities": {
+              "description": "Extra capacities of the rider.",
               "items": {
                 "type": "number"
               },
@@ -327,6 +358,7 @@
               "type": "array"
             },
             "max_service_radius": {
+              "description": "Max service radius of the rider (in meters).",
               "title": "Max Service Radius",
               "type": "number"
             }
@@ -340,8 +372,6 @@
             "weight_capacity",
             "unit_distance_cost",
             "unit_duration_cost",
-            "work_start_time",
-            "work_end_time",
             "max_round",
             "preassigned_delivery_ids",
             "extra_capacities",
@@ -1127,7 +1157,7 @@
         "properties": {
           "timelimit": {
             "description": "Time limit for the routing problem.",
-            "maximum": 60,
+            "maximum": 117,
             "minimum": 1,
             "title": "Time Limit",
             "type": "integer"
@@ -1143,7 +1173,7 @@
               }
             ],
             "default": null,
-            "description": "ISO datetime for delivery start. Required if visits have time windows.",
+            "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Delivery Start Time"
           },
           "distance_type": {

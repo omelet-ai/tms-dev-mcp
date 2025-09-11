@@ -181,7 +181,7 @@
                       }
                     ],
                     "default": null,
-                    "description": "Permissible time range for service at this location, in ISO datetime format.",
+                    "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Visit Time Window"
                   },
                   "early_delivery_required": {
@@ -218,7 +218,7 @@
                 }
               ],
               "default": null,
-              "description": "ISO datetime for delivery start. Required if visits have time windows.",
+              "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
               "title": "Start Time"
             }
           },
@@ -278,7 +278,7 @@
                 }
               ],
               "default": null,
-              "description": "Earliest datetime when the driver is available to begin their shift. This marks the lower bound of the driver's working hours.",
+              "description": "Earliest datetime when the driver is available to begin their shift. This marks the lower bound of the driver's working hours. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
               "title": "Driver Shift Start Time"
             },
             "work_end_time": {
@@ -292,7 +292,7 @@
                 }
               ],
               "default": null,
-              "description": "Latest datetime by which the driver must finish their shift. This marks the upper bound of the driver's working hours.",
+              "description": "Latest datetime by which the driver must finish their shift. This marks the upper bound of the driver's working hours. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
               "title": "Driver Shift End Time"
             },
             "vehicle_type": {

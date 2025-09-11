@@ -165,7 +165,7 @@
                 }
               ],
               "default": null,
-              "description": "Permissible time range for service at this location, in ISO datetime format.",
+              "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
               "title": "Visit Time Window"
             },
             "early_delivery_required": {
@@ -400,7 +400,7 @@
           }
         ],
         "default": null,
-        "description": "ISO datetime for delivery start. Required if visits have time windows.",
+        "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
         "title": "Start Time"
       },
       "option": {
