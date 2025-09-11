@@ -51,7 +51,7 @@ pre-commit install
 ```json
 {
    "mcpServers": {
-      "tms-dev": {
+      "TMS Development Wizard": {
          "command": "/path/to/tms-dev-mcp/.venv/bin/python",
          "args": [
             "/path/to/tms-dev-mcp/tms_mcp/main.py",
