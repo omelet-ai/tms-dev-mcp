@@ -1,6 +1,6 @@
 [project]
 name = "tms-mcp"
-version = "0.1.12"
+version = "0.1.13"
 description = "MCP server for exploring Omelet's Routing Engine and iNavi's Maps API to help build a TMS"
 authors = [
     {name = "Juni", email = "juni.lee@omelet.ai"},

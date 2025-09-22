@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Omelet Routing Engine API",
-    "version": "2.0.43",
+    "version": "2.0.44",
     "description": "Advanced routing optimization solutions",
     "contact": {
       "name": "omelet",
@@ -19370,6 +19370,29 @@
                           "title": "VehicleType",
                           "type": "string"
                         },
+                        "pre_assigned_visits": {
+                          "anyOf": [
+                            {
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
+                          "title": "Pre-assigned Visits"
+                        },
+                        "max_round": {
+                          "default": 1,
+                          "description": "Maximum number of rounds this vehicle can make in a schedule. A round is defined as a complete cycle starting and ending at the depot. ",
+                          "minimum": 1,
+                          "title": "Maximum Rounds",
+                          "type": "integer"
+                        },
                         "ownership_type": {
                           "enum": [
                             "rented",
@@ -19425,6 +19448,27 @@
                           "title": "Fuel Cost per km",
                           "type": "number"
                         },
+                        "wage_cost_per_hour": {
+                          "default": 0.0,
+                          "description": "Driver wage cost in KRW per hour. Used to calculate labor expenses based on total driving and service time. For example, a value of 15000.0 means the driver earns 15,000 KRW per hour.",
+                          "minimum": 0.0,
+                          "title": "Wage Cost per Hour",
+                          "type": "number"
+                        },
+                        "cost_per_round": {
+                          "default": 0.0,
+                          "description": "Fixed cost incurred for each round the vehicle makes. A round is defined as a complete cycle starting and ending at the depot.",
+                          "minimum": 0.0,
+                          "title": "Cost per Round",
+                          "type": "number"
+                        },
+                        "cost_free_rounds": {
+                          "default": 0,
+                          "description": "Number of rounds that do not incur the cost_per_round. For example, if cost_free_rounds is 2 and cost_per_round is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW each.",
+                          "minimum": 0,
+                          "title": "Cost Free Rounds",
+                          "type": "integer"
+                        },
                         "visit_preference": {
                           "additionalProperties": {
                             "type": "integer"
@@ -19475,10 +19519,12 @@
                   },
                   "objective_costs": {
                     "default": [
+                      "consecutive_visit_tiered_cost",
                       "fixed_cost",
                       "fuel_cost",
                       "first_visit_cost",
-                      "consecutive_visit_tiered_cost"
+                      "round_cost",
+                      "wage_cost"
                     ],
                     "description": "List of cost types to be considered for the optimization.",
                     "items": {
@@ -19486,7 +19532,9 @@
                         "fixed_cost",
                         "fuel_cost",
                         "first_visit_cost",
-                        "consecutive_visit_tiered_cost"
+                        "consecutive_visit_tiered_cost",
+                        "round_cost",
+                        "wage_cost"
                       ],
                       "type": "string"
                     },
@@ -20307,7 +20355,9 @@
                                     "fixed_cost",
                                     "fuel_cost",
                                     "first_visit_cost",
-                                    "consecutive_visit_tiered_cost"
+                                    "consecutive_visit_tiered_cost",
+                                    "round_cost",
+                                    "wage_cost"
                                   ]
                                 },
                                 "title": "Solution Cost Details",
@@ -20343,7 +20393,9 @@
                               "fixed_cost",
                               "fuel_cost",
                               "first_visit_cost",
-                              "consecutive_visit_tiered_cost"
+                              "consecutive_visit_tiered_cost",
+                              "round_cost",
+                              "wage_cost"
                             ]
                           },
                           "title": "Aggregated Solution Cost",
@@ -21163,7 +21215,9 @@
                                     "fixed_cost",
                                     "fuel_cost",
                                     "first_visit_cost",
-                                    "consecutive_visit_tiered_cost"
+                                    "consecutive_visit_tiered_cost",
+                                    "round_cost",
+                                    "wage_cost"
                                   ]
                                 },
                                 "title": "Solution Cost Details",
@@ -21199,7 +21253,9 @@
                               "fixed_cost",
                               "fuel_cost",
                               "first_visit_cost",
-                              "consecutive_visit_tiered_cost"
+                              "consecutive_visit_tiered_cost",
+                              "round_cost",
+                              "wage_cost"
                             ]
                           },
                           "title": "Aggregated Solution Cost",
@@ -22382,6 +22438,29 @@
                           "title": "VehicleType",
                           "type": "string"
                         },
+                        "pre_assigned_visits": {
+                          "anyOf": [
+                            {
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
+                          "title": "Pre-assigned Visits"
+                        },
+                        "max_round": {
+                          "default": 1,
+                          "description": "Maximum number of rounds this vehicle can make in a schedule. A round is defined as a complete cycle starting and ending at the depot. ",
+                          "minimum": 1,
+                          "title": "Maximum Rounds",
+                          "type": "integer"
+                        },
                         "ownership_type": {
                           "enum": [
                             "rented",
@@ -22437,6 +22516,27 @@
                           "title": "Fuel Cost per km",
                           "type": "number"
                         },
+                        "wage_cost_per_hour": {
+                          "default": 0.0,
+                          "description": "Driver wage cost in KRW per hour. Used to calculate labor expenses based on total driving and service time. For example, a value of 15000.0 means the driver earns 15,000 KRW per hour.",
+                          "minimum": 0.0,
+                          "title": "Wage Cost per Hour",
+                          "type": "number"
+                        },
+                        "cost_per_round": {
+                          "default": 0.0,
+                          "description": "Fixed cost incurred for each round the vehicle makes. A round is defined as a complete cycle starting and ending at the depot.",
+                          "minimum": 0.0,
+                          "title": "Cost per Round",
+                          "type": "number"
+                        },
+                        "cost_free_rounds": {
+                          "default": 0,
+                          "description": "Number of rounds that do not incur the cost_per_round. For example, if cost_free_rounds is 2 and cost_per_round is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW each.",
+                          "minimum": 0,
+                          "title": "Cost Free Rounds",
+                          "type": "integer"
+                        },
                         "visit_preference": {
                           "additionalProperties": {
                             "type": "integer"
@@ -22487,10 +22587,12 @@
                   },
                   "objective_costs": {
                     "default": [
+                      "consecutive_visit_tiered_cost",
                       "fixed_cost",
                       "fuel_cost",
                       "first_visit_cost",
-                      "consecutive_visit_tiered_cost"
+                      "round_cost",
+                      "wage_cost"
                     ],
                     "description": "List of cost types to be considered for the optimization.",
                     "items": {
@@ -22498,7 +22600,9 @@
                         "fixed_cost",
                         "fuel_cost",
                         "first_visit_cost",
-                        "consecutive_visit_tiered_cost"
+                        "consecutive_visit_tiered_cost",
+                        "round_cost",
+                        "wage_cost"
                       ],
                       "type": "string"
                     },
@@ -25959,7 +26063,9 @@
                                         "fixed_cost",
                                         "fuel_cost",
                                         "first_visit_cost",
-                                        "consecutive_visit_tiered_cost"
+                                        "consecutive_visit_tiered_cost",
+                                        "round_cost",
+                                        "wage_cost"
                                       ]
                                     },
                                     "title": "Solution Cost Details",
@@ -25995,7 +26101,9 @@
                                   "fixed_cost",
                                   "fuel_cost",
                                   "first_visit_cost",
-                                  "consecutive_visit_tiered_cost"
+                                  "consecutive_visit_tiered_cost",
+                                  "round_cost",
+                                  "wage_cost"
                                 ]
                               },
                               "title": "Aggregated Solution Cost",
@@ -26149,7 +26257,9 @@
                                         "fixed_cost",
                                         "fuel_cost",
                                         "first_visit_cost",
-                                        "consecutive_visit_tiered_cost"
+                                        "consecutive_visit_tiered_cost",
+                                        "round_cost",
+                                        "wage_cost"
                                       ]
                                     },
                                     "title": "Solution Cost Details",
@@ -26185,7 +26295,9 @@
                                   "fixed_cost",
                                   "fuel_cost",
                                   "first_visit_cost",
-                                  "consecutive_visit_tiered_cost"
+                                  "consecutive_visit_tiered_cost",
+                                  "round_cost",
+                                  "wage_cost"
                                 ]
                               },
                               "title": "Aggregated Solution Cost",
@@ -67289,7 +67401,9 @@
                 "fixed_cost",
                 "fuel_cost",
                 "first_visit_cost",
-                "consecutive_visit_tiered_cost"
+                "consecutive_visit_tiered_cost",
+                "round_cost",
+                "wage_cost"
               ]
             },
             "title": "Solution Cost Details",
@@ -69509,6 +69623,29 @@
                   "title": "VehicleType",
                   "type": "string"
                 },
+                "pre_assigned_visits": {
+                  "anyOf": [
+                    {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
+                  "title": "Pre-assigned Visits"
+                },
+                "max_round": {
+                  "default": 1,
+                  "description": "Maximum number of rounds this vehicle can make in a schedule. A round is defined as a complete cycle starting and ending at the depot. ",
+                  "minimum": 1,
+                  "title": "Maximum Rounds",
+                  "type": "integer"
+                },
                 "ownership_type": {
                   "enum": [
                     "rented",
@@ -69564,6 +69701,27 @@
                   "title": "Fuel Cost per km",
                   "type": "number"
                 },
+                "wage_cost_per_hour": {
+                  "default": 0.0,
+                  "description": "Driver wage cost in KRW per hour. Used to calculate labor expenses based on total driving and service time. For example, a value of 15000.0 means the driver earns 15,000 KRW per hour.",
+                  "minimum": 0.0,
+                  "title": "Wage Cost per Hour",
+                  "type": "number"
+                },
+                "cost_per_round": {
+                  "default": 0.0,
+                  "description": "Fixed cost incurred for each round the vehicle makes. A round is defined as a complete cycle starting and ending at the depot.",
+                  "minimum": 0.0,
+                  "title": "Cost per Round",
+                  "type": "number"
+                },
+                "cost_free_rounds": {
+                  "default": 0,
+                  "description": "Number of rounds that do not incur the cost_per_round. For example, if cost_free_rounds is 2 and cost_per_round is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW each.",
+                  "minimum": 0,
+                  "title": "Cost Free Rounds",
+                  "type": "integer"
+                },
                 "visit_preference": {
                   "additionalProperties": {
                     "type": "integer"
@@ -69614,10 +69772,12 @@
           },
           "objective_costs": {
             "default": [
+              "consecutive_visit_tiered_cost",
               "fixed_cost",
               "fuel_cost",
               "first_visit_cost",
-              "consecutive_visit_tiered_cost"
+              "round_cost",
+              "wage_cost"
             ],
             "description": "List of cost types to be considered for the optimization.",
             "items": {
@@ -69625,7 +69785,9 @@
                 "fixed_cost",
                 "fuel_cost",
                 "first_visit_cost",
-                "consecutive_visit_tiered_cost"
+                "consecutive_visit_tiered_cost",
+                "round_cost",
+                "wage_cost"
               ],
               "type": "string"
             },
@@ -71209,6 +71371,29 @@
                   "title": "VehicleType",
                   "type": "string"
                 },
+                "pre_assigned_visits": {
+                  "anyOf": [
+                    {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
+                  "title": "Pre-assigned Visits"
+                },
+                "max_round": {
+                  "default": 1,
+                  "description": "Maximum number of rounds this vehicle can make in a schedule. A round is defined as a complete cycle starting and ending at the depot. ",
+                  "minimum": 1,
+                  "title": "Maximum Rounds",
+                  "type": "integer"
+                },
                 "ownership_type": {
                   "enum": [
                     "rented",
@@ -71264,6 +71449,27 @@
                   "title": "Fuel Cost per km",
                   "type": "number"
                 },
+                "wage_cost_per_hour": {
+                  "default": 0.0,
+                  "description": "Driver wage cost in KRW per hour. Used to calculate labor expenses based on total driving and service time. For example, a value of 15000.0 means the driver earns 15,000 KRW per hour.",
+                  "minimum": 0.0,
+                  "title": "Wage Cost per Hour",
+                  "type": "number"
+                },
+                "cost_per_round": {
+                  "default": 0.0,
+                  "description": "Fixed cost incurred for each round the vehicle makes. A round is defined as a complete cycle starting and ending at the depot.",
+                  "minimum": 0.0,
+                  "title": "Cost per Round",
+                  "type": "number"
+                },
+                "cost_free_rounds": {
+                  "default": 0,
+                  "description": "Number of rounds that do not incur the cost_per_round. For example, if cost_free_rounds is 2 and cost_per_round is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW each.",
+                  "minimum": 0,
+                  "title": "Cost Free Rounds",
+                  "type": "integer"
+                },
                 "visit_preference": {
                   "additionalProperties": {
                     "type": "integer"
@@ -71314,10 +71520,12 @@
           },
           "objective_costs": {
             "default": [
+              "consecutive_visit_tiered_cost",
               "fixed_cost",
               "fuel_cost",
               "first_visit_cost",
-              "consecutive_visit_tiered_cost"
+              "round_cost",
+              "wage_cost"
             ],
             "description": "List of cost types to be considered for the optimization.",
             "items": {
@@ -71325,7 +71533,9 @@
                 "fixed_cost",
                 "fuel_cost",
                 "first_visit_cost",
-                "consecutive_visit_tiered_cost"
+                "consecutive_visit_tiered_cost",
+                "round_cost",
+                "wage_cost"
               ],
               "type": "string"
             },
@@ -71463,7 +71673,9 @@
                           "fixed_cost",
                           "fuel_cost",
                           "first_visit_cost",
-                          "consecutive_visit_tiered_cost"
+                          "consecutive_visit_tiered_cost",
+                          "round_cost",
+                          "wage_cost"
                         ]
                       },
                       "title": "Solution Cost Details",
@@ -71499,7 +71711,9 @@
                     "fixed_cost",
                     "fuel_cost",
                     "first_visit_cost",
-                    "consecutive_visit_tiered_cost"
+                    "consecutive_visit_tiered_cost",
+                    "round_cost",
+                    "wage_cost"
                   ]
                 },
                 "title": "Aggregated Solution Cost",
@@ -71639,7 +71853,9 @@
                       "fixed_cost",
                       "fuel_cost",
                       "first_visit_cost",
-                      "consecutive_visit_tiered_cost"
+                      "consecutive_visit_tiered_cost",
+                      "round_cost",
+                      "wage_cost"
                     ]
                   },
                   "title": "Solution Cost Details",
@@ -71675,7 +71891,9 @@
                 "fixed_cost",
                 "fuel_cost",
                 "first_visit_cost",
-                "consecutive_visit_tiered_cost"
+                "consecutive_visit_tiered_cost",
+                "round_cost",
+                "wage_cost"
               ]
             },
             "title": "Aggregated Solution Cost",
@@ -71810,6 +72028,29 @@
             "title": "VehicleType",
             "type": "string"
           },
+          "pre_assigned_visits": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
+            "title": "Pre-assigned Visits"
+          },
+          "max_round": {
+            "default": 1,
+            "description": "Maximum number of rounds this vehicle can make in a schedule. A round is defined as a complete cycle starting and ending at the depot. ",
+            "minimum": 1,
+            "title": "Maximum Rounds",
+            "type": "integer"
+          },
           "ownership_type": {
             "enum": [
               "rented",
@@ -71864,6 +72105,27 @@
             "minimum": 0.0,
             "title": "Fuel Cost per km",
             "type": "number"
+          },
+          "wage_cost_per_hour": {
+            "default": 0.0,
+            "description": "Driver wage cost in KRW per hour. Used to calculate labor expenses based on total driving and service time. For example, a value of 15000.0 means the driver earns 15,000 KRW per hour.",
+            "minimum": 0.0,
+            "title": "Wage Cost per Hour",
+            "type": "number"
+          },
+          "cost_per_round": {
+            "default": 0.0,
+            "description": "Fixed cost incurred for each round the vehicle makes. A round is defined as a complete cycle starting and ending at the depot.",
+            "minimum": 0.0,
+            "title": "Cost per Round",
+            "type": "number"
+          },
+          "cost_free_rounds": {
+            "default": 0,
+            "description": "Number of rounds that do not incur the cost_per_round. For example, if cost_free_rounds is 2 and cost_per_round is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW each.",
+            "minimum": 0,
+            "title": "Cost Free Rounds",
+            "type": "integer"
           },
           "visit_preference": {
             "additionalProperties": {
@@ -72084,7 +72346,9 @@
                               "fixed_cost",
                               "fuel_cost",
                               "first_visit_cost",
-                              "consecutive_visit_tiered_cost"
+                              "consecutive_visit_tiered_cost",
+                              "round_cost",
+                              "wage_cost"
                             ]
                           },
                           "title": "Solution Cost Details",
@@ -72120,7 +72384,9 @@
                         "fixed_cost",
                         "fuel_cost",
                         "first_visit_cost",
-                        "consecutive_visit_tiered_cost"
+                        "consecutive_visit_tiered_cost",
+                        "round_cost",
+                        "wage_cost"
                       ]
                     },
                     "title": "Aggregated Solution Cost",
@@ -72579,7 +72845,9 @@
           "fixed_cost",
           "fuel_cost",
           "first_visit_cost",
-          "consecutive_visit_tiered_cost"
+          "consecutive_visit_tiered_cost",
+          "round_cost",
+          "wage_cost"
         ],
         "type": "string"
       },

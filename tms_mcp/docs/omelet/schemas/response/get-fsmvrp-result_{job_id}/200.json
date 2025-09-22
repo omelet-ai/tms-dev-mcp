@@ -98,7 +98,9 @@
                         "fixed_cost",
                         "fuel_cost",
                         "first_visit_cost",
-                        "consecutive_visit_tiered_cost"
+                        "consecutive_visit_tiered_cost",
+                        "round_cost",
+                        "wage_cost"
                       ]
                     },
                     "title": "Solution Cost Details",
@@ -134,7 +136,9 @@
                   "fixed_cost",
                   "fuel_cost",
                   "first_visit_cost",
-                  "consecutive_visit_tiered_cost"
+                  "consecutive_visit_tiered_cost",
+                  "round_cost",
+                  "wage_cost"
                 ]
               },
               "title": "Aggregated Solution Cost",
