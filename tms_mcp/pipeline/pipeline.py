@@ -18,7 +18,7 @@ from fastmcp.utilities.logging import get_logger
 from ..config import settings
 from .generators import EndpointGenerator, ExampleGenerator, SchemaGenerator
 from .models import OpenAPISpec
-from .utils import atomic_directory_replace, write_json_file, write_markdown_file
+from .utils import atomic_directory_replace, escape_markdown_table_content, write_json_file, write_markdown_file
 
 logger = get_logger(__name__)
 
@@ -149,6 +149,60 @@ Comprehensive location and routing services including:
     write_markdown_file(basic_info_path, content)
 
 
+def _extract_pattern_description(file_path: Path) -> str:
+    """Extract the first meaningful line to use as a pattern description."""
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            for raw_line in f:
+                line = raw_line.strip()
+                if not line or line.startswith("#") or line == "---":
+                    continue
+                return line
+    except Exception as exc:  # pragma: no cover - defensive guard
+        logger.warning(f"   ⚠️ Failed to read description from {file_path}: {exc}")
+    return ""
+
+
+def generate_integration_patterns(target_path: Path) -> None:
+    """Copy integration pattern templates and generate the list file."""
+
+    templates_dir = Path(__file__).parent / "templates" / "integration_patterns"
+    if not templates_dir.exists():
+        logger.warning("   ⚠️ Integration pattern templates directory not found; skipping generation.")
+        return
+
+    output_dir = target_path / "integration_patterns"
+
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+
+    shutil.copytree(templates_dir, output_dir)
+
+    patterns: list[tuple[str, str]] = []
+
+    for path in sorted(templates_dir.rglob("*.md")):
+        if path.parent == templates_dir:
+            # Skip standalone templates (e.g., agentic guidelines) from the listing
+            continue
+
+        relative = path.relative_to(templates_dir)
+        if ".." in relative.parts:
+            continue
+
+        pattern_id = "/".join(relative.with_suffix("").parts)
+        description = _extract_pattern_description(path) or "(description unavailable)"
+        patterns.append((pattern_id, escape_markdown_table_content(description)))
+
+    list_lines = ["| pattern_id | description |", "| --- | --- |"]
+
+    for pattern_id, description in sorted(patterns, key=lambda item: item[0]):
+        list_lines.append(f"| {pattern_id} | {description} |")
+
+    write_markdown_file(output_dir / "list.md", "\n".join(list_lines))
+    logger.info("   🧩 Generated integration pattern documentation and listing.")
+
+
 async def process_provider_documentation(spec: OpenAPISpec, provider: str, temp_path: Path, target_path: Path) -> None:
     """
     Process documentation for a single provider.
@@ -235,6 +289,9 @@ async def run_openapi_indexing_pipeline(providers: list[str] | None = None) -> N
         # Generate the shared basic_info.md (at root level)
         await generate_basic_info(temp_path)
         logger.info("   📝 Generated shared basic_info.md")
+
+        # Copy integration patterns and create listing
+        generate_integration_patterns(temp_path)
 
         # Process each provider's spec
         for provider, spec in provider_specs.items():

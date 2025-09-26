@@ -1,59 +1,39 @@
 {
-  "depot": {
-    "name": "Warehouse",
-    "index": 0,
-    "coordinate": {
-      "lng": 127.0,
-      "lat": 37.5
+  "routing_engine_result": {
+    "routes": [
+      {
+        "vehicle_name": "Truck 1",
+        "route_index": [
+          0,
+          2,
+          1
+        ],
+        "route_name": [
+          "Warehouse",
+          "Customer 2",
+          "Customer 1"
+        ],
+        "route_cost_details": {
+          "objective_cost": 89636,
+          "distance_cost": 89536,
+          "duration_cost": 8060,
+          "fixed_cost": 100
+        }
+      }
+    ],
+    "unassigned_visit_indices": [],
+    "unassigned_visit_names": [],
+    "solution_cost_details": {
+      "total_objective_cost": 89636,
+      "total_distance_cost": 89536,
+      "total_duration_cost": 8060,
+      "max_distance_cost": 89536,
+      "max_duration_cost": 8060,
+      "total_fixed_cost": 0,
+      "unassigned_penalty_cost": 0
     }
   },
-  "visits": [
-    {
-      "name": "Customer 1",
-      "index": 1,
-      "service_time": 10,
-      "coordinate": {
-        "lng": 127.1,
-        "lat": 37.6
-      },
-      "volume": 0.5,
-      "weight": 10.0
-    },
-    {
-      "name": "Customer 2",
-      "index": 2,
-      "service_time": 15,
-      "coordinate": {
-        "lng": 127.2,
-        "lat": 37.4
-      },
-      "volume": 0.3,
-      "weight": 5.0
-    },
-    {
-      "name": "Customer 3",
-      "index": 3,
-      "service_time": 20,
-      "coordinate": {
-        "lng": 126.9,
-        "lat": 37.7
-      },
-      "volume": 0.8,
-      "weight": 15.0
-    }
-  ],
-  "vehicles": [
-    {
-      "name": "Truck 1",
-      "volume_capacity": 2.0,
-      "weight_capacity": 50.0,
-      "fixed_cost": 100.0,
-      "unit_distance_cost": 1.0
-    }
-  ],
-  "option": {
-    "timelimit": 10,
-    "objective_type": "minsum",
-    "distance_type": "euclidean"
-  }
+  "status": "feasible",
+  "detail": "Successfully processed",
+  "job_id": "d9886e6c51c64899bb67c79422295bbd"
 }

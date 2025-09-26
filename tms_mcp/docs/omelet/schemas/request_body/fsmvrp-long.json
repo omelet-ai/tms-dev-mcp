@@ -47,8 +47,11 @@
                   "type": "null"
                 }
               ],
-              "default": null,
-              "description": "Location of the depot.",
+              "default": {
+                "lng": 0.0,
+                "lat": 0.0
+              },
+              "description": "Location of the depot. If not provided, defaults to (0.0, 0.0).",
               "title": "Depot Location"
             }
           },
@@ -120,8 +123,11 @@
                         "type": "null"
                       }
                     ],
-                    "default": null,
-                    "description": "Location of the visit.",
+                    "default": {
+                      "lng": 0.0,
+                      "lat": 0.0
+                    },
+                    "description": "Location of the visit. If not provided, defaults to (0.0, 0.0).",
                     "title": "Visit Location"
                   },
                   "volume": {

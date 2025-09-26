@@ -17,6 +17,11 @@ def _get_docs_dir() -> Path:
     return Path(__file__).parent.parent / "docs"
 
 
+def _get_integration_patterns_dir() -> Path:
+    """Get the integration patterns directory path."""
+    return _get_docs_dir() / "integration_patterns"
+
+
 def _get_provider_from_path(path: str) -> str:
     """
     Determine the provider based on the API path using configuration.
@@ -146,6 +151,48 @@ def _get_json_file_content(path: str, provider: str | None, file_subpath: str, f
     return _read_json_file(file_path, file_type, path, path_id)
 
 
+def _sanitize_pattern_id(pattern_id: str) -> list[str] | None:
+    """Validate and normalize the integration pattern identifier."""
+
+    if not pattern_id:
+        return None
+
+    parts = [part for part in pattern_id.strip().split("/") if part]
+    if not parts:
+        return None
+
+    for part in parts:
+        if part in {".", ".."}:
+            return None
+
+    return parts
+
+
+def _read_integration_pattern(pattern_id: str) -> tuple[str, Path | None]:
+    """Resolve an integration pattern and return its content with the path."""
+
+    docs_dir = _get_integration_patterns_dir()
+    parts = _sanitize_pattern_id(pattern_id)
+    if not parts:
+        return ("Error: Invalid pattern_id provided.", None)
+
+    pattern_path = docs_dir.joinpath(*parts).with_suffix(".md")
+
+    try:
+        docs_root = docs_dir.resolve(strict=False)
+        resolved_path = pattern_path.resolve(strict=False)
+        if not resolved_path.is_relative_to(docs_root):
+            return ("Error: Invalid pattern_id provided.", None)
+    except Exception:
+        # Fallback to existence check below if resolution fails
+        pass
+
+    if not pattern_path.exists():
+        return (f"Error: Integration pattern '{pattern_id}' not found. Please run 'update-docs'.", None)
+
+    return (_read_text_file(pattern_path), pattern_path)
+
+
 @mcp.tool
 def get_basic_info() -> str:
     """
@@ -153,6 +200,39 @@ def get_basic_info() -> str:
     """
     file_path = _get_docs_dir() / "basic_info.md"
     return _read_text_file(file_path)
+
+
+@mcp.tool
+def list_integration_patterns() -> str:
+    """Return a table of all available integration patterns."""
+
+    list_path = _get_integration_patterns_dir() / "list.md"
+    if not list_path.exists():
+        return "Error: Integration pattern list not found. Please run 'update-docs'."
+
+    return _read_text_file(list_path)
+
+
+@mcp.tool
+def get_integration_pattern(
+    pattern_id: Annotated[str, "Integration pattern identifier in the format 'category/pattern'"],
+    simple: Annotated[bool, "If True, return only the standalone document"] = False,
+) -> str:
+    """Retrieve the specified integration pattern with optional guidelines attachment."""
+    content, _ = _read_integration_pattern(pattern_id)
+    if content.startswith("Error:"):
+        return content
+
+    if simple:
+        return content
+
+    guidelines_path = _get_integration_patterns_dir() / "agentic_coding_guidelines.md"
+    guidelines_content = _read_text_file(guidelines_path)
+
+    if guidelines_content.startswith("Error:"):
+        return f"{content.rstrip()}\n\n{guidelines_content.strip()}\n"
+
+    return f"{content.rstrip()}\n\n---\n\n{guidelines_content.strip()}\n"
 
 
 @mcp.tool

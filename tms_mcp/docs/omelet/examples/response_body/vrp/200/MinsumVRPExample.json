@@ -1,163 +1,69 @@
 {
-  "depot": {
-    "name": "depot_1",
-    "index": 0,
-    "coordinate": {
-      "lng": 127.07500381909662,
-      "lat": 37.494726151895776
+  "routing_engine_result": {
+    "routes": [
+      {
+        "vehicle_name": "vehicle_1",
+        "route_index": [
+          0,
+          7,
+          25
+        ],
+        "route_name": [
+          "depot_1",
+          "visit_7",
+          "visit_25"
+        ],
+        "route_cost_details": {
+          "objective_cost": 73477,
+          "distance_cost": 73377,
+          "duration_cost": 0,
+          "fixed_cost": 100
+        }
+      },
+      {
+        "vehicle_name": "vehicle_2",
+        "route_index": [
+          0,
+          21,
+          20
+        ],
+        "route_name": [
+          "depot_1",
+          "visit_21",
+          "visit_20"
+        ],
+        "route_cost_details": {
+          "objective_cost": 105770,
+          "distance_cost": 105570,
+          "duration_cost": 0,
+          "fixed_cost": 200
+        }
+      },
+      {
+        "vehicle_name": "vehicle_3",
+        "route_index": [],
+        "route_name": [],
+        "route_cost_details": {
+          "objective_cost": 0,
+          "distance_cost": 0,
+          "duration_cost": 0,
+          "fixed_cost": 0
+        }
+      }
+    ],
+    "unassigned_visit_indices": [],
+    "unassigned_visit_names": [],
+    "solution_cost_details": {
+      "total_objective_cost": 179247,
+      "total_distance_cost": 178947,
+      "total_duration_cost": 0,
+      "max_distance_cost": 105570,
+      "max_duration_cost": 0,
+      "total_fixed_cost": 300,
+      "unassigned_penalty_cost": 0
     }
   },
-  "visits": [
-    {
-      "name": "visit_1",
-      "index": 1,
-      "service_time": 5,
-      "coordinate": {
-        "lng": 126.75601605434875,
-        "lat": 37.4182826849803
-      },
-      "volume": 1,
-      "weight": 1,
-      "extra_demands": [
-        1
-      ],
-      "time_window": [
-        "2024-07-30T00:00:00",
-        "2024-07-31T23:00:00"
-      ],
-      "unassigned_penalty": 1e+16
-    },
-    {
-      "name": "visit_2",
-      "index": 2,
-      "service_time": 5,
-      "coordinate": {
-        "lng": 127.16936856377596,
-        "lat": 37.68879923068993
-      },
-      "volume": 1,
-      "weight": 1,
-      "extra_demands": [
-        1
-      ],
-      "time_window": [
-        "2024-07-30T00:00:00",
-        "2024-07-31T23:00:00"
-      ],
-      "unassigned_penalty": 1e+16
-    },
-    {
-      "name": "visit_3",
-      "index": 3,
-      "service_time": 5,
-      "coordinate": {
-        "lng": 127.058772633085,
-        "lat": 37.63348451247085
-      },
-      "volume": 1,
-      "weight": 1,
-      "extra_demands": [
-        1
-      ],
-      "time_window": [
-        "2024-07-30T00:00:00",
-        "2024-07-31T23:00:00"
-      ],
-      "unassigned_penalty": 1e+16
-    }
-  ],
-  "vehicles": [
-    {
-      "name": "vehicle_1",
-      "volume_capacity": 25,
-      "weight_capacity": 35,
-      "visit_preference": [
-        3,
-        0,
-        2
-      ],
-      "fixed_cost": 100,
-      "extra_capacities": [
-        31
-      ],
-      "max_service_radius": null
-    },
-    {
-      "name": "vehicle_2",
-      "volume_capacity": 25,
-      "weight_capacity": 35,
-      "visit_preference": [
-        1,
-        3,
-        2
-      ],
-      "fixed_cost": 200,
-      "extra_capacities": [
-        31
-      ],
-      "max_service_radius": null
-    },
-    {
-      "name": "vehicle_3",
-      "volume_capacity": 25,
-      "weight_capacity": 35,
-      "visit_preference": [
-        3,
-        0,
-        0
-      ],
-      "fixed_cost": 300,
-      "extra_capacities": [
-        31
-      ],
-      "max_service_radius": null
-    }
-  ],
-  "distance_matrix": {
-    "car": [
-      [
-        0,
-        35835,
-        16724
-      ],
-      [
-        35835,
-        0,
-        49393
-      ],
-      [
-        16724,
-        49393,
-        0
-      ]
-    ]
-  },
-  "duration_matrix": {
-    "car": [
-      [
-        0,
-        11945,
-        5574
-      ],
-      [
-        11945,
-        0,
-        16464
-      ],
-      [
-        5574,
-        16464,
-        0
-      ]
-    ]
-  },
-  "delivery_start_time": "2024-07-30T00:00:00",
-  "option": {
-    "objective_type": "minsum",
-    "timelimit": 1,
-    "use_large_size_optimization_algorithm": false,
-    "include_departure_cost_from_depot": true,
-    "include_return_cost_to_depot": true,
-    "allow_unassigned_visits": false
-  }
+  "status": "feasible",
+  "detail": "Successfully processed",
+  "job_id": "c27f3210612544afb59d820cd4dcc99c"
 }

@@ -71,8 +71,11 @@
                           "type": "null"
                         }
                       ],
-                      "default": null,
-                      "description": "Location of the visit.",
+                      "default": {
+                        "lng": 0.0,
+                        "lat": 0.0
+                      },
+                      "description": "Location of the visit. If not provided, defaults to (0.0, 0.0).",
                       "title": "Visit Location"
                     },
                     "volume": {
@@ -212,8 +215,11 @@
                           "type": "null"
                         }
                       ],
-                      "default": null,
-                      "description": "Location of the visit.",
+                      "default": {
+                        "lng": 0.0,
+                        "lat": 0.0
+                      },
+                      "description": "Location of the visit. If not provided, defaults to (0.0, 0.0).",
                       "title": "Visit Location"
                     },
                     "volume": {
@@ -301,6 +307,20 @@
               "default": null,
               "description": "Drop off visit details.",
               "title": "Drop Off Info"
+            },
+            "order_placed_at": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": "2025-09-26T04:02:27.814043",
+              "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+              "title": "Order Placed Time"
             }
           },
           "title": "PdpVisit",
@@ -453,8 +473,33 @@
                 }
               ],
               "default": null,
-              "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
+              "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.Warning: Do not use this together with `pre_fixed_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
               "title": "Pre-assigned Visits"
+            },
+            "pre_fixed_visits": {
+              "anyOf": [
+                {
+                  "items": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Specifies a predefined sequence of visits for each vehicle round. Any inner lists beyond the maximum number of rounds (max_round) will be ignored. For example, [['Visit A', 'Visit B'], ['Visit C']] means: - In the first round, the vehicle must visit Visit A followed by Visit B in order. - In the second round, the vehicle must go to Visit C. - No other visits can be assigned before Visit C. All rounds must be defined consecutively without gaps, meaning intermediate rounds cannot be left empty or skipped. For example, [['Visit A', 'Visit B'], [], ['Visit C']] is not allowed because the second round is empty while the third round is defined.Warning: Do not use this together with `pre_assigned_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+              "title": "Pre-fixed Visits for Rounds"
+            },
+            "allow_trip_extension": {
+              "default": true,
+              "description": "Determines whether additional visits can be assigned after completing the last visit specified in pre_fixed_visits within the same round, or if the vehicle must immediately return to the depot. By default (True), the vehicle can continue visiting other visits after the last pre-fixed visit in the same round. If set to False, the vehicle must return directly to the depot once the last pre-fixed visit is completed. If more rounds are available, a new round can then be started.\n\nExample:\n- pre_fixed_visits = [['A', 'B']]\n- allow_trip_extension = True\n  => After visiting B in the first round, the vehicle can visit other stops before returning to the depot. (['Depot', 'A', 'B', 'C', ...])\n- allow_trip_extension = False\n  => After visiting B, the vehicle must immediately return to the depot. (['Depot', 'A', 'B', 'Depot', ...])",
+              "title": "Allow Trip Extension",
+              "type": "boolean"
             },
             "max_round": {
               "default": 1,
@@ -543,7 +588,7 @@
             "type": "null"
           }
         ],
-        "default": null,
+        "default": "2025-09-26T04:02:27.823652",
         "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
         "title": "Start Time"
       },

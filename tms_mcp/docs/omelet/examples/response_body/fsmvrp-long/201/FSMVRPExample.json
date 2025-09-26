@@ -1,250 +1,180 @@
 {
-  "depots": [
-    {
-      "name": "depot_1",
-      "coordinate": {
-        "lng": 127.07500381909662,
-        "lat": 37.494726151895776
+  "fsmvrp_engine_result": {
+    "daily_results": {
+      "1일": {
+        "routes": [
+          {
+            "vehicle_name": "vehicle_1",
+            "route_indices": [
+              10,
+              8,
+              11
+            ],
+            "route_names": [
+              "depot_1",
+              "visit_9",
+              "depot_2"
+            ],
+            "arrival_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T00:39:27",
+              "2024-07-30T00:57:15"
+            ],
+            "departure_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T00:44:27",
+              "2024-07-30T00:57:15"
+            ]
+          },
+          {
+            "vehicle_name": "vehicle_2",
+            "route_indices": [
+              10,
+              9,
+              1
+            ],
+            "route_names": [
+              "depot_1",
+              "visit_10",
+              "visit_2"
+            ],
+            "arrival_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T00:19:28",
+              "2024-07-30T00:33:13"
+            ],
+            "departure_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T00:24:28",
+              "2024-07-30T00:38:13"
+            ]
+          },
+          {
+            "vehicle_name": "vehicle_3",
+            "route_indices": [
+              10,
+              7,
+              11
+            ],
+            "route_names": [
+              "depot_1",
+              "visit_8",
+              "depot_2"
+            ],
+            "arrival_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T00:25:10",
+              "2024-07-30T01:00:01"
+            ],
+            "departure_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T00:30:10",
+              "2024-07-30T01:00:01"
+            ]
+          }
+        ],
+        "unassigned_visit_indices": [],
+        "unassigned_visit_names": [],
+        "daily_total_solution_cost": 5015035.705,
+        "daily_solution_cost_details": {
+          "first_visit_cost": 3700,
+          "consecutive_visit_tiered_cost": 6000,
+          "fixed_cost": 5005000,
+          "fuel_cost": 335.705
+        }
+      },
+      "2일": {
+        "routes": [
+          {
+            "vehicle_name": "vehicle_1",
+            "route_indices": [
+              10,
+              3,
+              8
+            ],
+            "route_names": [
+              "depot_1",
+              "visit_4",
+              "visit_9"
+            ],
+            "arrival_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T00:21:45",
+              "2024-07-30T00:47:06"
+            ],
+            "departure_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T00:26:45",
+              "2024-07-30T00:52:06"
+            ]
+          },
+          {
+            "vehicle_name": "vehicle_2",
+            "route_indices": [
+              10,
+              6,
+              11
+            ],
+            "route_names": [
+              "depot_1",
+              "visit_7",
+              "depot_2"
+            ],
+            "arrival_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T01:11:05",
+              "2024-07-30T02:38:00"
+            ],
+            "departure_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T01:16:05",
+              "2024-07-30T02:38:00"
+            ]
+          },
+          {
+            "vehicle_name": "vehicle_3",
+            "route_indices": [
+              10,
+              1,
+              2
+            ],
+            "route_names": [
+              "depot_1",
+              "visit_2",
+              "visit_3"
+            ],
+            "arrival_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T00:53:05",
+              "2024-07-30T01:33:09"
+            ],
+            "departure_times": [
+              "2024-07-30T00:00:00",
+              "2024-07-30T00:58:05",
+              "2024-07-30T01:38:09"
+            ]
+          }
+        ],
+        "unassigned_visit_indices": [],
+        "unassigned_visit_names": [],
+        "daily_total_solution_cost": 5015812.013,
+        "daily_solution_cost_details": {
+          "first_visit_cost": 2400,
+          "consecutive_visit_tiered_cost": 8000,
+          "fixed_cost": 5005000,
+          "fuel_cost": 412.01300000000003
+        }
       }
     },
-    {
-      "name": "depot_2",
-      "coordinate": {
-        "lng": 126.75601605434875,
-        "lat": 37.4182826849803
-      }
+    "total_solution_cost": 10030847.718,
+    "solution_cost_details": {
+      "first_visit_cost": 6100,
+      "consecutive_visit_tiered_cost": 14000,
+      "fixed_cost": 10010000,
+      "fuel_cost": 747.7180000000001
     }
-  ],
-  "daily_visits": [
-    {
-      "day_id": "1일",
-      "delivery_start_time": "2024-07-30T00:00:00",
-      "visits": [
-        {
-          "name": "visit_1",
-          "service_time": 5,
-          "coordinate": {
-            "lng": 127.16936856377596,
-            "lat": 37.68879923068993
-          },
-          "volume": 1,
-          "weight": 1,
-          "time_window": [
-            "2024-07-30T00:00:00",
-            "2024-07-31T23:00:00"
-          ]
-        },
-        {
-          "name": "visit_2",
-          "service_time": 5,
-          "coordinate": {
-            "lng": 127.058772633085,
-            "lat": 37.63348451247085
-          },
-          "volume": 1,
-          "weight": 1,
-          "time_window": [
-            "2024-07-30T00:00:00",
-            "2024-07-31T23:00:00"
-          ]
-        },
-        {
-          "name": "visit_3",
-          "service_time": 5,
-          "coordinate": {
-            "lng": 127.02504768605708,
-            "lat": 37.695535325323675
-          },
-          "volume": 1,
-          "weight": 1,
-          "time_window": [
-            "2024-07-30T00:00:00",
-            "2024-07-31T23:00:00"
-          ]
-        }
-      ]
-    },
-    {
-      "day_id": "2일",
-      "delivery_start_time": "2024-07-30T00:00:00",
-      "visits": [
-        {
-          "name": "visit_1",
-          "service_time": 5,
-          "coordinate": {
-            "lng": 127.06345549629256,
-            "lat": 37.529102849300855
-          },
-          "volume": 1,
-          "weight": 1,
-          "time_window": [
-            "2024-07-30T00:00:00",
-            "2024-07-31T23:00:00"
-          ]
-        },
-        {
-          "name": "visit_2",
-          "service_time": 5,
-          "coordinate": {
-            "lng": 127.26781768788278,
-            "lat": 37.70934835782088
-          },
-          "volume": 1,
-          "weight": 1,
-          "time_window": [
-            "2024-07-30T00:00:00",
-            "2024-07-31T23:00:00"
-          ]
-        },
-        {
-          "name": "visit_3",
-          "service_time": 5,
-          "coordinate": {
-            "lng": 127.10100520864368,
-            "lat": 37.6096279774894
-          },
-          "volume": 1,
-          "weight": 1,
-          "time_window": [
-            "2024-07-30T00:00:00",
-            "2024-07-31T23:00:00"
-          ]
-        }
-      ]
-    }
-  ],
-  "vehicles": [
-    {
-      "name": "vehicle_1",
-      "volume_capacity": 3,
-      "weight_capacity": 3,
-      "work_start_time": null,
-      "work_end_time": null,
-      "vehicle_type": "car",
-      "ownership_type": "rented",
-      "start_depot_name": "depot_1",
-      "end_depot_name": "depot_2",
-      "fixed_cost_default": 1000000,
-      "fixed_cost_if_assigned": 1000,
-      "fuel_cost_per_km": 1,
-      "visit_preference": {},
-      "first_visit_costs": {
-        "visit_0": 100,
-        "visit_1": 200,
-        "visit_2": 300,
-        "visit_3": 400,
-        "visit_4": 500,
-        "visit_5": 600,
-        "visit_6": 700,
-        "visit_7": 800,
-        "visit_8": 900,
-        "visit_9": 1000
-      },
-      "consecutive_visit_tiered_costs": [
-        [
-          10000,
-          1000
-        ],
-        [
-          20000,
-          2000
-        ],
-        [
-          30000,
-          3000
-        ]
-      ]
-    },
-    {
-      "name": "vehicle_2",
-      "volume_capacity": 3,
-      "weight_capacity": 3,
-      "work_start_time": null,
-      "work_end_time": null,
-      "vehicle_type": "car",
-      "ownership_type": "rented",
-      "start_depot_name": "depot_1",
-      "end_depot_name": "depot_2",
-      "fixed_cost_default": 1000000,
-      "fixed_cost_if_assigned": 1000,
-      "fuel_cost_per_km": 1,
-      "visit_preference": {},
-      "first_visit_costs": {
-        "visit_0": 100,
-        "visit_1": 200,
-        "visit_2": 300,
-        "visit_3": 400,
-        "visit_4": 500,
-        "visit_5": 600,
-        "visit_6": 700,
-        "visit_7": 800,
-        "visit_8": 900,
-        "visit_9": 1000
-      },
-      "consecutive_visit_tiered_costs": [
-        [
-          10000,
-          1000
-        ],
-        [
-          20000,
-          2000
-        ],
-        [
-          30000,
-          3000
-        ]
-      ]
-    },
-    {
-      "name": "vehicle_3",
-      "volume_capacity": 3,
-      "weight_capacity": 3,
-      "work_start_time": null,
-      "work_end_time": null,
-      "vehicle_type": "car",
-      "ownership_type": "rented",
-      "start_depot_name": "depot_1",
-      "end_depot_name": "depot_2",
-      "fixed_cost_default": 1000000,
-      "fixed_cost_if_assigned": 1000,
-      "fuel_cost_per_km": 1,
-      "visit_preference": {},
-      "first_visit_costs": {
-        "visit_0": 100,
-        "visit_1": 200,
-        "visit_2": 300,
-        "visit_3": 400,
-        "visit_4": 500,
-        "visit_5": 600,
-        "visit_6": 700,
-        "visit_7": 800,
-        "visit_8": 900,
-        "visit_9": 1000
-      },
-      "consecutive_visit_tiered_costs": [
-        [
-          10000,
-          1000
-        ],
-        [
-          20000,
-          2000
-        ],
-        [
-          30000,
-          3000
-        ]
-      ]
-    }
-  ],
-  "objective_costs": [
-    "first_visit_cost",
-    "consecutive_visit_tiered_cost",
-    "fixed_cost"
-  ],
-  "option": {
-    "timelimit": 5,
-    "distance_type": "osrm"
-  }
+  },
+  "status": "feasible",
+  "detail": "Successfully processed",
+  "job_id": "76cc5cb1964148cea5c8e79bfb971467"
 }
