@@ -204,7 +204,9 @@ def get_basic_info() -> str:
 
 @mcp.tool
 def list_integration_patterns() -> str:
-    """Return a table of all available integration patterns."""
+    """
+    Return a table of all available integration patterns, which are guidelines for integrating different API endpoints for specific use cases.
+    """
 
     list_path = _get_integration_patterns_dir() / "list.md"
     if not list_path.exists():
@@ -218,7 +220,10 @@ def get_integration_pattern(
     pattern_id: Annotated[str, "Integration pattern identifier in the format 'category/pattern'"],
     simple: Annotated[bool, "If True, return only the standalone document"] = False,
 ) -> str:
-    """Retrieve the specified integration pattern with optional guidelines attachment."""
+    """
+    Retrieve the specified integration pattern document.
+    If simple is False, provide additional guidelines for agentic coding tips, to enhance tool usage and autonomous agentic development.
+    """
     content, _ = _read_integration_pattern(pattern_id)
     if content.startswith("Error:"):
         return content
