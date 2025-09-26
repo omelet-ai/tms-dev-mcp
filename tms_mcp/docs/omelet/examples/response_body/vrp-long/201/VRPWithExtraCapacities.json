@@ -1,60 +1,39 @@
 {
-  "depot": {
-    "name": "Cold Storage Facility",
-    "index": 0,
-    "coordinate": {
-      "lng": 127.0,
-      "lat": 37.5
+  "routing_engine_result": {
+    "routes": [
+      {
+        "vehicle_name": "Refrigerated Truck",
+        "route_index": [
+          0,
+          1,
+          2
+        ],
+        "route_name": [
+          "Cold Storage Facility",
+          "Restaurant A",
+          "Restaurant B"
+        ],
+        "route_cost_details": {
+          "objective_cost": 118262,
+          "distance_cost": 58981,
+          "duration_cost": 5310,
+          "fixed_cost": 300
+        }
+      }
+    ],
+    "unassigned_visit_indices": [],
+    "unassigned_visit_names": [],
+    "solution_cost_details": {
+      "total_objective_cost": 118262,
+      "total_distance_cost": 58981,
+      "total_duration_cost": 5310,
+      "max_distance_cost": 58981,
+      "max_duration_cost": 5310,
+      "total_fixed_cost": 0,
+      "unassigned_penalty_cost": 0
     }
   },
-  "visits": [
-    {
-      "name": "Restaurant A",
-      "index": 1,
-      "service_time": 20,
-      "coordinate": {
-        "lng": 127.1,
-        "lat": 37.6
-      },
-      "volume": 0.5,
-      "weight": 10.0,
-      "extra_demands": [
-        50,
-        20
-      ]
-    },
-    {
-      "name": "Restaurant B",
-      "index": 2,
-      "service_time": 25,
-      "coordinate": {
-        "lng": 127.2,
-        "lat": 37.4
-      },
-      "volume": 0.8,
-      "weight": 15.0,
-      "extra_demands": [
-        30,
-        15
-      ]
-    }
-  ],
-  "vehicles": [
-    {
-      "name": "Refrigerated Truck",
-      "volume_capacity": 2.0,
-      "weight_capacity": 50.0,
-      "extra_capacities": [
-        100,
-        50
-      ],
-      "fixed_cost": 300.0,
-      "unit_distance_cost": 2.0
-    }
-  ],
-  "option": {
-    "timelimit": 1,
-    "objective_type": "minsum",
-    "distance_type": "euclidean"
-  }
+  "status": "feasible",
+  "detail": "Successfully processed",
+  "job_id": "472d6330565b40e88c18cdea993edf9c"
 }

@@ -1,17 +1,20 @@
 {
-  "coordinates": [
-    {
-      "lng": 127.0,
-      "lat": 37.5
-    },
-    {
-      "lng": 127.1,
-      "lat": 37.6
-    },
-    {
-      "lng": 127.2,
-      "lat": 37.4
-    }
+  "distance_matrix": [
+    [
+      0,
+      16538,
+      26934
+    ],
+    [
+      16813,
+      0,
+      32778
+    ],
+    [
+      27402,
+      28800,
+      0
+    ]
   ],
-  "return_cost_matrix_type": "distance"
+  "duration_matrix": null
 }

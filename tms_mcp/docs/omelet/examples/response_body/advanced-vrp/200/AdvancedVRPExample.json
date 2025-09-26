@@ -1,222 +1,27 @@
 {
-  "visits": [
-    {
-      "id": "delivery_0",
-      "coordinate": {
-        "lng": 127.37454011884736,
-        "lat": 37.950714306409914
-      },
-      "order_placed_at": "2025-08-20T19:07:14.761465+09:00",
-      "tw_early": null,
-      "tw_late": null,
-      "service_time": {
-        "car": 0.0,
-        "bike": 0.0,
-        "walk": 0.0
-      },
-      "volume": 0.001,
-      "weight": 2.0,
-      "unassigned_penalty": 1e+17,
-      "extra_demands": [
-        10000.0,
-        100.0
-      ],
-      "early_delivery_required": false
-    },
-    {
-      "id": "delivery_1",
-      "coordinate": {
-        "lng": 127.73199394181141,
-        "lat": 37.59865848419704
-      },
-      "order_placed_at": "2025-08-20T19:07:14.761465+09:00",
-      "tw_early": null,
-      "tw_late": null,
-      "service_time": {
-        "car": 0.0,
-        "bike": 0.0,
-        "walk": 0.0
-      },
-      "volume": 0.001,
-      "weight": 2.0,
-      "unassigned_penalty": 1e+17,
-      "extra_demands": [
-        10000.0,
-        100.0
-      ],
-      "early_delivery_required": false
-    },
-    {
-      "id": "delivery_2",
-      "coordinate": {
-        "lng": 127.15601864044244,
-        "lat": 37.1559945203362
-      },
-      "order_placed_at": "2025-08-20T19:07:14.761465+09:00",
-      "tw_early": null,
-      "tw_late": null,
-      "service_time": {
-        "car": 0.0,
-        "bike": 0.0,
-        "walk": 0.0
-      },
-      "volume": 0.001,
-      "weight": 2.0,
-      "unassigned_penalty": 1e+17,
-      "extra_demands": [
-        10000.0,
-        100.0
-      ],
-      "early_delivery_required": false
-    }
+  "routes": [
+    [
+      "depot_1",
+      "delivery_20",
+      "delivery_84"
+    ],
+    [
+      "depot_1",
+      "delivery_68",
+      "delivery_27"
+    ],
+    [
+      "depot_1",
+      "delivery_18",
+      "delivery_41"
+    ]
   ],
-  "vehicles": [
-    {
-      "id": "rider_0",
-      "vehicle_type": "bike",
-      "start_depot": {
-        "id": "depot_1",
-        "coordinate": {
-          "lng": 127.6420316461543,
-          "lat": 37.084139964995046
-        },
-        "service_time": {
-          "car": 3600.0,
-          "bike": 3600.0,
-          "walk": 3600.0
-        }
-      },
-      "end_depot": {
-        "id": "depot_1",
-        "coordinate": {
-          "lng": 127.6420316461543,
-          "lat": 37.084139964995046
-        },
-        "service_time": {
-          "car": 3600.0,
-          "bike": 3600.0,
-          "walk": 3600.0
-        }
-      },
-      "volume_capacity": 0.01,
-      "weight_capacity": 20.0,
-      "unit_distance_cost": 1.0,
-      "unit_duration_cost": 1.0,
-      "work_start_time": null,
-      "work_end_time": null,
-      "max_round": 2,
-      "preassigned_delivery_ids": [],
-      "extra_capacities": [
-        100000.0,
-        1000.0
-      ],
-      "max_service_radius": 10.0
-    },
-    {
-      "id": "rider_1",
-      "vehicle_type": "bike",
-      "start_depot": {
-        "id": "depot_1",
-        "coordinate": {
-          "lng": 127.6420316461543,
-          "lat": 37.084139964995046
-        },
-        "service_time": {
-          "car": 3600.0,
-          "bike": 3600.0,
-          "walk": 3600.0
-        }
-      },
-      "end_depot": {
-        "id": "depot_1",
-        "coordinate": {
-          "lng": 127.6420316461543,
-          "lat": 37.084139964995046
-        },
-        "service_time": {
-          "car": 3600.0,
-          "bike": 3600.0,
-          "walk": 3600.0
-        }
-      },
-      "volume_capacity": 0.01,
-      "weight_capacity": 20.0,
-      "unit_distance_cost": 1.0,
-      "unit_duration_cost": 1.0,
-      "work_start_time": null,
-      "work_end_time": null,
-      "max_round": 2,
-      "preassigned_delivery_ids": [],
-      "extra_capacities": [
-        100000.0,
-        1000.0
-      ],
-      "max_service_radius": 10.0
-    },
-    {
-      "id": "rider_2",
-      "vehicle_type": "bike",
-      "start_depot": {
-        "id": "depot_1",
-        "coordinate": {
-          "lng": 127.6420316461543,
-          "lat": 37.084139964995046
-        },
-        "service_time": {
-          "car": 3600.0,
-          "bike": 3600.0,
-          "walk": 3600.0
-        }
-      },
-      "end_depot": {
-        "id": "depot_1",
-        "coordinate": {
-          "lng": 127.6420316461543,
-          "lat": 37.084139964995046
-        },
-        "service_time": {
-          "car": 3600.0,
-          "bike": 3600.0,
-          "walk": 3600.0
-        }
-      },
-      "volume_capacity": 0.01,
-      "weight_capacity": 20.0,
-      "unit_distance_cost": 1.0,
-      "unit_duration_cost": 1.0,
-      "work_start_time": null,
-      "work_end_time": null,
-      "max_round": 2,
-      "preassigned_delivery_ids": [],
-      "extra_capacities": [
-        100000.0,
-        1000.0
-      ],
-      "max_service_radius": 10.0
-    }
-  ],
-  "constraints": [
-    {
-      "type": "distance",
-      "weight": 1.0,
-      "is_hard_cost": false,
-      "exp_factor": 2.0
-    },
-    {
-      "type": "capacity",
-      "weight": 1.0,
-      "is_hard_cost": true
-    },
-    {
-      "type": "time_window",
-      "weight": 1.0,
-      "is_hard_cost": false,
-      "exp_factor": 2.0
-    }
-  ],
-  "config": {
-    "timelimit": 2,
-    "delivery_start_time": "2025-08-20T19:17:14.761465+09:00",
-    "distance_type": "osrm"
-  }
+  "cost": 796106659977,
+  "detailed_cost": {
+    "VrpIndividualEnclosingCircleRadiusConstraint": 0,
+    "VrpDurationConstraint": 12112662548,
+    "VrpTimeWindowConstraint": 0,
+    "VrpDistanceConstraint": 783993997429
+  },
+  "job_id": "18c86e51dfa6488aa79254bc28b100c8"
 }

@@ -1,156 +1,69 @@
 {
-  "visits": [
-    {
-      "name": "visit_1",
-      "pick_up_visit": {
-        "name": "pu_1",
-        "service_time": 1,
-        "coordinate": {
-          "lng": 127.07500381909662,
-          "lat": 37.494726151895776
-        },
-        "volume": 1,
-        "weight": 0,
-        "time_window": [
-          "2024-07-30T00:00:00",
-          "2024-07-31T23:00:00"
-        ]
+  "routing_engine_result": {
+    "routes": [
+      {
+        "vehicle_name": "vehicle_1",
+        "route_index": [
+          200
+        ],
+        "route_name": [
+          "vehicle_1"
+        ],
+        "route_cost_details": {
+          "objective_cost": 0,
+          "distance_cost": 0,
+          "duration_cost": 0,
+          "fixed_cost": 0
+        }
       },
-      "drop_off_visit": {
-        "name": "do_1",
-        "service_time": 5,
-        "coordinate": {
-          "lng": 126.75601605434875,
-          "lat": 37.4182826849803
-        },
-        "volume": -1,
-        "weight": 0,
-        "time_window": [
-          "2024-07-30T00:00:00",
-          "2024-07-31T23:00:00"
-        ]
-      }
-    },
-    {
-      "name": "visit_2",
-      "pick_up_visit": {
-        "name": "pu_2",
-        "service_time": 1,
-        "coordinate": {
-          "lng": 127.16936856377596,
-          "lat": 37.68879923068993
-        },
-        "volume": 1,
-        "weight": 0,
-        "time_window": [
-          "2024-07-30T00:00:00",
-          "2024-07-31T23:00:00"
-        ]
+      {
+        "vehicle_name": "vehicle_2",
+        "route_index": [
+          201,
+          78,
+          110
+        ],
+        "route_name": [
+          "vehicle_2",
+          "pu_40",
+          "pu_56"
+        ],
+        "route_cost_details": {
+          "objective_cost": 328012,
+          "distance_cost": 327912,
+          "duration_cost": 0,
+          "fixed_cost": 100
+        }
       },
-      "drop_off_visit": {
-        "name": "do_2",
-        "service_time": 5,
-        "coordinate": {
-          "lng": 127.058772633085,
-          "lat": 37.63348451247085
-        },
-        "volume": -1,
-        "weight": 0,
-        "time_window": [
-          "2024-07-30T00:00:00",
-          "2024-07-31T23:00:00"
-        ]
+      {
+        "vehicle_name": "vehicle_3",
+        "route_index": [
+          202
+        ],
+        "route_name": [
+          "vehicle_3"
+        ],
+        "route_cost_details": {
+          "objective_cost": 0,
+          "distance_cost": 0,
+          "duration_cost": 0,
+          "fixed_cost": 0
+        }
       }
-    },
-    {
-      "name": "visit_3",
-      "pick_up_visit": {
-        "name": "pu_3",
-        "service_time": 1,
-        "coordinate": {
-          "lng": 127.02504768605708,
-          "lat": 37.695535325323675
-        },
-        "volume": 1,
-        "weight": 0,
-        "time_window": [
-          "2024-07-30T00:00:00",
-          "2024-07-31T23:00:00"
-        ]
-      },
-      "drop_off_visit": {
-        "name": "do_3",
-        "service_time": 5,
-        "coordinate": {
-          "lng": 127.1707512185047,
-          "lat": 37.414120586152855
-        },
-        "volume": -1,
-        "weight": 0,
-        "time_window": [
-          "2024-07-30T00:00:00",
-          "2024-07-31T23:00:00"
-        ]
-      }
+    ],
+    "unassigned_visit_indices": [],
+    "unassigned_visit_names": [],
+    "solution_cost_details": {
+      "total_objective_cost": 1272299,
+      "total_distance_cost": 1271999,
+      "total_duration_cost": 0,
+      "max_distance_cost": 891016,
+      "max_duration_cost": 0,
+      "total_fixed_cost": 300,
+      "unassigned_penalty_cost": 0
     }
-  ],
-  "vehicles": [
-    {
-      "name": "vehicle_1",
-      "volume_capacity": 25,
-      "weight_capacity": 25,
-      "fixed_cost": 100,
-      "visit_preference": [
-        3,
-        0,
-        1
-      ],
-      "vehicle_type": "car",
-      "current_coordinate": {
-        "lng": 127.11496312433154,
-        "lat": 37.66807961054231
-      }
-    },
-    {
-      "name": "vehicle_2",
-      "volume_capacity": 25,
-      "weight_capacity": 25,
-      "fixed_cost": 100,
-      "visit_preference": [
-        0,
-        2,
-        1
-      ],
-      "vehicle_type": "car",
-      "current_coordinate": {
-        "lng": 127.23811067709349,
-        "lat": 37.49233477268134
-      }
-    },
-    {
-      "name": "vehicle_3",
-      "volume_capacity": 25,
-      "weight_capacity": 25,
-      "fixed_cost": 100,
-      "visit_preference": [
-        2,
-        0,
-        1
-      ],
-      "vehicle_type": "car",
-      "current_coordinate": {
-        "lng": 127.08239241152374,
-        "lat": 37.49318655810416
-      }
-    }
-  ],
-  "delivery_start_time": "2019-08-24T14:15:22Z",
-  "option": {
-    "timelimit": 3,
-    "objective_type": "minsum",
-    "distance_type": "osrm",
-    "use_large_size_optimization_algorithm": false,
-    "include_departure_cost_from_depot": true,
-    "include_return_cost_to_depot": true
-  }
+  },
+  "status": "feasible",
+  "detail": "Successfully processed",
+  "job_id": "6aa253df83774e76ad86e9585dbf6e68"
 }
