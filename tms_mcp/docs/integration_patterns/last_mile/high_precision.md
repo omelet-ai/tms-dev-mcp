@@ -4,28 +4,14 @@ This guide outlines a streamlined, four-step process for high-precision last-mil
 
 ---
 
-### **Step 1: Geocode Addresses**
+### Step 1: Geocode Addresses
+Convert warehouse and customer addresses into geographic coordinates (latitude/longitude) using iNavi's `Multi Geocoding` API.
 
-- **Goal:** Convert pickup and delivery addresses into geographic coordinates (latitude/longitude).
-- **API:** iNavi `/maps/v3.0/appkeys/{appkey}/multi-coordinates`
+### Step 2: Refine Entry Points
+Adjust base coordinates to the most practical building access locations using iNavi's `Multi Optimal Point Search` API.
 
----
+### Step 3: Build Cost Matrix
+Calculate real-world travel distance and time between refined coordinate pairs using iNavi's `Route Distance Matrix` API.
 
-### **Step 2: Refine Entry Points**
-
-- **Goal:** Adjust base coordinates to the most practical building access locations.
-- **API:** iNavi `/maps/v3.0/appkeys/{appkey}/multi-optimal-searches`
-
----
-
-### **Step 3: Build Cost Matrix**
-
-- **Goal:** Calculate real-world travel distance and time between refined coordinate pairs.
-- **API:** iNavi `/maps/v3.0/appkeys/{appkey}/route-distance-matrix`
-
----
-
-### **Step 4: Optimize Routes**
-
-- **Goal:** Determine the most efficient sequence of stops for each vehicle.
-- **API:** Omelet `/api/vrp`
+### Step 4: Optimize Routes
+Determine the most efficient sequence of stops for each vehicle, using the cost matrix from the previous step using Omelet's `Vehicle Routing` API.

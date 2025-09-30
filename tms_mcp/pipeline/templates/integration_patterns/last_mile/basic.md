@@ -4,21 +4,11 @@ This guide outlines a streamlined, three-step process for basic last-mile delive
 
 ---
 
-### **Step 1: Geocode Addresses**
+### Step 1: Geocode Addresses
+Convert warehouse and customer addresses into geographic coordinates (latitude/longitude) using iNavi's `Multi Geocoding` API.
 
-- **Goal:** Convert street addresses into geographic coordinates (latitude/longitude).
-- **API:** iNavi `/maps/v3.0/appkeys/{appkey}/multi-coordinates`
+### Step 2: Build Cost Matrix
+Calculate the real-world travel distance between all the coordinates from the previous step using iNavi's `Route Distance Matrix` API.
 
----
-
-### **Step 2: Build Cost Matrix**
-
-- **Goal:** Calculate the real-world travel distance between all coordinate pairs.
-- **API:** iNavi `/maps/v3.0/appkeys/{appkey}/route-distance-matrix`
-
----
-
-### **Step 3: Optimize Routes**
-
-- **Goal:** Determine the most efficient sequence of stops for each vehicle.
-- **API:** Omelet `/api/vrp`
+### Step 3: Optimize Routes
+Determine the most efficient sequence of stops for each vehicle, using the cost matrix from the previous step using Omelet's `Vehicle Routing` API.
