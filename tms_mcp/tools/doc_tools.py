@@ -218,11 +218,16 @@ def list_integration_patterns() -> str:
 @mcp.tool
 def get_integration_pattern(
     pattern_id: Annotated[str, "Integration pattern identifier in the format 'category/pattern'"],
-    simple: Annotated[bool, "If True, return only the standalone document"] = False,
+    simple: Annotated[
+        bool,
+        "If True, return only the standalone document. If False, provide additional guidelines for agentic coding tips, to enhance tool usage and autonomous agentic development. Refer to these tips for creating or revising TO DO lists.",
+    ] = False,
 ) -> str:
     """
     Retrieve the specified integration pattern document.
-    If simple is False, provide additional guidelines for agentic coding tips, to enhance tool usage and autonomous agentic development.
+    These integration patterns serve as starting points for further API exploration and development.
+
+    It is **STRONGLY** advised that the user provide or setup API keys in advance for autonomous agentic development.
     """
     content, _ = _read_integration_pattern(pattern_id)
     if content.startswith("Error:"):
