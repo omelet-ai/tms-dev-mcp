@@ -7,9 +7,9 @@ FastMCP 기반 MCP 서버로, **Omelet Routing Engine API**와 **iNavi Maps API*
 ## 주요 기능
 
 - 🚀 **멀티 프로바이더 지원**: Omelet과 iNavi API 문서를 통합된 도구로 손쉽게 열람
-- 📚 **스마트 문서 탐색**: 프로바이더를 자동 인식하는 지능형 도구 제공
-- 🔄 **자동 예제 생성**: OpenAPI 스펙에서 요청 및 응답 본문 예제 추출
+- 📚 **스마트 문서 관리**: 프로바이더를 자동 인식하는 지능형 문서 조회 도구 제공
 - 🎯 **프로바이더 필터링**: 특정 프로바이더만 조회하거나 통합 조회 지원
+- 🧩 **통합 플레이북**: 대표적인 TMS 워크플로우를 빠르게 시작할 수 있는 통합 패턴과 가이드 제공
 
 API 키는 [Omelet Routing Engine 홈페이지](https://routing.oaasis.cc/)와 [iNavi iMPS 홈페이지](https://mapsapi.inavisys.com/)에서 발급받을 수 있습니다.
 (이 MCP 서버를 실행하는 데에는 API 키가 필수는 아닙니다.)
@@ -34,7 +34,7 @@ uv sync --all-groups
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 ```
 
-3. 환경변수 설정:
+3. (선택) 환경 변수 설정:
 ```bash
 cp env.example .env
 # .env 파일을 열어 환경설정을 수정하세요
@@ -62,6 +62,24 @@ pre-commit install
 }
 ```
 
+#### Claude Code
+프로젝트 루트 디렉터리에서 터미널을 열고 다음 명령을 실행하세요:
+```bash
+claude mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
+```
+
+#### Codex CLI
+프로젝트 루트 디렉터리에서 터미널을 열고 다음 명령을 실행하세요:
+```bash
+codex mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
+```
+
+#### Gemini CLI
+프로젝트 루트 디렉터리에서 터미널을 열고 다음 명령을 실행하세요:
+```bash
+gemini mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
+```
+
 ## 프로젝트 구조
 
 ```
@@ -75,6 +93,7 @@ tms_mcp/
 │   └── doc_tools.py       # 문서 조회 도구
 └── docs/                  # 생성된 문서
     ├── basic_info.md      # 공통 API 개요
+    ├── integration_patterns/ # 통합 패턴 및 에이전틱 가이드라인
     ├── omelet/            # Omelet 전용 문서
     │   ├── openapi.json
     │   ├── endpoints_summary.md
@@ -94,6 +113,8 @@ tms_mcp/
 
 - `get_basic_info()`: Omelet Routing Engine 및 iNavi Maps API의 기본 정보를 조회
 - `list_endpoints(provider)`: 프로바이더(omelet/inavi)로 엔드포인트 목록 필터링 조회
+- `list_integration_patterns()`: 통합 패턴 카탈로그와 간단한 설명을 조회
+- `get_integration_pattern(pattern_id, simple=False)`: 특정 통합 플레이북을 가져오며, `simple=True`가 아니면 에이전틱 가이드를 함께 제공
 - `get_endpoint_overview(path, provider)`: 특정 엔드포인트의 상세 개요 조회
 - `get_request_body_schema(path, provider)`: 특정 엔드포인트의 요청 본문 스키마 조회
 - `get_response_schema(path, response_code, provider)`: 특정 엔드포인트와 응답코드에 대한 응답 스키마 조회
@@ -106,11 +127,12 @@ tms_mcp/
 1. 설정된 URL에서 OpenAPI 스펙을 가져옵니다
 2. jsonref를 사용하여 모든 `$ref` 참조를 해석합니다
 3. 프로바이더별로 문서를 분리합니다 (Omelet/iNavi)
-4. 프로바이더 전용 문서 구조를 생성합니다:
-   - 엔드포인트 요약 및 개요
+4. 템플릿 기반으로 통합 패턴 플레이북과 공통 에이전틱 가이드를 생성합니다
+5. 프로바이더 전용 문서 구조를 생성합니다:
    - 요청/응답 스키마
    - OpenAPI 스펙에서 추출한 요청/응답 예제
-5. 일관성을 보장하기 위해 이전 문서를 원자적으로 교체합니다
+   - 엔드포인트 요약 및 개요
+6. 일관성을 보장하기 위해 이전 문서를 원자적으로 교체합니다
 
 ### 문서 업데이트
 

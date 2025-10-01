@@ -8,8 +8,8 @@ A FastMCP-based MCP server providing intelligent tools to navigate through **Ome
 
 - 🚀 **Multi-Provider Support**: Seamlessly access both Omelet and iNavi API documents through unified tools
 - 📚 **Smart Documentation**: Provider-aware tools with automatic API detection
-- 🔄 **Auto-Generated Examples**: Request and response body examples from OpenAPI specifications
 - 🎯 **Provider Filtering**: Query specific provider documentation or get combined results
+- 🧩 **Integration Playbooks**: Curated integration patterns and agentic guidelines to bootstrap common TMS workflows
 
 For the API keys, please visit [Omelet's Routing Engine Homepage](https://routing.oaasis.cc/) and [iNavi's iMPS Homepage](https://mapsapi.inavisys.com/).
 (Note that the API keys are not required to run this MCP server)
@@ -35,13 +35,13 @@ uv sync --all-groups
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
-3. Set up environment variables:
+3. Set up environment variables (Optional):
 ```bash
 cp env.example .env
 # Edit .env with your configuration
 ```
 
-4. (Optional, for server development) Install pre-commit
+4. Install pre-commit (Optional, for server development)
 ```bash
 pre-commit install
 ```
@@ -49,6 +49,7 @@ pre-commit install
 ### Running the Server (Locally)
 
 #### Cursor / Claude Desktop
+Navigate to the Cursor / Claude Desktop settings and add the following:
 ```json
 {
    "mcpServers": {
@@ -61,6 +62,24 @@ pre-commit install
       }
    }
 }
+```
+
+#### Claude Code
+Open a terminal, and at the project root directory, run the following command:
+```bash
+claude mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
+```
+
+#### Codex CLI
+Open a terminal, and at the project root directory, run the following command:
+```bash
+codex mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
+```
+
+#### Gemini CLI
+Open a terminal, and at the project root directory, run the following command:
+```bash
+gemini mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
 ```
 
 ## Project Structure
@@ -76,6 +95,7 @@ tms_mcp/
 │   └── doc_tools.py       # Documentation query tools
 └── docs/                  # Generated documentation
     ├── basic_info.md      # Shared API overview
+    ├── integration_patterns/ # Integration patterns and agentic coding guidelines
     ├── omelet/            # Omelet-specific docs
     │   ├── openapi.json
     │   ├── endpoints_summary.md
@@ -95,6 +115,8 @@ tms_mcp/
 
 - `get_basic_info()`: Get basic information about both Omelet Routing Engine and iNavi Maps APIs.
 - `list_endpoints(provider)`: Get a list of available API endpoints with filtering by provider (omelet/inavi).
+- `list_integration_patterns()`: Return the catalog of integration patterns with short descriptions.
+- `get_integration_pattern(pattern_id, simple=False)`: Retrieve a specific integration playbook; include agentic coding guidelines unless `simple=True`.
 - `get_endpoint_overview(path, provider)`: Get detailed overview information for a specific API endpoint.
 - `get_request_body_schema(path, provider)`: Get the request body schema for a specific API endpoint.
 - `get_response_schema(path, response_code, provider)`: Get the response schema for a specific API endpoint and response code.
@@ -108,11 +130,14 @@ The pipeline automatically:
 1. Fetches OpenAPI specifications from configured URLs
 2. Resolves all `$ref` references using jsonref
 3. Splits documentation by provider (Omelet/iNavi)
-4. Generates provider-specific documentation structure:
+4. Generates integration pattern playbooks and shared agentic guidelines from templates
+5. Generates provider-specific documentation structure:
+   - Request/response schemas
+   - Request/response examples extracted from OpenAPI specs
    - Endpoint summaries and overviews
    - Request/response schemas
    - Request/response examples extracted from OpenAPI specs
-5. Atomically replaces old documentation to ensure consistency
+6. Atomically replaces old documentation to ensure consistency
 
 ### Document Update
 
