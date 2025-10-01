@@ -26,6 +26,7 @@ Compact guidelines for AI agents integrating with TMS Development Wizard MCP ser
 - Clear separation: data / service / view layers
 - Single responsibility per module
 - Define interfaces before implementation
+- Derive DTOs and validation rules from `get_response_schema()` so each module consumes responses deterministically
 
 ### Iterative Development Cycle
 1. Initial implementation (small, testable units)
@@ -45,8 +46,9 @@ Compact guidelines for AI agents integrating with TMS Development Wizard MCP ser
 
 ### API Discovery (Progressive, Not All Upfront)
 1. Start with overview: `get_basic_info()`, `list_endpoints()`
-2. Explore as needed per development phase using `get_endpoint_overview()`, `get_request_body_schema()`, `get_response_schema()`
-3. Review examples for complex schemas: `list_examples()`, `get_example()`
+2. Explore as needed per development phase using `get_endpoint_overview()` and `get_request_body_schema()`
+3. Design parsing logic with `get_response_schema()` before coding modules – identify required fields, nullability, and nesting so controllers/services can extract data predictably
+4. Review examples for complex schemas: `list_examples()`, `get_example()`
 
 ### Debugging
 - Re-examine existing info or explore new endpoints
