@@ -7,7 +7,7 @@
 
 ## 🎯 개요
 
-**🚚TMS Development Wizard🧙‍♂️**는 **[Omelet의 Routing Engine](https://www.oaasis.cc/routing)**과 **[iNavi의 Maps API](https://mapsapi.inavisys.com/)**를 탐색할 수 있는 도구를 제공하여 TMS(Transport Management System) 구축을 돕습니다. 더 이상 여러 API 문서를 오가며 씨름할 필요 없이, 나만의 맞춤형 TMS를 손쉽게 구축해보세요.
+**🚚TMS Development Wizard🧙‍♂️**는 [Omelet의 Routing Engine](https://www.oaasis.cc/routing)과 [iNavi의 Maps API](https://mapsapi.inavisys.com/)를 탐색할 수 있는 도구를 제공하여 TMS(Transport Management System) 구축을 돕습니다. 더 이상 여러 API 문서를 오가며 씨름할 필요 없이, 나만의 맞춤형 TMS를 손쉽게 구축해보세요.
 
 **이런 분들께 적합합니다:**
 - 🚀 **빠른 API 탐색** - 긴 문서를 읽지 않고도 가능한 기능을 빠르게 파악
@@ -32,7 +32,7 @@
 
 ### MCP 서버 설치
 
-**사전 요구사항:** **[uv](https://docs.astral.sh/uv/getting-started/installation/)**가 설치되어 있어야 합니다.
+**사전 요구사항:** [uv](https://docs.astral.sh/uv/getting-started/installation/)가 설치되어 있어야 합니다.
 
 Cursor 빠른 설치:
 [![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](cursor://anysphere.cursor-deeplink/mcp/install?name=TMS%20Development%20Wizard&config=eyJjb21tYW5kIjoidXZ4IC0tZnJvbSBnaXQraHR0cHM6Ly9naXRodWIuY29tL29tZWxldC1haS90bXMtZGV2LW1jcC5naXQgdG1zLW1jcC1zZXJ2ZXIifQ%3D%3D)
