@@ -34,9 +34,6 @@
 
 **사전 요구사항:** [uv](https://docs.astral.sh/uv/getting-started/installation/)가 설치되어 있어야 합니다.
 
-Cursor 빠른 설치:
-[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](cursor://anysphere.cursor-deeplink/mcp/install?name=TMS%20Development%20Wizard&config=eyJjb21tYW5kIjoidXZ4IC0tZnJvbSBnaXQraHR0cHM6Ly9naXRodWIuY29tL29tZWxldC1haS90bXMtZGV2LW1jcC5naXQgdG1zLW1jcC1zZXJ2ZXIifQ%3D%3D)
-
 <details>
 <summary><b>Cursor / Claude Desktop</b></summary>
 
@@ -47,11 +44,7 @@ MCP 설정으로 이동하여 다음을 추가하세요:
    "mcpServers": {
       "TMS Development Wizard": {
          "command": "uvx",
-         "args": [
-         "--from",
-         "git+https://github.com/omelet-ai/tms-dev-mcp.git",
-         "tms-mcp-server"
-         ]
+         "args": ["tms-mcp"]
       }
    }
 }
@@ -63,7 +56,7 @@ MCP 설정으로 이동하여 다음을 추가하세요:
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-claude mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai/tms-dev-mcp.git tms-mcp-server
+claude mcp add TMS-Development-Wizard uvx tms-mcp
 ```
 </details>
 <details>
@@ -72,7 +65,7 @@ claude mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-a
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-codex mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai/tms-dev-mcp.git tms-mcp-server
+codex mcp add TMS-Development-Wizard uvx tms-mcp
 ```
 </details>
 <details>
@@ -81,7 +74,7 @@ codex mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-gemini mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai/tms-dev-mcp.git tms-mcp-server
+gemini mcp add TMS-Development-Wizard uvx tms-mcp
 ```
 </details>
 
