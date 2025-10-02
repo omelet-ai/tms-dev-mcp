@@ -1,11 +1,22 @@
 [project]
 name = "tms-mcp"
-version = "0.1.14"
+version = "0.1.15"
 description = "MCP server for exploring Omelet's Routing Engine and iNavi's Maps API to help build a TMS"
+readme = "README.md"
+license = "MIT"
 authors = [
-    {name = "Juni", email = "juni.lee@omelet.ai"},
+    {name = "Omelet", email = "dev.shared@omelet.ai"},
 ]
 requires-python = "~=3.11"
+keywords = ["mcp", "tms", "routing", "logistics", "omelet", "inavi", "maps", "api"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: GIS",
+]
 dependencies = [
     "aiofiles>=24.1.0",
     "fastmcp>=2.11.0",
@@ -16,8 +27,14 @@ dependencies = [
     "python-json-logger>=3.2.1",
 ]
 
+[project.urls]
+Homepage = "https://github.com/omelet-ai/tms-dev-mcp"
+Repository = "https://github.com/omelet-ai/tms-dev-mcp.git"
+Documentation = "https://github.com/omelet-ai/tms-dev-mcp#readme"
+Issues = "https://github.com/omelet-ai/tms-dev-mcp/issues"
+
 [project.scripts]
-tms-mcp-server = "tms_mcp.main:main"
+tms-mcp = "tms_mcp.main:main"
 
 [dependency-groups]
 precommit = [
