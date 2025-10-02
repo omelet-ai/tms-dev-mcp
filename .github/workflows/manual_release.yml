@@ -1,0 +1,133 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: "Select the version segment to bump"
+        required: true
+        type: choice
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Bump project version
+        id: bump
+        env:
+          RELEASE_TYPE: ${{ github.event.inputs.release_type }}
+        run: |
+          python <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          release_type = os.environ.get("RELEASE_TYPE", "patch").lower()
+          if release_type not in {"major", "minor", "patch"}:
+              raise SystemExit(f"Unsupported release type: {release_type}")
+
+          pyproject_path = Path("pyproject.toml")
+          content = pyproject_path.read_text(encoding="utf-8")
+          match = re.search(r'version\s*=\s*"(\d+)\.(\d+)\.(\d+)"', content)
+          if not match:
+              raise SystemExit("Unable to find version in pyproject.toml")
+
+          major, minor, patch = map(int, match.groups())
+
+          if release_type == "major":
+              major += 1
+              minor = 0
+              patch = 0
+          elif release_type == "minor":
+              minor += 1
+              patch = 0
+          else:
+              patch += 1
+
+          new_version = f"{major}.{minor}.{patch}"
+          updated = re.sub(
+              r'version\s*=\s*"(\d+)\.(\d+)\.(\d+)"',
+              f'version = "{new_version}"',
+              content,
+              count=1,
+          )
+          pyproject_path.write_text(updated, encoding="utf-8")
+
+          previous_version = ".".join(match.groups())
+          print(f"Bumped version: {previous_version} -> {new_version}")
+
+          github_output = os.environ["GITHUB_OUTPUT"]
+          with open(github_output, "a", encoding="utf-8") as fh:
+              fh.write(f"new_version={new_version}\n")
+          PY
+
+      - name: Show version change
+        run: git --no-pager diff pyproject.toml
+
+      - name: Build distribution artifacts
+        run: |
+          rm -rf dist/
+          uv build
+
+      - name: Publish to PyPI
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          if [ -z "$PYPI_TOKEN" ]; then
+            echo "Missing PyPI token. Please set the PYPI_API_TOKEN secret." >&2
+            exit 1
+          fi
+          uv publish --token "$PYPI_TOKEN"
+
+      - name: Commit version bump
+        env:
+          NEW_VERSION: ${{ steps.bump.outputs.new_version }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add pyproject.toml
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: release ${NEW_VERSION}"
+          fi
+
+      - name: Create tag
+        env:
+          NEW_VERSION: ${{ steps.bump.outputs.new_version }}
+        run: |
+          if git rev-parse "v${NEW_VERSION}" >/dev/null 2>&1; then
+            echo "Tag v${NEW_VERSION} already exists." >&2
+            exit 1
+          fi
+          git tag "v${NEW_VERSION}"
+
+      - name: Push commit and tag
+        env:
+          NEW_VERSION: ${{ steps.bump.outputs.new_version }}
+        run: |
+          BRANCH="${GITHUB_REF_NAME:-main}"
+          git push origin "HEAD:${BRANCH}"
+          git push origin "v${NEW_VERSION}"

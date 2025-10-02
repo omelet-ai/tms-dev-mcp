@@ -1,6 +1,10 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "tms-mcp"
-version = "0.1.16"
+version = "0.1.17"
 description = "MCP server for exploring Omelet's Routing Engine and iNavi's Maps API to help build a TMS"
 readme = "README.md"
 license = "MIT"
@@ -49,3 +53,14 @@ test = [
 
 [tool.uv]
 package = true
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+tms_mcp = [
+    "docs/**/*.md",
+    "docs/**/*.json",
+    "custom_logging/*.yaml",
+    "pipeline/templates/**/*.md",
+]
