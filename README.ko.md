@@ -229,10 +229,7 @@ MCP 설정으로 이동하여 다음을 추가하세요:
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-claude mcp add TMS-Development-Wizard \
-  /path/to/tms-dev-mcp/.venv/bin/python \
-  /path/to/tms-dev-mcp/tms_mcp/main.py \
-  start-server
+claude mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
 ```
 
 </details>
@@ -243,10 +240,7 @@ claude mcp add TMS-Development-Wizard \
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-codex mcp add TMS-Development-Wizard \
-  /path/to/tms-dev-mcp/.venv/bin/python \
-  /path/to/tms-dev-mcp/tms_mcp/main.py \
-  start-server
+codex mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
 ```
 
 </details>
@@ -257,10 +251,7 @@ codex mcp add TMS-Development-Wizard \
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-gemini mcp add TMS-Development-Wizard \
-  /path/to/tms-dev-mcp/.venv/bin/python \
-  /path/to/tms-dev-mcp/tms_mcp/main.py \
-  start-server
+gemini mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
 ```
 
 </details>

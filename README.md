@@ -229,10 +229,7 @@ Navigate to your MCP settings and add:
 Open a terminal at the project root and run:
 
 ```bash
-claude mcp add TMS-Development-Wizard \
-  /path/to/tms-dev-mcp/.venv/bin/python \
-  /path/to/tms-dev-mcp/tms_mcp/main.py \
-  start-server
+claude mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
 ```
 
 </details>
@@ -243,10 +240,7 @@ claude mcp add TMS-Development-Wizard \
 Open a terminal at the project root and run:
 
 ```bash
-codex mcp add TMS-Development-Wizard \
-  /path/to/tms-dev-mcp/.venv/bin/python \
-  /path/to/tms-dev-mcp/tms_mcp/main.py \
-  start-server
+codex mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
 ```
 
 </details>
@@ -257,10 +251,7 @@ codex mcp add TMS-Development-Wizard \
 Open a terminal at the project root and run:
 
 ```bash
-gemini mcp add TMS-Development-Wizard \
-  /path/to/tms-dev-mcp/.venv/bin/python \
-  /path/to/tms-dev-mcp/tms_mcp/main.py \
-  start-server
+gemini mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
 ```
 
 </details>
