@@ -35,9 +35,9 @@
 **Prerequisites:** Ensure you have **[uv](https://docs.astral.sh/uv/getting-started/installation/)** installed.
 
 <details>
-<summary><b>Cursor / Claude Desktop</b></summary>
+<summary><b>Cursor</b></summary>
 
-Navigate to your MCP settings and add:
+Navigate to your MCP settings (Cursor > Settings > Cursor Settings > Tools & MCP) and add:
 
 ```json
 {
@@ -49,6 +49,30 @@ Navigate to your MCP settings and add:
    }
 }
 ```
+</details>
+<details>
+<summary><b>Claude Desktop</b></summary>
+
+⚠️ Claude Desktop cannot directly send requests to API servers. Use Claude Desktop only for exploring API endpoints and responses.
+
+1. Check `uvx` installation path via terminal.
+   - For MacOS/Linux: `which uvx`
+   - For Windows: `where uvx`
+
+2. Open MCP settings JSON file (Claude > Settings > Developer > Edit Config), and add:
+
+```json
+{
+   "mcpServers": {
+      "TMS Development Wizard": {
+         "command": "[uvx installation path from step 1]",
+         "args": ["tms-mcp"]
+      }
+   }
+}
+```
+
+3. Save the JSON file and restart Claude Desktop.
 </details>
 <details>
 <summary><b>Claude Code</b></summary>
