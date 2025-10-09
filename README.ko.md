@@ -34,28 +34,45 @@
 
 **사전 요구사항:** [uv](https://docs.astral.sh/uv/getting-started/installation/)가 설치되어 있어야 합니다.
 
-Cursor 빠른 설치:
-[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](cursor://anysphere.cursor-deeplink/mcp/install?name=TMS%20Development%20Wizard&config=eyJjb21tYW5kIjoidXZ4IC0tZnJvbSBnaXQraHR0cHM6Ly9naXRodWIuY29tL29tZWxldC1haS90bXMtZGV2LW1jcC5naXQgdG1zLW1jcC1zZXJ2ZXIifQ%3D%3D)
-
 <details>
-<summary><b>Cursor / Claude Desktop</b></summary>
+<summary><b>Cursor</b></summary>
 
-MCP 설정으로 이동하여 다음을 추가하세요:
+Cursor > Settings > Cursor Settings > Tools & MCP로 이동한 뒤 아래 내용을 추가하세요:
 
 ```json
 {
    "mcpServers": {
       "TMS Development Wizard": {
          "command": "uvx",
-         "args": [
-         "--from",
-         "git+https://github.com/omelet-ai/tms-dev-mcp.git",
-         "tms-mcp-server"
-         ]
+         "args": ["tms-mcp"]
       }
    }
 }
 ```
+</details>
+<details>
+<summary><b>Claude Desktop</b></summary>
+
+⚠️ Claude Desktop은 API 서버에 직접 요청을 전송할 수 없습니다. 엔드포인트와 응답 탐색용으로만 활용하세요.
+
+1. 터미널에서 `uvx` 설치 경로를 확인합니다.
+   - macOS/Linux: `which uvx`
+   - Windows: `where uvx`
+
+2. MCP 설정 JSON 파일을 열고(Claude > Settings > Developer > Edit Config) 아래 내용을 추가합니다:
+
+```json
+{
+   "mcpServers": {
+      "TMS Development Wizard": {
+         "command": "[1단계에서 확인한 uvx 경로]",
+         "args": ["tms-mcp"]
+      }
+   }
+}
+```
+
+3. JSON 파일을 저장하고 Claude Desktop을 재시작합니다.
 </details>
 <details>
 <summary><b>Claude Code</b></summary>
@@ -63,7 +80,7 @@ MCP 설정으로 이동하여 다음을 추가하세요:
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-claude mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai/tms-dev-mcp.git tms-mcp-server
+claude mcp add TMS-Development-Wizard uvx tms-mcp
 ```
 </details>
 <details>
@@ -72,7 +89,7 @@ claude mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-a
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-codex mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai/tms-dev-mcp.git tms-mcp-server
+codex mcp add TMS-Development-Wizard uvx tms-mcp
 ```
 </details>
 <details>
@@ -81,7 +98,7 @@ codex mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-gemini mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai/tms-dev-mcp.git tms-mcp-server
+gemini mcp add TMS-Development-Wizard uvx tms-mcp
 ```
 </details>
 

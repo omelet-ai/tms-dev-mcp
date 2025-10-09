@@ -34,28 +34,45 @@
 
 **Prerequisites:** Ensure you have **[uv](https://docs.astral.sh/uv/getting-started/installation/)** installed.
 
-Cursor Quick Install:
-[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](cursor://anysphere.cursor-deeplink/mcp/install?name=TMS%20Development%20Wizard&config=eyJjb21tYW5kIjoidXZ4IC0tZnJvbSBnaXQraHR0cHM6Ly9naXRodWIuY29tL29tZWxldC1haS90bXMtZGV2LW1jcC5naXQgdG1zLW1jcC1zZXJ2ZXIifQ%3D%3D)
-
 <details>
-<summary><b>Cursor / Claude Desktop</b></summary>
+<summary><b>Cursor</b></summary>
 
-Navigate to your MCP settings and add:
+Navigate to your MCP settings (Cursor > Settings > Cursor Settings > Tools & MCP) and add:
 
 ```json
 {
    "mcpServers": {
       "TMS Development Wizard": {
          "command": "uvx",
-         "args": [
-         "--from",
-         "git+https://github.com/omelet-ai/tms-dev-mcp.git",
-         "tms-mcp-server"
-         ]
+         "args": ["tms-mcp"]
       }
    }
 }
 ```
+</details>
+<details>
+<summary><b>Claude Desktop</b></summary>
+
+⚠️ Claude Desktop cannot directly send requests to API servers. Use Claude Desktop only for exploring API endpoints and responses.
+
+1. Check `uvx` installation path via terminal.
+   - For MacOS/Linux: `which uvx`
+   - For Windows: `where uvx`
+
+2. Open MCP settings JSON file (Claude > Settings > Developer > Edit Config), and add:
+
+```json
+{
+   "mcpServers": {
+      "TMS Development Wizard": {
+         "command": "[uvx installation path from step 1]",
+         "args": ["tms-mcp"]
+      }
+   }
+}
+```
+
+3. Save the JSON file and restart Claude Desktop.
 </details>
 <details>
 <summary><b>Claude Code</b></summary>
@@ -63,7 +80,7 @@ Navigate to your MCP settings and add:
 Open a terminal at the project root and run:
 
 ```bash
-claude mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai/tms-dev-mcp.git tms-mcp-server
+claude mcp add TMS-Development-Wizard uvx tms-mcp
 ```
 </details>
 <details>
@@ -72,7 +89,7 @@ claude mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-a
 Open a terminal at the project root and run:
 
 ```bash
-codex mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai/tms-dev-mcp.git tms-mcp-server
+codex mcp add TMS-Development-Wizard uvx tms-mcp
 ```
 </details>
 <details>
@@ -81,7 +98,7 @@ codex mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai
 Open a terminal at the project root and run:
 
 ```bash
-gemini mcp add TMS-Development-Wizard uvx --from git+https://github.com/omelet-ai/tms-dev-mcp.git tms-mcp-server
+gemini mcp add TMS-Development-Wizard uvx tms-mcp
 ```
 </details>
 
