@@ -44,7 +44,11 @@ Cursor > Settings > Cursor Settings > Tools & MCP로 이동한 뒤 아래 내용
    "mcpServers": {
       "TMS Development Wizard": {
          "command": "uvx",
-         "args": ["tms-mcp"]
+         "args": ["tms-mcp"],
+         "env": {
+            "INAVI_API_KEY": "your_inavi_api_key",
+            "OMELET_API_KEY": "your_omelet_api_key"
+         }
       }
    }
 }
@@ -66,7 +70,11 @@ Cursor > Settings > Cursor Settings > Tools & MCP로 이동한 뒤 아래 내용
    "mcpServers": {
       "TMS Development Wizard": {
          "command": "[1단계에서 확인한 uvx 경로]",
-         "args": ["tms-mcp"]
+         "args": ["tms-mcp"],
+         "env": {
+            "INAVI_API_KEY": "your_inavi_api_key",
+            "OMELET_API_KEY": "your_omelet_api_key"
+         }
       }
    }
 }
@@ -80,7 +88,7 @@ Cursor > Settings > Cursor Settings > Tools & MCP로 이동한 뒤 아래 내용
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-claude mcp add TMS-Development-Wizard uvx tms-mcp
+claude mcp add TMS-Development-Wizard uvx tms-mcp --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key
 ```
 </details>
 <details>
@@ -89,7 +97,7 @@ claude mcp add TMS-Development-Wizard uvx tms-mcp
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-codex mcp add TMS-Development-Wizard uvx tms-mcp
+codex mcp add TMS-Development-Wizard --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key uvx tms-mcp
 ```
 </details>
 <details>
@@ -98,9 +106,11 @@ codex mcp add TMS-Development-Wizard uvx tms-mcp
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-gemini mcp add TMS-Development-Wizard uvx tms-mcp
+gemini mcp add TMS-Development-Wizard uvx tms-mcp --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key
 ```
 </details>
+
+> 설정을 저장하거나 명령을 실행하기 전에 `your_inavi_api_key`와 `your_omelet_api_key`를 실제 API 키로 교체하세요.
 
 ### 사용 예제
 
@@ -232,7 +242,11 @@ MCP 설정으로 이동하여 다음을 추가하세요:
          "args": [
             "/path/to/tms-dev-mcp/tms_mcp/main.py",
             "start-server"
-         ]
+         ],
+         "env": {
+            "INAVI_API_KEY": "your_inavi_api_key",
+            "OMELET_API_KEY": "your_omelet_api_key"
+         }
       }
    }
 }
@@ -246,7 +260,7 @@ MCP 설정으로 이동하여 다음을 추가하세요:
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-claude mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
+claude mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key
 ```
 
 </details>
@@ -257,7 +271,7 @@ claude mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /pat
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-codex mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
+codex mcp add TMS-Development-Wizard --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
 ```
 
 </details>
@@ -268,7 +282,7 @@ codex mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path
 프로젝트 루트에서 터미널을 열고 실행:
 
 ```bash
-gemini mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
+gemini mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key
 ```
 
 </details>

@@ -44,7 +44,11 @@ Navigate to your MCP settings (Cursor > Settings > Cursor Settings > Tools & MCP
    "mcpServers": {
       "TMS Development Wizard": {
          "command": "uvx",
-         "args": ["tms-mcp"]
+         "args": ["tms-mcp"],
+         "env": {
+            "INAVI_API_KEY": "your_inavi_api_key",
+            "OMELET_API_KEY": "your_omelet_api_key"
+         }
       }
    }
 }
@@ -66,7 +70,11 @@ Navigate to your MCP settings (Cursor > Settings > Cursor Settings > Tools & MCP
    "mcpServers": {
       "TMS Development Wizard": {
          "command": "[uvx installation path from step 1]",
-         "args": ["tms-mcp"]
+         "args": ["tms-mcp"],
+         "env": {
+            "INAVI_API_KEY": "your_inavi_api_key",
+            "OMELET_API_KEY": "your_omelet_api_key"
+         }
       }
    }
 }
@@ -80,7 +88,7 @@ Navigate to your MCP settings (Cursor > Settings > Cursor Settings > Tools & MCP
 Open a terminal at the project root and run:
 
 ```bash
-claude mcp add TMS-Development-Wizard uvx tms-mcp
+claude mcp add TMS-Development-Wizard uvx tms-mcp --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key
 ```
 </details>
 <details>
@@ -89,7 +97,7 @@ claude mcp add TMS-Development-Wizard uvx tms-mcp
 Open a terminal at the project root and run:
 
 ```bash
-codex mcp add TMS-Development-Wizard uvx tms-mcp
+codex mcp add TMS-Development-Wizard --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key uvx tms-mcp
 ```
 </details>
 <details>
@@ -98,9 +106,11 @@ codex mcp add TMS-Development-Wizard uvx tms-mcp
 Open a terminal at the project root and run:
 
 ```bash
-gemini mcp add TMS-Development-Wizard uvx tms-mcp
+gemini mcp add TMS-Development-Wizard uvx tms-mcp --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key
 ```
 </details>
+
+> **Reminder:** Replace the `your_inavi_api_key` and `your_omelet_api_key` placeholders with your actual API credentials before saving or running these commands.
 
 ### Usage Examples
 
@@ -232,7 +242,11 @@ Navigate to your MCP settings and add:
          "args": [
             "/path/to/tms-dev-mcp/tms_mcp/main.py",
             "start-server"
-         ]
+         ],
+         "env": {
+            "INAVI_API_KEY": "your_inavi_api_key",
+            "OMELET_API_KEY": "your_omelet_api_key"
+         }
       }
    }
 }
@@ -246,7 +260,7 @@ Navigate to your MCP settings and add:
 Open a terminal at the project root and run:
 
 ```bash
-claude mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
+claude mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key
 ```
 
 </details>
@@ -257,7 +271,7 @@ claude mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /pat
 Open a terminal at the project root and run:
 
 ```bash
-codex mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
+codex mcp add TMS-Development-Wizard --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
 ```
 
 </details>
@@ -268,7 +282,7 @@ codex mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path
 Open a terminal at the project root and run:
 
 ```bash
-gemini mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server
+gemini mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /path/to/tms-dev-mcp/tms_mcp/main.py start-server --env INAVI_API_KEY=your_inavi_api_key --env OMELET_API_KEY=your_omelet_api_key
 ```
 
 </details>
