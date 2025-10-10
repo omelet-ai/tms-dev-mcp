@@ -3,6 +3,7 @@ Documentation tools for the Omelet Routing Engine MCP server.
 """
 
 import json
+import os
 from pathlib import Path
 from typing import Annotated, Any
 
@@ -197,9 +198,15 @@ def _read_integration_pattern(pattern_id: str) -> tuple[str, Path | None]:
 def get_basic_info() -> str:
     """
     Get basic information about Omelet Routing Engine API and iNavi Maps API.
+    Includes user-provided API keys.
     """
     file_path = _get_docs_dir() / "basic_info.md"
-    return _read_text_file(file_path)
+    content = _read_text_file(file_path)
+    if os.getenv("INAVI_API_KEY"):
+        content += f"\n\nINAVI_API_KEY: {os.getenv('INAVI_API_KEY')}"
+    if os.getenv("OMELET_API_KEY"):
+        content += f"\n\nOMELET_API_KEY: {os.getenv('OMELET_API_KEY')}"
+    return content
 
 
 @mcp.tool
