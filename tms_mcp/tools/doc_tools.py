@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Annotated, Any
 
 from tms_mcp.config import settings
+from tms_mcp.pipeline.utils import load_markdown_with_front_matter
 from tms_mcp.server import mcp
 
 provider_configs = settings.pipeline_config.provider_configs
@@ -190,6 +191,14 @@ def _read_integration_pattern(pattern_id: str) -> tuple[str, Path | None]:
 
     if not pattern_path.exists():
         return (f"Error: Integration pattern '{pattern_id}' not found. Please run 'update-docs'.", None)
+
+    try:
+        _, body = load_markdown_with_front_matter(pattern_path)
+    except Exception:
+        return (_read_text_file(pattern_path), pattern_path)
+
+    if body:
+        return (body, pattern_path)
 
     return (_read_text_file(pattern_path), pattern_path)
 

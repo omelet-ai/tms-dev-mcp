@@ -1,3 +1,8 @@
+---
+title: Last-Mile Delivery Workflow
+description: This guide outlines a streamlined, three-step process for basic last-mile delivery.
+---
+
 # Last-Mile Delivery Workflow
 
 This guide outlines a streamlined, three-step process for basic last-mile delivery.

@@ -1,3 +1,8 @@
+---
+title: High-Precision Last-Mile Workflow
+description: This guide outlines a streamlined, four-step process for high-precision last-mile delivery.
+---
+
 # High-Precision Last-Mile Workflow
 
 This guide outlines a streamlined, four-step process for high-precision last-mile delivery.

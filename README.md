@@ -340,6 +340,7 @@ tms_mcp/
 ```
 
 (Some folders/files are omitted for brevity)
+
 ---
 
 ### Document Generation Pipeline
@@ -355,6 +356,25 @@ The pipeline automatically processes OpenAPI specifications and generates struct
    - Endpoint summaries and detailed overviews
    - Request/response examples extracted from OpenAPI specs
 6. **Deploy** - Atomically replaces old documentation to ensure consistency
+
+---
+
+### Authoring Integration Pattern Templates
+
+Integration pattern templates live under `tms_mcp/pipeline/templates/integration_patterns/` and are written in Markdown with a required YAML front matter block. The front matter lets the pipeline index patterns accurately without guessing descriptions from body text.
+
+Each template should start with:
+
+```markdown
+---
+title: Descriptive Pattern Title
+description: Short, one-sentence summary used in the generated list.
+---
+```
+
+Keep summaries concise (a single sentence works best) because the pipeline copies the `description` field directly into `integration_patterns/list.md`. Additional metadata can be added in the front matter if needed; it will be ignored by the current tooling but preserved for future use.
+
+After the front matter, write the guide in Markdown as usual. When you run the docs pipeline, templates are copied verbatim into `tms_mcp/docs/integration_patterns/`, and the list is regenerated from the parsed metadata, so the published content should match what you authored.
 
 ---
 

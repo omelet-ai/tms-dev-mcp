@@ -1217,7 +1217,7 @@ wheels = [
 
 [[package]]
 name = "tms-mcp"
-version = "0.2.0"
+version = "0.2.1"
 source = { editable = "." }
 dependencies = [
     { name = "aiofiles" },
@@ -1227,6 +1227,7 @@ dependencies = [
     { name = "mypy" },
     { name = "pre-commit" },
     { name = "python-json-logger" },
+    { name = "pyyaml" },
 ]
 
 [package.dev-dependencies]
@@ -1249,6 +1250,7 @@ requires-dist = [
     { name = "mypy", specifier = ">=1.13.0" },
     { name = "pre-commit", specifier = ">=4.0.1" },
     { name = "python-json-logger", specifier = ">=3.2.1" },
+    { name = "pyyaml", specifier = ">=6.0.2" },
 ]
 
 [package.metadata.requires-dev]

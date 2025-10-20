@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
-"""
-Utility functions for the OpenAPI indexing pipeline_config.
-"""
+"""Utility functions for the OpenAPI indexing pipeline_config."""
 
 import json
+import re
 import shutil
 from pathlib import Path
 from typing import Any
 
+import yaml
 from fastmcp.utilities.logging import get_logger
 
 from .models import file_constants
 
 logger = get_logger(__name__)
+
+_FRONT_MATTER_PATTERN = re.compile(r"^---\s*\n(.*?)\n---\s*\n?", re.DOTALL)
 
 
 def write_json_file(file_path: Path, data: Any, ensure_ascii: bool = False) -> None:
@@ -117,6 +119,39 @@ def compare_json_files(file1: Path, file2: Path) -> bool:
     except (json.JSONDecodeError, OSError) as e:
         logger.warning(f"Could not compare {file1} and {file2}: {e}")
         return False
+
+
+def load_markdown_with_front_matter(file_path: Path) -> tuple[dict[str, Any], str]:
+    """
+    Load a markdown file and split optional YAML front matter from the body.
+
+    Args:
+        file_path: Path to the markdown file
+
+    Returns:
+        Tuple of (metadata dict, markdown body without front matter)
+    """
+    text = file_path.read_text(encoding="utf-8")
+    metadata: dict[str, Any] = {}
+    body = text
+
+    match = _FRONT_MATTER_PATTERN.match(text)
+    if match:
+        front_matter_text = match.group(1)
+        body = text[match.end() :]
+
+        try:
+            loaded = yaml.safe_load(front_matter_text) or {}
+            if isinstance(loaded, dict):
+                metadata = loaded
+            else:
+                logger.warning(f"Front matter in {file_path} is not a mapping; ignoring metadata.")
+        except yaml.YAMLError as exc:  # pragma: no cover - defensive guard
+            logger.warning(f"Failed to parse front matter in {file_path}: {exc}")
+
+        body = body.lstrip("\n")
+
+    return metadata, body
 
 
 def copy_file_if_exists(source: Path, destination: Path) -> bool:

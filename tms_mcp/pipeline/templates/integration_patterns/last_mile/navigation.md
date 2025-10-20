@@ -1,3 +1,8 @@
+---
+title: Last-Mile Delivery & Navigation Workflow
+description: This guide outlines a streamlined, four-step process for last-mile delivery, with navigation path generation.
+---
+
 # Last-Mile Delivery & Navigation Workflow
 
 This guide outlines a streamlined, four-step process for last-mile delivery, with navigation path generation.
