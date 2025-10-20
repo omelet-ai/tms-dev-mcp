@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tms-mcp"
-version = "0.2.0"
+version = "0.2.1"
 description = "MCP server for exploring Omelet's Routing Engine and iNavi's Maps API to help build a TMS"
 readme = "README.md"
 license = "MIT"

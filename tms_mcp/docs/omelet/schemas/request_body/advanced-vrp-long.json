@@ -403,6 +403,11 @@
                   "default": true,
                   "title": "Is Hard Cost",
                   "type": "boolean"
+                },
+                "exp_factor": {
+                  "default": 1.0,
+                  "title": "Exp Factor",
+                  "type": "number"
                 }
               },
               "required": [
@@ -714,6 +719,14 @@
                   "title": "Weight",
                   "type": "number"
                 },
+                "target_riders": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Target Riders",
+                  "type": "array",
+                  "uniqueItems": true
+                },
                 "is_hard_cost": {
                   "default": false,
                   "title": "Is Hard Cost",
@@ -722,7 +735,8 @@
               },
               "required": [
                 "type",
-                "weight"
+                "weight",
+                "target_riders"
               ],
               "title": "FixedContractVehicleConstraintDto",
               "type": "object"
@@ -738,6 +752,14 @@
                   "title": "Weight",
                   "type": "number"
                 },
+                "target_riders": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Target Riders",
+                  "type": "array",
+                  "uniqueItems": true
+                },
                 "is_hard_cost": {
                   "default": false,
                   "title": "Is Hard Cost",
@@ -746,7 +768,8 @@
               },
               "required": [
                 "type",
-                "weight"
+                "weight",
+                "target_riders"
               ],
               "title": "FixedContractIncentiveVehicleConstraintDto",
               "type": "object"
@@ -1013,6 +1036,30 @@
             {
               "properties": {
                 "type": {
+                  "const": "prohibited_time_window",
+                  "title": "Type",
+                  "type": "string"
+                },
+                "weight": {
+                  "title": "Weight",
+                  "type": "number"
+                },
+                "is_hard_cost": {
+                  "default": false,
+                  "title": "Is Hard Cost",
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "type",
+                "weight"
+              ],
+              "title": "ProhibitedTimeWindowConstraintDto",
+              "type": "object"
+            },
+            {
+              "properties": {
+                "type": {
                   "const": "preference_region",
                   "title": "Type",
                   "type": "string"
@@ -1145,6 +1192,103 @@
                 "weight"
               ],
               "title": "IndividualEnclosingCircleRadiusConstraintDto",
+              "type": "object"
+            },
+            {
+              "properties": {
+                "type": {
+                  "const": "same_coordinate_grouping",
+                  "title": "Type",
+                  "type": "string"
+                },
+                "weight": {
+                  "title": "Weight",
+                  "type": "number"
+                },
+                "is_hard_cost": {
+                  "default": true,
+                  "title": "Is Hard Cost",
+                  "type": "boolean"
+                },
+                "exp_factor": {
+                  "default": 2.0,
+                  "title": "Exp Factor",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "type",
+                "weight"
+              ],
+              "title": "SameCoordinateGroupingConstraintDto",
+              "type": "object"
+            },
+            {
+              "properties": {
+                "type": {
+                  "const": "round_enclosing_circle_radius",
+                  "title": "Type",
+                  "type": "string"
+                },
+                "weight": {
+                  "title": "Weight",
+                  "type": "number"
+                },
+                "max_radius": {
+                  "title": "Max Radius",
+                  "type": "number"
+                },
+                "is_hard_cost": {
+                  "default": false,
+                  "title": "Is Hard Cost",
+                  "type": "boolean"
+                },
+                "exp_factor": {
+                  "default": 2.0,
+                  "title": "Exp Factor",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "type",
+                "weight",
+                "max_radius"
+              ],
+              "title": "RoundEnclosingCircleRadiusConstraintDto",
+              "type": "object"
+            },
+            {
+              "properties": {
+                "type": {
+                  "const": "nearby_delivery_grouping",
+                  "title": "Type",
+                  "type": "string"
+                },
+                "weight": {
+                  "title": "Weight",
+                  "type": "number"
+                },
+                "distance_threshold": {
+                  "title": "Distance Threshold",
+                  "type": "integer"
+                },
+                "is_hard_cost": {
+                  "default": true,
+                  "title": "Is Hard Cost",
+                  "type": "boolean"
+                },
+                "exp_factor": {
+                  "default": 2.0,
+                  "title": "Exp Factor",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "type",
+                "weight",
+                "distance_threshold"
+              ],
+              "title": "NearbyDeliveryGroupingConstraintDto",
               "type": "object"
             }
           ]

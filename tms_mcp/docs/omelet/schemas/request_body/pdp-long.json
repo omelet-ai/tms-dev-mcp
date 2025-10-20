@@ -138,6 +138,31 @@
                       "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                       "title": "Visit Time Window"
                     },
+                    "prohibited_time_window": {
+                      "anyOf": [
+                        {
+                          "maxItems": 2,
+                          "minItems": 2,
+                          "prefixItems": [
+                            {
+                              "format": "date-time",
+                              "type": "string"
+                            },
+                            {
+                              "format": "date-time",
+                              "type": "string"
+                            }
+                          ],
+                          "type": "array"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null,
+                      "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                      "title": "Prohibited Time Window"
+                    },
                     "early_delivery_required": {
                       "default": false,
                       "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -282,6 +307,31 @@
                       "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                       "title": "Visit Time Window"
                     },
+                    "prohibited_time_window": {
+                      "anyOf": [
+                        {
+                          "maxItems": 2,
+                          "minItems": 2,
+                          "prefixItems": [
+                            {
+                              "format": "date-time",
+                              "type": "string"
+                            },
+                            {
+                              "format": "date-time",
+                              "type": "string"
+                            }
+                          ],
+                          "type": "array"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null,
+                      "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                      "title": "Prohibited Time Window"
+                    },
                     "early_delivery_required": {
                       "default": false,
                       "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -318,7 +368,7 @@
                   "type": "null"
                 }
               ],
-              "default": "2025-09-30T05:52:11.185959",
+              "default": "2025-10-20T03:56:40.490572",
               "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
               "title": "Order Placed Time"
             }
@@ -588,7 +638,7 @@
             "type": "null"
           }
         ],
-        "default": "2025-09-30T05:52:11.194884",
+        "default": "2025-10-20T03:56:40.500781",
         "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
         "title": "Start Time"
       },

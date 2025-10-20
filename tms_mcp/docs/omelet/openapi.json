@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Omelet Routing Engine API",
-    "version": "2.1.3",
+    "version": "2.2.3",
     "description": "Advanced routing optimization solutions",
     "contact": {
       "name": "omelet",
@@ -455,6 +455,11 @@
                               "default": true,
                               "title": "Is Hard Cost",
                               "type": "boolean"
+                            },
+                            "exp_factor": {
+                              "default": 1.0,
+                              "title": "Exp Factor",
+                              "type": "number"
                             }
                           },
                           "required": [
@@ -766,6 +771,14 @@
                               "title": "Weight",
                               "type": "number"
                             },
+                            "target_riders": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "title": "Target Riders",
+                              "type": "array",
+                              "uniqueItems": true
+                            },
                             "is_hard_cost": {
                               "default": false,
                               "title": "Is Hard Cost",
@@ -774,7 +787,8 @@
                           },
                           "required": [
                             "type",
-                            "weight"
+                            "weight",
+                            "target_riders"
                           ],
                           "title": "FixedContractVehicleConstraintDto",
                           "type": "object"
@@ -790,6 +804,14 @@
                               "title": "Weight",
                               "type": "number"
                             },
+                            "target_riders": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "title": "Target Riders",
+                              "type": "array",
+                              "uniqueItems": true
+                            },
                             "is_hard_cost": {
                               "default": false,
                               "title": "Is Hard Cost",
@@ -798,7 +820,8 @@
                           },
                           "required": [
                             "type",
-                            "weight"
+                            "weight",
+                            "target_riders"
                           ],
                           "title": "FixedContractIncentiveVehicleConstraintDto",
                           "type": "object"
@@ -1065,6 +1088,30 @@
                         {
                           "properties": {
                             "type": {
+                              "const": "prohibited_time_window",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "is_hard_cost": {
+                              "default": false,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight"
+                          ],
+                          "title": "ProhibitedTimeWindowConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
                               "const": "preference_region",
                               "title": "Type",
                               "type": "string"
@@ -1197,6 +1244,103 @@
                             "weight"
                           ],
                           "title": "IndividualEnclosingCircleRadiusConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
+                              "const": "same_coordinate_grouping",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "is_hard_cost": {
+                              "default": true,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            },
+                            "exp_factor": {
+                              "default": 2.0,
+                              "title": "Exp Factor",
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight"
+                          ],
+                          "title": "SameCoordinateGroupingConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
+                              "const": "round_enclosing_circle_radius",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "max_radius": {
+                              "title": "Max Radius",
+                              "type": "number"
+                            },
+                            "is_hard_cost": {
+                              "default": false,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            },
+                            "exp_factor": {
+                              "default": 2.0,
+                              "title": "Exp Factor",
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight",
+                            "max_radius"
+                          ],
+                          "title": "RoundEnclosingCircleRadiusConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
+                              "const": "nearby_delivery_grouping",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "distance_threshold": {
+                              "title": "Distance Threshold",
+                              "type": "integer"
+                            },
+                            "is_hard_cost": {
+                              "default": true,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            },
+                            "exp_factor": {
+                              "default": 2.0,
+                              "title": "Exp Factor",
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight",
+                            "distance_threshold"
+                          ],
+                          "title": "NearbyDeliveryGroupingConstraintDto",
                           "type": "object"
                         }
                       ]
@@ -5942,6 +6086,11 @@
                               "default": true,
                               "title": "Is Hard Cost",
                               "type": "boolean"
+                            },
+                            "exp_factor": {
+                              "default": 1.0,
+                              "title": "Exp Factor",
+                              "type": "number"
                             }
                           },
                           "required": [
@@ -6253,6 +6402,14 @@
                               "title": "Weight",
                               "type": "number"
                             },
+                            "target_riders": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "title": "Target Riders",
+                              "type": "array",
+                              "uniqueItems": true
+                            },
                             "is_hard_cost": {
                               "default": false,
                               "title": "Is Hard Cost",
@@ -6261,7 +6418,8 @@
                           },
                           "required": [
                             "type",
-                            "weight"
+                            "weight",
+                            "target_riders"
                           ],
                           "title": "FixedContractVehicleConstraintDto",
                           "type": "object"
@@ -6277,6 +6435,14 @@
                               "title": "Weight",
                               "type": "number"
                             },
+                            "target_riders": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "title": "Target Riders",
+                              "type": "array",
+                              "uniqueItems": true
+                            },
                             "is_hard_cost": {
                               "default": false,
                               "title": "Is Hard Cost",
@@ -6285,7 +6451,8 @@
                           },
                           "required": [
                             "type",
-                            "weight"
+                            "weight",
+                            "target_riders"
                           ],
                           "title": "FixedContractIncentiveVehicleConstraintDto",
                           "type": "object"
@@ -6552,6 +6719,30 @@
                         {
                           "properties": {
                             "type": {
+                              "const": "prohibited_time_window",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "is_hard_cost": {
+                              "default": false,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight"
+                          ],
+                          "title": "ProhibitedTimeWindowConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
                               "const": "preference_region",
                               "title": "Type",
                               "type": "string"
@@ -6684,6 +6875,103 @@
                             "weight"
                           ],
                           "title": "IndividualEnclosingCircleRadiusConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
+                              "const": "same_coordinate_grouping",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "is_hard_cost": {
+                              "default": true,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            },
+                            "exp_factor": {
+                              "default": 2.0,
+                              "title": "Exp Factor",
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight"
+                          ],
+                          "title": "SameCoordinateGroupingConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
+                              "const": "round_enclosing_circle_radius",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "max_radius": {
+                              "title": "Max Radius",
+                              "type": "number"
+                            },
+                            "is_hard_cost": {
+                              "default": false,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            },
+                            "exp_factor": {
+                              "default": 2.0,
+                              "title": "Exp Factor",
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight",
+                            "max_radius"
+                          ],
+                          "title": "RoundEnclosingCircleRadiusConstraintDto",
+                          "type": "object"
+                        },
+                        {
+                          "properties": {
+                            "type": {
+                              "const": "nearby_delivery_grouping",
+                              "title": "Type",
+                              "type": "string"
+                            },
+                            "weight": {
+                              "title": "Weight",
+                              "type": "number"
+                            },
+                            "distance_threshold": {
+                              "title": "Distance Threshold",
+                              "type": "integer"
+                            },
+                            "is_hard_cost": {
+                              "default": true,
+                              "title": "Is Hard Cost",
+                              "type": "boolean"
+                            },
+                            "exp_factor": {
+                              "default": 2.0,
+                              "title": "Exp Factor",
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "weight",
+                            "distance_threshold"
+                          ],
+                          "title": "NearbyDeliveryGroupingConstraintDto",
                           "type": "object"
                         }
                       ]
@@ -13334,6 +13622,31 @@
                                 "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                                 "title": "Visit Time Window"
                               },
+                              "prohibited_time_window": {
+                                "anyOf": [
+                                  {
+                                    "maxItems": 2,
+                                    "minItems": 2,
+                                    "prefixItems": [
+                                      {
+                                        "format": "date-time",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "format": "date-time",
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "type": "array"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "default": null,
+                                "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                                "title": "Prohibited Time Window"
+                              },
                               "early_delivery_required": {
                                 "default": false,
                                 "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -13539,16 +13852,16 @@
                           "title": "Wage Cost per Hour",
                           "type": "number"
                         },
-                        "cost_per_round": {
+                        "cost_per_visit": {
                           "default": 0.0,
-                          "description": "Fixed cost incurred for each round the vehicle makes. A round is defined as a complete cycle starting and ending at the depot.",
+                          "description": "Fixed cost incurred for each visit the vehicle makes after cost_free_rounds.",
                           "minimum": 0.0,
-                          "title": "Cost per Round",
+                          "title": "Cost per Visit",
                           "type": "number"
                         },
                         "cost_free_rounds": {
                           "default": 0,
-                          "description": "Number of rounds that do not incur the cost_per_round. For example, if cost_free_rounds is 2 and cost_per_round is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW each.",
+                          "description": "Number of rounds that do not incur the cost_per_visit. For example, if cost_free_rounds is 2 and cost_per_visit is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW for each visit.",
                           "minimum": 0,
                           "title": "Cost Free Rounds",
                           "type": "integer"
@@ -13607,8 +13920,7 @@
                       "fixed_cost",
                       "fuel_cost",
                       "first_visit_cost",
-                      "round_cost",
-                      "wage_cost"
+                      "visit_number_costwage_cost"
                     ],
                     "description": "List of cost types to be considered for the optimization.",
                     "items": {
@@ -13617,7 +13929,7 @@
                         "fuel_cost",
                         "first_visit_cost",
                         "consecutive_visit_tiered_cost",
-                        "round_cost",
+                        "visit_number_cost",
                         "wage_cost"
                       ],
                       "type": "string"
@@ -14440,7 +14752,7 @@
                                     "fuel_cost",
                                     "first_visit_cost",
                                     "consecutive_visit_tiered_cost",
-                                    "round_cost",
+                                    "visit_number_cost",
                                     "wage_cost"
                                   ]
                                 },
@@ -14478,7 +14790,7 @@
                               "fuel_cost",
                               "first_visit_cost",
                               "consecutive_visit_tiered_cost",
-                              "round_cost",
+                              "visit_number_cost",
                               "wage_cost"
                             ]
                           },
@@ -14943,7 +15255,7 @@
                                     "fuel_cost",
                                     "first_visit_cost",
                                     "consecutive_visit_tiered_cost",
-                                    "round_cost",
+                                    "visit_number_cost",
                                     "wage_cost"
                                   ]
                                 },
@@ -14981,7 +15293,7 @@
                               "fuel_cost",
                               "first_visit_cost",
                               "consecutive_visit_tiered_cost",
-                              "round_cost",
+                              "visit_number_cost",
                               "wage_cost"
                             ]
                           },
@@ -16051,6 +16363,31 @@
                                 "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                                 "title": "Visit Time Window"
                               },
+                              "prohibited_time_window": {
+                                "anyOf": [
+                                  {
+                                    "maxItems": 2,
+                                    "minItems": 2,
+                                    "prefixItems": [
+                                      {
+                                        "format": "date-time",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "format": "date-time",
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "type": "array"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "default": null,
+                                "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                                "title": "Prohibited Time Window"
+                              },
                               "early_delivery_required": {
                                 "default": false,
                                 "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -16256,16 +16593,16 @@
                           "title": "Wage Cost per Hour",
                           "type": "number"
                         },
-                        "cost_per_round": {
+                        "cost_per_visit": {
                           "default": 0.0,
-                          "description": "Fixed cost incurred for each round the vehicle makes. A round is defined as a complete cycle starting and ending at the depot.",
+                          "description": "Fixed cost incurred for each visit the vehicle makes after cost_free_rounds.",
                           "minimum": 0.0,
-                          "title": "Cost per Round",
+                          "title": "Cost per Visit",
                           "type": "number"
                         },
                         "cost_free_rounds": {
                           "default": 0,
-                          "description": "Number of rounds that do not incur the cost_per_round. For example, if cost_free_rounds is 2 and cost_per_round is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW each.",
+                          "description": "Number of rounds that do not incur the cost_per_visit. For example, if cost_free_rounds is 2 and cost_per_visit is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW for each visit.",
                           "minimum": 0,
                           "title": "Cost Free Rounds",
                           "type": "integer"
@@ -16324,8 +16661,7 @@
                       "fixed_cost",
                       "fuel_cost",
                       "first_visit_cost",
-                      "round_cost",
-                      "wage_cost"
+                      "visit_number_costwage_cost"
                     ],
                     "description": "List of cost types to be considered for the optimization.",
                     "items": {
@@ -16334,7 +16670,7 @@
                         "fuel_cost",
                         "first_visit_cost",
                         "consecutive_visit_tiered_cost",
-                        "round_cost",
+                        "visit_number_cost",
                         "wage_cost"
                       ],
                       "type": "string"
@@ -19440,7 +19776,7 @@
                                         "fuel_cost",
                                         "first_visit_cost",
                                         "consecutive_visit_tiered_cost",
-                                        "round_cost",
+                                        "visit_number_cost",
                                         "wage_cost"
                                       ]
                                     },
@@ -19478,7 +19814,7 @@
                                   "fuel_cost",
                                   "first_visit_cost",
                                   "consecutive_visit_tiered_cost",
-                                  "round_cost",
+                                  "visit_number_cost",
                                   "wage_cost"
                                 ]
                               },
@@ -19634,7 +19970,7 @@
                                         "fuel_cost",
                                         "first_visit_cost",
                                         "consecutive_visit_tiered_cost",
-                                        "round_cost",
+                                        "visit_number_cost",
                                         "wage_cost"
                                       ]
                                     },
@@ -19672,7 +20008,7 @@
                                   "fuel_cost",
                                   "first_visit_cost",
                                   "consecutive_visit_tiered_cost",
-                                  "round_cost",
+                                  "visit_number_cost",
                                   "wage_cost"
                                 ]
                               },
@@ -23514,6 +23850,31 @@
                                   "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                                   "title": "Visit Time Window"
                                 },
+                                "prohibited_time_window": {
+                                  "anyOf": [
+                                    {
+                                      "maxItems": 2,
+                                      "minItems": 2,
+                                      "prefixItems": [
+                                        {
+                                          "format": "date-time",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "format": "date-time",
+                                          "type": "string"
+                                        }
+                                      ],
+                                      "type": "array"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "default": null,
+                                  "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                                  "title": "Prohibited Time Window"
+                                },
                                 "early_delivery_required": {
                                   "default": false,
                                   "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -23658,6 +24019,31 @@
                                   "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                                   "title": "Visit Time Window"
                                 },
+                                "prohibited_time_window": {
+                                  "anyOf": [
+                                    {
+                                      "maxItems": 2,
+                                      "minItems": 2,
+                                      "prefixItems": [
+                                        {
+                                          "format": "date-time",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "format": "date-time",
+                                          "type": "string"
+                                        }
+                                      ],
+                                      "type": "array"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "default": null,
+                                  "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                                  "title": "Prohibited Time Window"
+                                },
                                 "early_delivery_required": {
                                   "default": false,
                                   "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -23694,7 +24080,7 @@
                               "type": "null"
                             }
                           ],
-                          "default": "2025-09-30T05:52:11.185959",
+                          "default": "2025-10-20T03:56:40.490572",
                           "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Order Placed Time"
                         }
@@ -23964,7 +24350,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": "2025-09-30T05:52:11.194884",
+                    "default": "2025-10-20T03:56:40.500781",
                     "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Start Time"
                   },
@@ -30338,6 +30724,31 @@
                                   "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                                   "title": "Visit Time Window"
                                 },
+                                "prohibited_time_window": {
+                                  "anyOf": [
+                                    {
+                                      "maxItems": 2,
+                                      "minItems": 2,
+                                      "prefixItems": [
+                                        {
+                                          "format": "date-time",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "format": "date-time",
+                                          "type": "string"
+                                        }
+                                      ],
+                                      "type": "array"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "default": null,
+                                  "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                                  "title": "Prohibited Time Window"
+                                },
                                 "early_delivery_required": {
                                   "default": false,
                                   "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -30482,6 +30893,31 @@
                                   "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                                   "title": "Visit Time Window"
                                 },
+                                "prohibited_time_window": {
+                                  "anyOf": [
+                                    {
+                                      "maxItems": 2,
+                                      "minItems": 2,
+                                      "prefixItems": [
+                                        {
+                                          "format": "date-time",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "format": "date-time",
+                                          "type": "string"
+                                        }
+                                      ],
+                                      "type": "array"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "default": null,
+                                  "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                                  "title": "Prohibited Time Window"
+                                },
                                 "early_delivery_required": {
                                   "default": false,
                                   "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -30518,7 +30954,7 @@
                               "type": "null"
                             }
                           ],
-                          "default": "2025-09-30T05:52:11.185959",
+                          "default": "2025-10-20T03:56:40.490572",
                           "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Order Placed Time"
                         }
@@ -30788,7 +31224,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": "2025-09-30T05:52:11.194884",
+                    "default": "2025-10-20T03:56:40.500781",
                     "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Start Time"
                   },
@@ -36890,6 +37326,31 @@
                           "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Visit Time Window"
                         },
+                        "prohibited_time_window": {
+                          "anyOf": [
+                            {
+                              "maxItems": 2,
+                              "minItems": 2,
+                              "prefixItems": [
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                },
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                }
+                              ],
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                          "title": "Prohibited Time Window"
+                        },
                         "early_delivery_required": {
                           "default": false,
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -41826,6 +42287,31 @@
                           "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Visit Time Window"
                         },
+                        "prohibited_time_window": {
+                          "anyOf": [
+                            {
+                              "maxItems": 2,
+                              "minItems": 2,
+                              "prefixItems": [
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                },
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                }
+                              ],
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                          "title": "Prohibited Time Window"
+                        },
                         "early_delivery_required": {
                           "default": false,
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -46686,6 +47172,11 @@
                       "default": true,
                       "title": "Is Hard Cost",
                       "type": "boolean"
+                    },
+                    "exp_factor": {
+                      "default": 1.0,
+                      "title": "Exp Factor",
+                      "type": "number"
                     }
                   },
                   "required": [
@@ -46997,6 +47488,14 @@
                       "title": "Weight",
                       "type": "number"
                     },
+                    "target_riders": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "Target Riders",
+                      "type": "array",
+                      "uniqueItems": true
+                    },
                     "is_hard_cost": {
                       "default": false,
                       "title": "Is Hard Cost",
@@ -47005,7 +47504,8 @@
                   },
                   "required": [
                     "type",
-                    "weight"
+                    "weight",
+                    "target_riders"
                   ],
                   "title": "FixedContractVehicleConstraintDto",
                   "type": "object"
@@ -47021,6 +47521,14 @@
                       "title": "Weight",
                       "type": "number"
                     },
+                    "target_riders": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "Target Riders",
+                      "type": "array",
+                      "uniqueItems": true
+                    },
                     "is_hard_cost": {
                       "default": false,
                       "title": "Is Hard Cost",
@@ -47029,7 +47537,8 @@
                   },
                   "required": [
                     "type",
-                    "weight"
+                    "weight",
+                    "target_riders"
                   ],
                   "title": "FixedContractIncentiveVehicleConstraintDto",
                   "type": "object"
@@ -47296,6 +47805,30 @@
                 {
                   "properties": {
                     "type": {
+                      "const": "prohibited_time_window",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "is_hard_cost": {
+                      "default": false,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight"
+                  ],
+                  "title": "ProhibitedTimeWindowConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
                       "const": "preference_region",
                       "title": "Type",
                       "type": "string"
@@ -47428,6 +47961,103 @@
                     "weight"
                   ],
                   "title": "IndividualEnclosingCircleRadiusConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "const": "same_coordinate_grouping",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "is_hard_cost": {
+                      "default": true,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    },
+                    "exp_factor": {
+                      "default": 2.0,
+                      "title": "Exp Factor",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight"
+                  ],
+                  "title": "SameCoordinateGroupingConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "const": "round_enclosing_circle_radius",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "max_radius": {
+                      "title": "Max Radius",
+                      "type": "number"
+                    },
+                    "is_hard_cost": {
+                      "default": false,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    },
+                    "exp_factor": {
+                      "default": 2.0,
+                      "title": "Exp Factor",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight",
+                    "max_radius"
+                  ],
+                  "title": "RoundEnclosingCircleRadiusConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "const": "nearby_delivery_grouping",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "distance_threshold": {
+                      "title": "Distance Threshold",
+                      "type": "integer"
+                    },
+                    "is_hard_cost": {
+                      "default": true,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    },
+                    "exp_factor": {
+                      "default": 2.0,
+                      "title": "Exp Factor",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight",
+                    "distance_threshold"
+                  ],
+                  "title": "NearbyDeliveryGroupingConstraintDto",
                   "type": "object"
                 }
               ]
@@ -47614,6 +48244,11 @@
             "default": true,
             "title": "Is Hard Cost",
             "type": "boolean"
+          },
+          "exp_factor": {
+            "default": 1.0,
+            "title": "Exp Factor",
+            "type": "number"
           }
         },
         "required": [
@@ -47896,7 +48531,7 @@
                 "fuel_cost",
                 "first_visit_cost",
                 "consecutive_visit_tiered_cost",
-                "round_cost",
+                "visit_number_cost",
                 "wage_cost"
               ]
             },
@@ -48039,6 +48674,31 @@
                   "default": null,
                   "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                   "title": "Visit Time Window"
+                },
+                "prohibited_time_window": {
+                  "anyOf": [
+                    {
+                      "maxItems": 2,
+                      "minItems": 2,
+                      "prefixItems": [
+                        {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        {
+                          "format": "date-time",
+                          "type": "string"
+                        }
+                      ],
+                      "type": "array"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                  "title": "Prohibited Time Window"
                 },
                 "early_delivery_required": {
                   "default": false,
@@ -48933,6 +49593,11 @@
                       "default": true,
                       "title": "Is Hard Cost",
                       "type": "boolean"
+                    },
+                    "exp_factor": {
+                      "default": 1.0,
+                      "title": "Exp Factor",
+                      "type": "number"
                     }
                   },
                   "required": [
@@ -49244,6 +49909,14 @@
                       "title": "Weight",
                       "type": "number"
                     },
+                    "target_riders": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "Target Riders",
+                      "type": "array",
+                      "uniqueItems": true
+                    },
                     "is_hard_cost": {
                       "default": false,
                       "title": "Is Hard Cost",
@@ -49252,7 +49925,8 @@
                   },
                   "required": [
                     "type",
-                    "weight"
+                    "weight",
+                    "target_riders"
                   ],
                   "title": "FixedContractVehicleConstraintDto",
                   "type": "object"
@@ -49268,6 +49942,14 @@
                       "title": "Weight",
                       "type": "number"
                     },
+                    "target_riders": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "Target Riders",
+                      "type": "array",
+                      "uniqueItems": true
+                    },
                     "is_hard_cost": {
                       "default": false,
                       "title": "Is Hard Cost",
@@ -49276,7 +49958,8 @@
                   },
                   "required": [
                     "type",
-                    "weight"
+                    "weight",
+                    "target_riders"
                   ],
                   "title": "FixedContractIncentiveVehicleConstraintDto",
                   "type": "object"
@@ -49543,6 +50226,30 @@
                 {
                   "properties": {
                     "type": {
+                      "const": "prohibited_time_window",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "is_hard_cost": {
+                      "default": false,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight"
+                  ],
+                  "title": "ProhibitedTimeWindowConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
                       "const": "preference_region",
                       "title": "Type",
                       "type": "string"
@@ -49675,6 +50382,103 @@
                     "weight"
                   ],
                   "title": "IndividualEnclosingCircleRadiusConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "const": "same_coordinate_grouping",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "is_hard_cost": {
+                      "default": true,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    },
+                    "exp_factor": {
+                      "default": 2.0,
+                      "title": "Exp Factor",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight"
+                  ],
+                  "title": "SameCoordinateGroupingConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "const": "round_enclosing_circle_radius",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "max_radius": {
+                      "title": "Max Radius",
+                      "type": "number"
+                    },
+                    "is_hard_cost": {
+                      "default": false,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    },
+                    "exp_factor": {
+                      "default": 2.0,
+                      "title": "Exp Factor",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight",
+                    "max_radius"
+                  ],
+                  "title": "RoundEnclosingCircleRadiusConstraintDto",
+                  "type": "object"
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "const": "nearby_delivery_grouping",
+                      "title": "Type",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "title": "Weight",
+                      "type": "number"
+                    },
+                    "distance_threshold": {
+                      "title": "Distance Threshold",
+                      "type": "integer"
+                    },
+                    "is_hard_cost": {
+                      "default": true,
+                      "title": "Is Hard Cost",
+                      "type": "boolean"
+                    },
+                    "exp_factor": {
+                      "default": 2.0,
+                      "title": "Exp Factor",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "weight",
+                    "distance_threshold"
+                  ],
+                  "title": "NearbyDeliveryGroupingConstraintDto",
                   "type": "object"
                 }
               ]
@@ -50009,6 +50813,31 @@
                         "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                         "title": "Visit Time Window"
                       },
+                      "prohibited_time_window": {
+                        "anyOf": [
+                          {
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "prefixItems": [
+                              {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              {
+                                "format": "date-time",
+                                "type": "string"
+                              }
+                            ],
+                            "type": "array"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                        "title": "Prohibited Time Window"
+                      },
                       "early_delivery_required": {
                         "default": false,
                         "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -50214,16 +51043,16 @@
                   "title": "Wage Cost per Hour",
                   "type": "number"
                 },
-                "cost_per_round": {
+                "cost_per_visit": {
                   "default": 0.0,
-                  "description": "Fixed cost incurred for each round the vehicle makes. A round is defined as a complete cycle starting and ending at the depot.",
+                  "description": "Fixed cost incurred for each visit the vehicle makes after cost_free_rounds.",
                   "minimum": 0.0,
-                  "title": "Cost per Round",
+                  "title": "Cost per Visit",
                   "type": "number"
                 },
                 "cost_free_rounds": {
                   "default": 0,
-                  "description": "Number of rounds that do not incur the cost_per_round. For example, if cost_free_rounds is 2 and cost_per_round is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW each.",
+                  "description": "Number of rounds that do not incur the cost_per_visit. For example, if cost_free_rounds is 2 and cost_per_visit is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW for each visit.",
                   "minimum": 0,
                   "title": "Cost Free Rounds",
                   "type": "integer"
@@ -50282,8 +51111,7 @@
               "fixed_cost",
               "fuel_cost",
               "first_visit_cost",
-              "round_cost",
-              "wage_cost"
+              "visit_number_costwage_cost"
             ],
             "description": "List of cost types to be considered for the optimization.",
             "items": {
@@ -50292,7 +51120,7 @@
                 "fuel_cost",
                 "first_visit_cost",
                 "consecutive_visit_tiered_cost",
-                "round_cost",
+                "visit_number_cost",
                 "wage_cost"
               ],
               "type": "string"
@@ -50472,6 +51300,31 @@
                           "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Visit Time Window"
                         },
+                        "prohibited_time_window": {
+                          "anyOf": [
+                            {
+                              "maxItems": 2,
+                              "minItems": 2,
+                              "prefixItems": [
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                },
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                }
+                              ],
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                          "title": "Prohibited Time Window"
+                        },
                         "early_delivery_required": {
                           "default": false,
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -50616,6 +51469,31 @@
                           "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Visit Time Window"
                         },
+                        "prohibited_time_window": {
+                          "anyOf": [
+                            {
+                              "maxItems": 2,
+                              "minItems": 2,
+                              "prefixItems": [
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                },
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                }
+                              ],
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                          "title": "Prohibited Time Window"
+                        },
                         "early_delivery_required": {
                           "default": false,
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -50652,7 +51530,7 @@
                       "type": "null"
                     }
                   ],
-                  "default": "2025-09-30T05:52:11.185959",
+                  "default": "2025-10-20T03:56:40.490572",
                   "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                   "title": "Order Placed Time"
                 }
@@ -50922,7 +51800,7 @@
                 "type": "null"
               }
             ],
-            "default": "2025-09-30T05:52:11.194884",
+            "default": "2025-10-20T03:56:40.500781",
             "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Start Time"
           },
@@ -51170,6 +52048,31 @@
                   "default": null,
                   "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                   "title": "Visit Time Window"
+                },
+                "prohibited_time_window": {
+                  "anyOf": [
+                    {
+                      "maxItems": 2,
+                      "minItems": 2,
+                      "prefixItems": [
+                        {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        {
+                          "format": "date-time",
+                          "type": "string"
+                        }
+                      ],
+                      "type": "array"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                  "title": "Prohibited Time Window"
                 },
                 "early_delivery_required": {
                   "default": false,
@@ -51563,6 +52466,14 @@
             "title": "Weight",
             "type": "number"
           },
+          "target_riders": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Target Riders",
+            "type": "array",
+            "uniqueItems": true
+          },
           "is_hard_cost": {
             "default": false,
             "title": "Is Hard Cost",
@@ -51571,7 +52482,8 @@
         },
         "required": [
           "type",
-          "weight"
+          "weight",
+          "target_riders"
         ],
         "title": "FixedContractIncentiveVehicleConstraintDto",
         "type": "object"
@@ -51587,6 +52499,14 @@
             "title": "Weight",
             "type": "number"
           },
+          "target_riders": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Target Riders",
+            "type": "array",
+            "uniqueItems": true
+          },
           "is_hard_cost": {
             "default": false,
             "title": "Is Hard Cost",
@@ -51595,7 +52515,8 @@
         },
         "required": [
           "type",
-          "weight"
+          "weight",
+          "target_riders"
         ],
         "title": "FixedContractVehicleConstraintDto",
         "type": "object"
@@ -51839,6 +52760,31 @@
                         "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                         "title": "Visit Time Window"
                       },
+                      "prohibited_time_window": {
+                        "anyOf": [
+                          {
+                            "maxItems": 2,
+                            "minItems": 2,
+                            "prefixItems": [
+                              {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              {
+                                "format": "date-time",
+                                "type": "string"
+                              }
+                            ],
+                            "type": "array"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "default": null,
+                        "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                        "title": "Prohibited Time Window"
+                      },
                       "early_delivery_required": {
                         "default": false,
                         "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -52044,16 +52990,16 @@
                   "title": "Wage Cost per Hour",
                   "type": "number"
                 },
-                "cost_per_round": {
+                "cost_per_visit": {
                   "default": 0.0,
-                  "description": "Fixed cost incurred for each round the vehicle makes. A round is defined as a complete cycle starting and ending at the depot.",
+                  "description": "Fixed cost incurred for each visit the vehicle makes after cost_free_rounds.",
                   "minimum": 0.0,
-                  "title": "Cost per Round",
+                  "title": "Cost per Visit",
                   "type": "number"
                 },
                 "cost_free_rounds": {
                   "default": 0,
-                  "description": "Number of rounds that do not incur the cost_per_round. For example, if cost_free_rounds is 2 and cost_per_round is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW each.",
+                  "description": "Number of rounds that do not incur the cost_per_visit. For example, if cost_free_rounds is 2 and cost_per_visit is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW for each visit.",
                   "minimum": 0,
                   "title": "Cost Free Rounds",
                   "type": "integer"
@@ -52112,8 +53058,7 @@
               "fixed_cost",
               "fuel_cost",
               "first_visit_cost",
-              "round_cost",
-              "wage_cost"
+              "visit_number_costwage_cost"
             ],
             "description": "List of cost types to be considered for the optimization.",
             "items": {
@@ -52122,7 +53067,7 @@
                 "fuel_cost",
                 "first_visit_cost",
                 "consecutive_visit_tiered_cost",
-                "round_cost",
+                "visit_number_cost",
                 "wage_cost"
               ],
               "type": "string"
@@ -52262,7 +53207,7 @@
                           "fuel_cost",
                           "first_visit_cost",
                           "consecutive_visit_tiered_cost",
-                          "round_cost",
+                          "visit_number_cost",
                           "wage_cost"
                         ]
                       },
@@ -52300,7 +53245,7 @@
                     "fuel_cost",
                     "first_visit_cost",
                     "consecutive_visit_tiered_cost",
-                    "round_cost",
+                    "visit_number_cost",
                     "wage_cost"
                   ]
                 },
@@ -52442,7 +53387,7 @@
                       "fuel_cost",
                       "first_visit_cost",
                       "consecutive_visit_tiered_cost",
-                      "round_cost",
+                      "visit_number_cost",
                       "wage_cost"
                     ]
                   },
@@ -52480,7 +53425,7 @@
                 "fuel_cost",
                 "first_visit_cost",
                 "consecutive_visit_tiered_cost",
-                "round_cost",
+                "visit_number_cost",
                 "wage_cost"
               ]
             },
@@ -52701,16 +53646,16 @@
             "title": "Wage Cost per Hour",
             "type": "number"
           },
-          "cost_per_round": {
+          "cost_per_visit": {
             "default": 0.0,
-            "description": "Fixed cost incurred for each round the vehicle makes. A round is defined as a complete cycle starting and ending at the depot.",
+            "description": "Fixed cost incurred for each visit the vehicle makes after cost_free_rounds.",
             "minimum": 0.0,
-            "title": "Cost per Round",
+            "title": "Cost per Visit",
             "type": "number"
           },
           "cost_free_rounds": {
             "default": 0,
-            "description": "Number of rounds that do not incur the cost_per_round. For example, if cost_free_rounds is 2 and cost_per_round is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW each.",
+            "description": "Number of rounds that do not incur the cost_per_visit. For example, if cost_free_rounds is 2 and cost_per_visit is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW for each visit.",
             "minimum": 0,
             "title": "Cost Free Rounds",
             "type": "integer"
@@ -52935,7 +53880,7 @@
                               "fuel_cost",
                               "first_visit_cost",
                               "consecutive_visit_tiered_cost",
-                              "round_cost",
+                              "visit_number_cost",
                               "wage_cost"
                             ]
                           },
@@ -52973,7 +53918,7 @@
                         "fuel_cost",
                         "first_visit_cost",
                         "consecutive_visit_tiered_cost",
-                        "round_cost",
+                        "visit_number_cost",
                         "wage_cost"
                       ]
                     },
@@ -53428,13 +54373,47 @@
         "title": "MinimumRoundConstraintDto",
         "type": "object"
       },
+      "NearbyDeliveryGroupingConstraintDto": {
+        "properties": {
+          "type": {
+            "const": "nearby_delivery_grouping",
+            "title": "Type",
+            "type": "string"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "number"
+          },
+          "distance_threshold": {
+            "title": "Distance Threshold",
+            "type": "integer"
+          },
+          "is_hard_cost": {
+            "default": true,
+            "title": "Is Hard Cost",
+            "type": "boolean"
+          },
+          "exp_factor": {
+            "default": 2.0,
+            "title": "Exp Factor",
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "weight",
+          "distance_threshold"
+        ],
+        "title": "NearbyDeliveryGroupingConstraintDto",
+        "type": "object"
+      },
       "ObjectiveCostsEnum": {
         "enum": [
           "fixed_cost",
           "fuel_cost",
           "first_visit_cost",
           "consecutive_visit_tiered_cost",
-          "round_cost",
+          "visit_number_cost",
           "wage_cost"
         ],
         "type": "string"
@@ -53649,6 +54628,31 @@
                           "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Visit Time Window"
                         },
+                        "prohibited_time_window": {
+                          "anyOf": [
+                            {
+                              "maxItems": 2,
+                              "minItems": 2,
+                              "prefixItems": [
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                },
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                }
+                              ],
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                          "title": "Prohibited Time Window"
+                        },
                         "early_delivery_required": {
                           "default": false,
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -53793,6 +54797,31 @@
                           "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Visit Time Window"
                         },
+                        "prohibited_time_window": {
+                          "anyOf": [
+                            {
+                              "maxItems": 2,
+                              "minItems": 2,
+                              "prefixItems": [
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                },
+                                {
+                                  "format": "date-time",
+                                  "type": "string"
+                                }
+                              ],
+                              "type": "array"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                          "title": "Prohibited Time Window"
+                        },
                         "early_delivery_required": {
                           "default": false,
                           "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -53829,7 +54858,7 @@
                       "type": "null"
                     }
                   ],
-                  "default": "2025-09-30T05:52:11.185959",
+                  "default": "2025-10-20T03:56:40.490572",
                   "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                   "title": "Order Placed Time"
                 }
@@ -54099,7 +55128,7 @@
                 "type": "null"
               }
             ],
-            "default": "2025-09-30T05:52:11.194884",
+            "default": "2025-10-20T03:56:40.500781",
             "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Start Time"
           },
@@ -54510,6 +55539,31 @@
                     "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Visit Time Window"
                   },
+                  "prohibited_time_window": {
+                    "anyOf": [
+                      {
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "prefixItems": [
+                          {
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          {
+                            "format": "date-time",
+                            "type": "string"
+                          }
+                        ],
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                    "title": "Prohibited Time Window"
+                  },
                   "early_delivery_required": {
                     "default": false,
                     "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -54654,6 +55708,31 @@
                     "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Visit Time Window"
                   },
+                  "prohibited_time_window": {
+                    "anyOf": [
+                      {
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "prefixItems": [
+                          {
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          {
+                            "format": "date-time",
+                            "type": "string"
+                          }
+                        ],
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                    "title": "Prohibited Time Window"
+                  },
                   "early_delivery_required": {
                     "default": false,
                     "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -54690,7 +55769,7 @@
                 "type": "null"
               }
             ],
-            "default": "2025-09-30T05:52:11.185959",
+            "default": "2025-10-20T03:56:40.490572",
             "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Order Placed Time"
           }
@@ -54811,6 +55890,30 @@
         ],
         "title": "ProcessStatusCode",
         "type": "string"
+      },
+      "ProhibitedTimeWindowConstraintDto": {
+        "properties": {
+          "type": {
+            "const": "prohibited_time_window",
+            "title": "Type",
+            "type": "string"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "number"
+          },
+          "is_hard_cost": {
+            "default": false,
+            "title": "Is Hard Cost",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "type",
+          "weight"
+        ],
+        "title": "ProhibitedTimeWindowConstraintDto",
+        "type": "object"
       },
       "ReturnCostMatrixType": {
         "enum": [
@@ -55173,6 +56276,40 @@
           "weight"
         ],
         "title": "RiderTimeWindowConstraintDto",
+        "type": "object"
+      },
+      "RoundEnclosingCircleRadiusConstraintDto": {
+        "properties": {
+          "type": {
+            "const": "round_enclosing_circle_radius",
+            "title": "Type",
+            "type": "string"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "number"
+          },
+          "max_radius": {
+            "title": "Max Radius",
+            "type": "number"
+          },
+          "is_hard_cost": {
+            "default": false,
+            "title": "Is Hard Cost",
+            "type": "boolean"
+          },
+          "exp_factor": {
+            "default": 2.0,
+            "title": "Exp Factor",
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "weight",
+          "max_radius"
+        ],
+        "title": "RoundEnclosingCircleRadiusConstraintDto",
         "type": "object"
       },
       "RoundPreferenceRegionConstraintDto": {
@@ -55565,6 +56702,35 @@
         "title": "RoutingEngineResult",
         "type": "object"
       },
+      "SameCoordinateGroupingConstraintDto": {
+        "properties": {
+          "type": {
+            "const": "same_coordinate_grouping",
+            "title": "Type",
+            "type": "string"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "number"
+          },
+          "is_hard_cost": {
+            "default": true,
+            "title": "Is Hard Cost",
+            "type": "boolean"
+          },
+          "exp_factor": {
+            "default": 2.0,
+            "title": "Exp Factor",
+            "type": "number"
+          }
+        },
+        "required": [
+          "type",
+          "weight"
+        ],
+        "title": "SameCoordinateGroupingConstraintDto",
+        "type": "object"
+      },
       "SolutionCost": {
         "properties": {
           "total_objective_cost": {
@@ -55954,6 +57120,31 @@
             "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Visit Time Window"
           },
+          "prohibited_time_window": {
+            "anyOf": [
+              {
+                "maxItems": 2,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                ],
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+            "title": "Prohibited Time Window"
+          },
           "early_delivery_required": {
             "default": false,
             "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -56146,6 +57337,31 @@
                   "default": null,
                   "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                   "title": "Visit Time Window"
+                },
+                "prohibited_time_window": {
+                  "anyOf": [
+                    {
+                      "maxItems": 2,
+                      "minItems": 2,
+                      "prefixItems": [
+                        {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        {
+                          "format": "date-time",
+                          "type": "string"
+                        }
+                      ],
+                      "type": "array"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                  "title": "Prohibited Time Window"
                 },
                 "early_delivery_required": {
                   "default": false,

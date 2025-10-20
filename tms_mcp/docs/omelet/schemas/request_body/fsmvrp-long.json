@@ -190,6 +190,31 @@
                     "description": "Permissible time range for service at this location, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Visit Time Window"
                   },
+                  "prohibited_time_window": {
+                    "anyOf": [
+                      {
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "prefixItems": [
+                          {
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          {
+                            "format": "date-time",
+                            "type": "string"
+                          }
+                        ],
+                        "type": "array"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Time range during which service at this location is not allowed, in ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
+                    "title": "Prohibited Time Window"
+                  },
                   "early_delivery_required": {
                     "default": false,
                     "description": "If true, this visit requires early delivery. The solver will attempt to schedule this visit so that its delivery completion time is earlier.",
@@ -395,16 +420,16 @@
               "title": "Wage Cost per Hour",
               "type": "number"
             },
-            "cost_per_round": {
+            "cost_per_visit": {
               "default": 0.0,
-              "description": "Fixed cost incurred for each round the vehicle makes. A round is defined as a complete cycle starting and ending at the depot.",
+              "description": "Fixed cost incurred for each visit the vehicle makes after cost_free_rounds.",
               "minimum": 0.0,
-              "title": "Cost per Round",
+              "title": "Cost per Visit",
               "type": "number"
             },
             "cost_free_rounds": {
               "default": 0,
-              "description": "Number of rounds that do not incur the cost_per_round. For example, if cost_free_rounds is 2 and cost_per_round is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW each.",
+              "description": "Number of rounds that do not incur the cost_per_visit. For example, if cost_free_rounds is 2 and cost_per_visit is 5000 KRW, the first 2 rounds are free, and the 3rd round and beyond incur a cost of 5000 KRW for each visit.",
               "minimum": 0,
               "title": "Cost Free Rounds",
               "type": "integer"
@@ -463,8 +488,7 @@
           "fixed_cost",
           "fuel_cost",
           "first_visit_cost",
-          "round_cost",
-          "wage_cost"
+          "visit_number_costwage_cost"
         ],
         "description": "List of cost types to be considered for the optimization.",
         "items": {
@@ -473,7 +497,7 @@
             "fuel_cost",
             "first_visit_cost",
             "consecutive_visit_tiered_cost",
-            "round_cost",
+            "visit_number_cost",
             "wage_cost"
           ],
           "type": "string"

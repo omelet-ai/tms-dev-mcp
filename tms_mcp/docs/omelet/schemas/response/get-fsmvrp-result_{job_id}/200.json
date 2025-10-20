@@ -99,7 +99,7 @@
                         "fuel_cost",
                         "first_visit_cost",
                         "consecutive_visit_tiered_cost",
-                        "round_cost",
+                        "visit_number_cost",
                         "wage_cost"
                       ]
                     },
@@ -137,7 +137,7 @@
                   "fuel_cost",
                   "first_visit_cost",
                   "consecutive_visit_tiered_cost",
-                  "round_cost",
+                  "visit_number_cost",
                   "wage_cost"
                 ]
               },
