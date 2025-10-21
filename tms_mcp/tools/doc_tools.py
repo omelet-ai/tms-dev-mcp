@@ -24,6 +24,11 @@ def _get_integration_patterns_dir() -> Path:
     return _get_docs_dir() / "integration_patterns"
 
 
+def _get_troubleshooting_dir() -> Path:
+    """Get the troubleshooting guides directory path."""
+    return _get_docs_dir() / "troubleshooting"
+
+
 def _get_provider_from_path(path: str) -> str:
     """
     Determine the provider based on the API path using configuration.
@@ -153,13 +158,13 @@ def _get_json_file_content(path: str, provider: str | None, file_subpath: str, f
     return _read_json_file(file_path, file_type, path, path_id)
 
 
-def _sanitize_pattern_id(pattern_id: str) -> list[str] | None:
-    """Validate and normalize the integration pattern identifier."""
+def _sanitize_document_id(document_id: str) -> list[str] | None:
+    """Validate and normalize a nested document identifier."""
 
-    if not pattern_id:
+    if not document_id:
         return None
 
-    parts = [part for part in pattern_id.strip().split("/") if part]
+    parts = [part for part in document_id.strip().split("/") if part]
     if not parts:
         return None
 
@@ -174,7 +179,7 @@ def _read_integration_pattern(pattern_id: str) -> tuple[str, Path | None]:
     """Resolve an integration pattern and return its content with the path."""
 
     docs_dir = _get_integration_patterns_dir()
-    parts = _sanitize_pattern_id(pattern_id)
+    parts = _sanitize_document_id(pattern_id)
     if not parts:
         return ("Error: Invalid pattern_id provided.", None)
 
@@ -201,6 +206,38 @@ def _read_integration_pattern(pattern_id: str) -> tuple[str, Path | None]:
         return (body, pattern_path)
 
     return (_read_text_file(pattern_path), pattern_path)
+
+
+def _read_troubleshooting_guide(guide_id: str) -> tuple[str, Path | None]:
+    """Resolve a troubleshooting guide and return its content with the path."""
+
+    docs_dir = _get_troubleshooting_dir()
+    parts = _sanitize_document_id(guide_id)
+    if not parts:
+        return ("Error: Invalid guide_id provided.", None)
+
+    guide_path = docs_dir.joinpath(*parts).with_suffix(".md")
+
+    try:
+        docs_root = docs_dir.resolve(strict=False)
+        resolved_path = guide_path.resolve(strict=False)
+        if not resolved_path.is_relative_to(docs_root):
+            return ("Error: Invalid guide_id provided.", None)
+    except Exception:
+        pass
+
+    if not guide_path.exists():
+        return (f"Error: Troubleshooting guide '{guide_id}' not found. Please run 'update-docs'.", None)
+
+    try:
+        _, body = load_markdown_with_front_matter(guide_path)
+    except Exception:
+        return (_read_text_file(guide_path), guide_path)
+
+    if body:
+        return (body, guide_path)
+
+    return (_read_text_file(guide_path), guide_path)
 
 
 @mcp.tool
@@ -259,6 +296,34 @@ def get_integration_pattern(
         return f"{content.rstrip()}\n\n{guidelines_content.strip()}\n"
 
     return f"{content.rstrip()}\n\n---\n\n{guidelines_content.strip()}\n"
+
+
+@mcp.tool
+def list_troubleshooting_guides() -> str:
+    """
+    Return a table of all available troubleshooting guides, covering common errors and recommended fixes.
+    """
+
+    list_path = _get_troubleshooting_dir() / "list.md"
+    if not list_path.exists():
+        return "Error: Troubleshooting guide list not found. Please run 'update-docs'."
+
+    return _read_text_file(list_path)
+
+
+@mcp.tool
+def get_troubleshooting_guide(
+    guide_id: Annotated[str, "Troubleshooting guide identifier in the format 'category/guide'"],
+) -> str:
+    """
+    Retrieve the specified troubleshooting guide.
+    These guides outline steps to diagnose and resolve recurring integration or runtime issues.
+    """
+    content, _ = _read_troubleshooting_guide(guide_id)
+    if content.startswith("Error:"):
+        return content
+
+    return content
 
 
 @mcp.tool
