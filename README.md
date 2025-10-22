@@ -23,6 +23,7 @@
 - 🧩 **Integration Patterns** - Pre-built workflow patterns with agentic coding guidelines for common TMS use cases (`list_integration_patterns`, `get_integration_pattern`)
 - 🔍 **Schema Explorer** - Inspect request/response schemas for any endpoint and HTTP status code (`get_request_body_schema`, `get_response_schema`)
 - 💡 **Example Library** - Access real-world API request/response examples extracted from OpenAPI specs (`list_examples`, `get_example`)
+- 🛠️ **Troubleshooting Guides** - Access diagnostic guides for common integration and runtime issues (`list_troubleshooting_guides`, `get_troubleshooting_guide`)
 
 > **Note:** API keys from [Omelet](https://routing.oaasis.cc/) and [iNavi](https://mapsapi.inavisys.com/) aren't required to install this MCP server. However, it is recommended you prepare them in advance for a realtime test-enabled vibe coding experience, enabling proper debugging.
 
@@ -299,6 +300,8 @@ Here is an overview of currently implemented tools:
 | `list_endpoints(provider)` | List all available API endpoints, optionally filtered by provider (`omelet`/`inavi`) |
 | `list_integration_patterns()` | Browse catalog of integration patterns with descriptions |
 | `get_integration_pattern(pattern_id, simple)` | Retrieve a specific integration playbook with agentic coding guidelines |
+| `list_troubleshooting_guides()` | Browse catalog of troubleshooting guides for common errors |
+| `get_troubleshooting_guide(guide_id)` | Retrieve a specific troubleshooting guide with diagnostic steps |
 | `get_endpoint_overview(path, provider)` | Get detailed overview for a specific API endpoint |
 | `get_request_body_schema(path, provider)` | Get the request body schema for an endpoint |
 | `get_response_schema(path, response_code, provider)` | Get the response schema for an endpoint and status code |
@@ -326,6 +329,7 @@ tms_mcp/
 └── docs/                  # Generated documentation
     ├── basic_info.md      # Shared API overview
     ├── integration_patterns/  # Integration patterns & guidelines
+    ├── troubleshooting/   # Troubleshooting guides for common issues
     ├── omelet/            # Omelet-specific docs
     │   ├── openapi.json
     │   ├── endpoints_summary.md

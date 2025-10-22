@@ -23,6 +23,7 @@
 - 🧩 **통합 패턴** - 일반적인 TMS 사용 사례를 위한 에이전틱 코딩 가이드라인이 포함된 사전 구축된 워크플로우 패턴 (`list_integration_patterns`, `get_integration_pattern`)
 - 🔍 **스키마 탐색기** - 모든 엔드포인트와 HTTP 상태 코드에 대한 요청/응답 스키마 검사 (`get_request_body_schema`, `get_response_schema`)
 - 💡 **예제 라이브러리** - OpenAPI 스펙에서 추출한 실제 API 요청/응답 예제 액세스 (`list_examples`, `get_example`)
+- 🛠️ **트러블슈팅 가이드** - 일반적인 통합 및 런타임 문제에 대한 진단 가이드 액세스 (`list_troubleshooting_guides`, `get_troubleshooting_guide`)
 
 > **참고:** [Omelet](https://routing.oaasis.cc/)과 [iNavi](https://mapsapi.inavisys.com/)의 API 키는 이 MCP 서버 설치에 필수는 아닙니다. 하지만 실시간 테스트가 가능한 원활한 코딩 경험과 적절한 디버깅을 위해 미리 준비하시는 것을 권장합니다.
 
@@ -299,6 +300,8 @@ gemini mcp add TMS-Development-Wizard /path/to/tms-dev-mcp/.venv/bin/python /pat
 | `list_endpoints(provider)` | 사용 가능한 모든 API 엔드포인트 나열, 선택적으로 프로바이더(`omelet`/`inavi`)로 필터링 |
 | `list_integration_patterns()` | 설명이 포함된 통합 패턴 카탈로그 탐색 |
 | `get_integration_pattern(pattern_id, simple)` | 에이전틱 코딩 가이드라인이 포함된 특정 통합 플레이북 검색 |
+| `list_troubleshooting_guides()` | 일반적인 오류에 대한 트러블슈팅 가이드 카탈로그 탐색 |
+| `get_troubleshooting_guide(guide_id)` | 진단 단계가 포함된 특정 트러블슈팅 가이드 검색 |
 | `get_endpoint_overview(path, provider)` | 특정 API 엔드포인트에 대한 상세 개요 가져오기 |
 | `get_request_body_schema(path, provider)` | 엔드포인트의 요청 본문 스키마 가져오기 |
 | `get_response_schema(path, response_code, provider)` | 엔드포인트와 상태 코드에 대한 응답 스키마 가져오기 |
@@ -326,6 +329,7 @@ tms_mcp/
 └── docs/                  # 생성된 문서
     ├── basic_info.md      # 공유 API 개요
     ├── integration_patterns/  # 통합 패턴 및 가이드라인
+    ├── troubleshooting/   # 일반적인 문제에 대한 트러블슈팅 가이드
     ├── omelet/            # Omelet 전용 문서
     │   ├── openapi.json
     │   ├── endpoints_summary.md
