@@ -218,6 +218,45 @@ def generate_integration_patterns(target_path: Path) -> None:
     logger.info("   🧩 Generated integration pattern documentation and listing.")
 
 
+def generate_troubleshooting_guides(target_path: Path) -> None:
+    """Copy troubleshooting templates and generate the list file."""
+
+    templates_dir = Path(__file__).parent / "templates" / "troubleshooting"
+    if not templates_dir.exists():
+        logger.warning("   ⚠️ Troubleshooting templates directory not found; skipping generation.")
+        return
+
+    output_dir = target_path / "troubleshooting"
+
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+
+    shutil.copytree(templates_dir, output_dir)
+
+    guides: list[tuple[str, str]] = []
+
+    for path in sorted(output_dir.rglob("*.md")):
+        if path.parent == output_dir:
+            # Skip standalone templates (e.g., general guidelines) from the listing
+            continue
+
+        relative = path.relative_to(output_dir)
+        if ".." in relative.parts:
+            continue
+
+        guide_id = "/".join(relative.with_suffix("").parts)
+        description = _extract_pattern_description(path) or "(description unavailable)"
+        guides.append((guide_id, escape_markdown_table_content(description)))
+
+    list_lines = ["| guide_id | description |", "| --- | --- |"]
+
+    for guide_id, description in sorted(guides, key=lambda item: item[0]):
+        list_lines.append(f"| {guide_id} | {description} |")
+
+    write_markdown_file(output_dir / "list.md", "\n".join(list_lines))
+    logger.info("   🛠️ Generated troubleshooting documentation and listing.")
+
+
 async def process_provider_documentation(spec: OpenAPISpec, provider: str, temp_path: Path, target_path: Path) -> None:
     """
     Process documentation for a single provider.
@@ -307,6 +346,9 @@ async def run_openapi_indexing_pipeline(providers: list[str] | None = None) -> N
 
         # Copy integration patterns and create listing
         generate_integration_patterns(temp_path)
+
+        # Copy troubleshooting guides and create listing
+        generate_troubleshooting_guides(temp_path)
 
         # Process each provider's spec
         for provider, spec in provider_specs.items():
