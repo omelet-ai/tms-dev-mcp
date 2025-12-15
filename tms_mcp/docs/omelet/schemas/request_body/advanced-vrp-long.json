@@ -67,11 +67,11 @@
               "description": "Datetime for time window late. Required if time window is given. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
               "title": "Time Window Late"
             },
-            "service_time": {
+            "service_duration_seconds": {
               "additionalProperties": {
                 "type": "number"
               },
-              "description": "Service time for each vehicle type (in seconds).",
+              "description": "Service time for each vehicle type in seconds. The time elapsed from arrival at the depot until the service completion, measured in seconds.",
               "propertyNames": {
                 "enum": [
                   "bike",
@@ -81,7 +81,7 @@
                 "title": "VehicleType",
                 "type": "string"
               },
-              "title": "Service Time",
+              "title": "Service duration in seconds",
               "type": "object"
             },
             "volume": {
@@ -126,7 +126,7 @@
             "id",
             "coordinate",
             "order_placed_at",
-            "service_time",
+            "service_duration_seconds",
             "volume",
             "weight",
             "unassigned_penalty",
@@ -190,7 +190,7 @@
                       "title": "Coordinate",
                       "type": "object"
                     },
-                    "service_time": {
+                    "service_duration_seconds": {
                       "additionalProperties": {
                         "type": "number"
                       },
@@ -204,14 +204,14 @@
                         "title": "VehicleType",
                         "type": "string"
                       },
-                      "title": "Service Time",
+                      "title": "Service duration in seconds",
                       "type": "object"
                     }
                   },
                   "required": [
                     "id",
                     "coordinate",
-                    "service_time"
+                    "service_duration_seconds"
                   ],
                   "title": "DepotDto",
                   "type": "object"
@@ -254,7 +254,7 @@
                       "title": "Coordinate",
                       "type": "object"
                     },
-                    "service_time": {
+                    "service_duration_seconds": {
                       "additionalProperties": {
                         "type": "number"
                       },
@@ -268,14 +268,14 @@
                         "title": "VehicleType",
                         "type": "string"
                       },
-                      "title": "Service Time",
+                      "title": "Service duration in seconds",
                       "type": "object"
                     }
                   },
                   "required": [
                     "id",
                     "coordinate",
-                    "service_time"
+                    "service_duration_seconds"
                   ],
                   "title": "DepotDto",
                   "type": "object"

@@ -74,10 +74,10 @@
               "description": "Name of the visit location.",
               "title": "Visit Name"
             },
-            "service_time": {
+            "service_duration_seconds": {
               "default": 0,
-              "description": "Time (in minutes) to serve this visit.",
-              "title": "Service Duration",
+              "description": "The time elapsed from arrival at the visit or delivery location until the delivery or service completion, measured in seconds.\n**Important:** The previous field 'service_time' is deprecated from document and will be removed in future versions.\nTo avoid confusion from mixed units (minutes vs seconds), please use *only* this field going forward.",
+              "title": "Service duration in seconds",
               "type": "integer"
             },
             "coordinate": {

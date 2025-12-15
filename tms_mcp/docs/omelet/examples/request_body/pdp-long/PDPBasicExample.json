@@ -5,7 +5,7 @@
       "pick_up_visit": {
         "name": "서울역 픽업",
         "index": 0,
-        "service_time": 10,
+        "service_duration_seconds": 10,
         "coordinate": {
           "lng": 126.9706,
           "lat": 37.5546
@@ -23,7 +23,7 @@
       "drop_off_visit": {
         "name": "강남역 드롭오프",
         "index": 1,
-        "service_time": 15,
+        "service_duration_seconds": 15,
         "coordinate": {
           "lng": 127.0276,
           "lat": 37.4979
@@ -44,7 +44,7 @@
       "pick_up_visit": {
         "name": "홍대 픽업",
         "index": 2,
-        "service_time": 8,
+        "service_duration_seconds": 8,
         "coordinate": {
           "lng": 126.9247,
           "lat": 37.5563
@@ -62,7 +62,7 @@
       "drop_off_visit": {
         "name": "이태원 드롭오프",
         "index": 3,
-        "service_time": 12,
+        "service_duration_seconds": 12,
         "coordinate": {
           "lng": 126.9947,
           "lat": 37.5347

@@ -11,7 +11,7 @@
     {
       "name": "visit_1",
       "index": 1,
-      "service_time": 5,
+      "service_duration_seconds": 5,
       "coordinate": {
         "lng": 126.75601605434875,
         "lat": 37.4182826849803
@@ -30,7 +30,7 @@
     {
       "name": "visit_2",
       "index": 2,
-      "service_time": 5,
+      "service_duration_seconds": 5,
       "coordinate": {
         "lng": 127.16936856377596,
         "lat": 37.68879923068993
@@ -49,7 +49,7 @@
     {
       "name": "visit_3",
       "index": 3,
-      "service_time": 5,
+      "service_duration_seconds": 5,
       "coordinate": {
         "lng": 127.058772633085,
         "lat": 37.63348451247085

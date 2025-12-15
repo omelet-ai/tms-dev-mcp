@@ -9,7 +9,7 @@
       "order_placed_at": "2025-08-20T19:07:14.761465+09:00",
       "tw_early": null,
       "tw_late": null,
-      "service_time": {
+      "service_duration_seconds": {
         "car": 0.0,
         "bike": 0.0,
         "walk": 0.0
@@ -32,7 +32,7 @@
       "order_placed_at": "2025-08-20T19:07:14.761465+09:00",
       "tw_early": null,
       "tw_late": null,
-      "service_time": {
+      "service_duration_seconds": {
         "car": 0.0,
         "bike": 0.0,
         "walk": 0.0
@@ -55,7 +55,7 @@
       "order_placed_at": "2025-08-20T19:07:14.761465+09:00",
       "tw_early": null,
       "tw_late": null,
-      "service_time": {
+      "service_duration_seconds": {
         "car": 0.0,
         "bike": 0.0,
         "walk": 0.0
@@ -80,7 +80,7 @@
           "lng": 127.6420316461543,
           "lat": 37.084139964995046
         },
-        "service_time": {
+        "service_duration_seconds": {
           "car": 3600.0,
           "bike": 3600.0,
           "walk": 3600.0
@@ -92,7 +92,7 @@
           "lng": 127.6420316461543,
           "lat": 37.084139964995046
         },
-        "service_time": {
+        "service_duration_seconds": {
           "car": 3600.0,
           "bike": 3600.0,
           "walk": 3600.0
@@ -121,7 +121,7 @@
           "lng": 127.6420316461543,
           "lat": 37.084139964995046
         },
-        "service_time": {
+        "service_duration_seconds": {
           "car": 3600.0,
           "bike": 3600.0,
           "walk": 3600.0
@@ -133,7 +133,7 @@
           "lng": 127.6420316461543,
           "lat": 37.084139964995046
         },
-        "service_time": {
+        "service_duration_seconds": {
           "car": 3600.0,
           "bike": 3600.0,
           "walk": 3600.0
@@ -162,7 +162,7 @@
           "lng": 127.6420316461543,
           "lat": 37.084139964995046
         },
-        "service_time": {
+        "service_duration_seconds": {
           "car": 3600.0,
           "bike": 3600.0,
           "walk": 3600.0
@@ -174,7 +174,7 @@
           "lng": 127.6420316461543,
           "lat": 37.084139964995046
         },
-        "service_time": {
+        "service_duration_seconds": {
           "car": 3600.0,
           "bike": 3600.0,
           "walk": 3600.0

@@ -90,20 +90,31 @@
                   },
                   "daily_solution_cost_details": {
                     "additionalProperties": {
-                      "type": "number"
+                      "additionalProperties": {
+                        "type": "number"
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "fixed_cost",
+                          "fuel_cost",
+                          "first_visit_cost",
+                          "consecutive_visit_tiered_cost",
+                          "visit_number_cost",
+                          "wage_cost"
+                        ]
+                      },
+                      "type": "object"
                     },
-                    "description": "Cost totals per objective_cost calculated from the day's optimization results.",
+                    "description": "Aggregated cost values for each cost type across vehicle ownership categories, derived from the day's optimization results.",
                     "propertyNames": {
                       "enum": [
-                        "fixed_cost",
-                        "fuel_cost",
-                        "first_visit_cost",
-                        "consecutive_visit_tiered_cost",
-                        "visit_number_cost",
-                        "wage_cost"
-                      ]
+                        "rented",
+                        "owned"
+                      ],
+                      "title": "VehicleOwnershipType",
+                      "type": "string"
                     },
-                    "title": "Solution Cost Details",
+                    "title": "Daily Solution Cost Details",
                     "type": "object"
                   }
                 },
@@ -128,20 +139,31 @@
             },
             "solution_cost_details": {
               "additionalProperties": {
-                "type": "number"
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "propertyNames": {
+                  "enum": [
+                    "fixed_cost",
+                    "fuel_cost",
+                    "first_visit_cost",
+                    "consecutive_visit_tiered_cost",
+                    "visit_number_cost",
+                    "wage_cost"
+                  ]
+                },
+                "type": "object"
               },
-              "description": "Total cost for each objective_cost, aggregated from all daily optimization results.",
+              "description": "Aggregated cost values for each cost type across vehicle ownership categories, aggregated from all daily optimization results.",
               "propertyNames": {
                 "enum": [
-                  "fixed_cost",
-                  "fuel_cost",
-                  "first_visit_cost",
-                  "consecutive_visit_tiered_cost",
-                  "visit_number_cost",
-                  "wage_cost"
-                ]
+                  "rented",
+                  "owned"
+                ],
+                "title": "VehicleOwnershipType",
+                "type": "string"
               },
-              "title": "Aggregated Solution Cost",
+              "title": "Aggregated Solution Cost Details",
               "type": "object"
             }
           },

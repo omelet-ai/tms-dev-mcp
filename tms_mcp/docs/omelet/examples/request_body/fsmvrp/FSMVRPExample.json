@@ -22,7 +22,7 @@
       "visits": [
         {
           "name": "visit_1",
-          "service_time": 5,
+          "service_duration_seconds": 5,
           "coordinate": {
             "lng": 127.16936856377596,
             "lat": 37.68879923068993
@@ -36,7 +36,7 @@
         },
         {
           "name": "visit_2",
-          "service_time": 5,
+          "service_duration_seconds": 5,
           "coordinate": {
             "lng": 127.058772633085,
             "lat": 37.63348451247085
@@ -50,7 +50,7 @@
         },
         {
           "name": "visit_3",
-          "service_time": 5,
+          "service_duration_seconds": 5,
           "coordinate": {
             "lng": 127.02504768605708,
             "lat": 37.695535325323675
@@ -70,7 +70,7 @@
       "visits": [
         {
           "name": "visit_1",
-          "service_time": 5,
+          "service_duration_seconds": 5,
           "coordinate": {
             "lng": 127.06345549629256,
             "lat": 37.529102849300855
@@ -84,7 +84,7 @@
         },
         {
           "name": "visit_2",
-          "service_time": 5,
+          "service_duration_seconds": 5,
           "coordinate": {
             "lng": 127.26781768788278,
             "lat": 37.70934835782088
@@ -98,7 +98,7 @@
         },
         {
           "name": "visit_3",
-          "service_time": 5,
+          "service_duration_seconds": 5,
           "coordinate": {
             "lng": 127.10100520864368,
             "lat": 37.6096279774894

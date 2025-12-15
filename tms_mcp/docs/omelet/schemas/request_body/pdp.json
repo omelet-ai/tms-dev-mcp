@@ -38,10 +38,10 @@
                       "description": "Name of the visit location.",
                       "title": "Visit Name"
                     },
-                    "service_time": {
+                    "service_duration_seconds": {
                       "default": 0,
-                      "description": "Time (in minutes) to serve this visit.",
-                      "title": "Service Duration",
+                      "description": "The time elapsed from arrival at the visit or delivery location until the delivery or service completion, measured in seconds.\n**Important:** The previous field 'service_time' is deprecated from document and will be removed in future versions.\nTo avoid confusion from mixed units (minutes vs seconds), please use *only* this field going forward.",
+                      "title": "Service duration in seconds",
                       "type": "integer"
                     },
                     "coordinate": {
@@ -207,10 +207,10 @@
                       "description": "Name of the visit location.",
                       "title": "Visit Name"
                     },
-                    "service_time": {
+                    "service_duration_seconds": {
                       "default": 0,
-                      "description": "Time (in minutes) to serve this visit.",
-                      "title": "Service Duration",
+                      "description": "The time elapsed from arrival at the visit or delivery location until the delivery or service completion, measured in seconds.\n**Important:** The previous field 'service_time' is deprecated from document and will be removed in future versions.\nTo avoid confusion from mixed units (minutes vs seconds), please use *only* this field going forward.",
+                      "title": "Service duration in seconds",
                       "type": "integer"
                     },
                     "coordinate": {
@@ -368,7 +368,7 @@
                   "type": "null"
                 }
               ],
-              "default": "2025-10-21T07:22:46.607031",
+              "default": "2025-12-15T02:52:04.725874",
               "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
               "title": "Order Placed Time"
             }
@@ -638,7 +638,7 @@
             "type": "null"
           }
         ],
-        "default": "2025-10-21T07:22:46.617918",
+        "default": "2025-12-15T02:52:04.736576",
         "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
         "title": "Start Time"
       },
