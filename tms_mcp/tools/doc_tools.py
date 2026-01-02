@@ -115,7 +115,7 @@ def _read_json_file(file_path: Path, file_type: str, path: str, path_id: str) ->
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             json_data = json.load(file)
-            return json.dumps(json_data, indent=2, ensure_ascii=False)
+            return json.dumps(json_data, ensure_ascii=False, separators=(",", ":"))
     except FileNotFoundError:
         return f"Error: {file_type.capitalize()} file for '{path}' (path_id: {path_id}) not found."
     except json.JSONDecodeError as e:
@@ -456,7 +456,7 @@ def list_examples(
         else:
             result["response_examples"] = {}
 
-    return json.dumps(result, indent=2, ensure_ascii=False)
+    return json.dumps(result, ensure_ascii=False, separators=(",", ":"))
 
 
 @mcp.tool
