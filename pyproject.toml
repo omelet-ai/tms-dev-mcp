@@ -11,7 +11,7 @@ license = "MIT"
 authors = [
     {name = "Omelet", email = "dev.shared@omelet.ai"},
 ]
-requires-python = "~=3.11"
+requires-python = ">=3.11,<4"
 keywords = ["mcp", "tms", "routing", "logistics", "omelet", "inavi", "maps", "api"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -26,11 +26,8 @@ dependencies = [
     "fastmcp>=2.11.0",
     "jsonref>=1.1.0",
     "jsonschema>=4.23.0",
-    "mypy>=1.13.0",
-    "pre-commit>=4.0.1",
     "python-json-logger>=3.2.1",
     "pyyaml>=6.0.2",
-    "types-pyyaml>=6.0.12.20250915",
 ]
 
 [project.urls]
@@ -43,14 +40,17 @@ Issues = "https://github.com/omelet-ai/tms-dev-mcp/issues"
 tms-mcp = "tms_mcp.main:main"
 
 [dependency-groups]
-precommit = [
+dev = [
     "mypy>=1.13.0",
-    "pre-commit~=4.0.0",
+    "pre-commit>=4.0.1",
+    "ruff>=0.12.0",
+    "types-pyyaml>=6.0.12.20250915",
     "types-pytz>=2024.2.0.20241003",
     "types-requests>=2.32.0.20241016",
 ]
 test = [
     "pytest>=8.3.4",
+    "pytest-asyncio>=0.24.0",
 ]
 
 [tool.uv]
@@ -61,6 +61,7 @@ include-package-data = true
 
 [tool.setuptools.package-data]
 tms_mcp = [
+    "py.typed",
     "docs/**/*.md",
     "docs/**/*.json",
     "custom_logging/*.yaml",

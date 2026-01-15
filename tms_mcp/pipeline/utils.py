@@ -216,16 +216,16 @@ def sanitize_path_for_filename(provider: str, path: str) -> str:
 
 
 def escape_markdown_table_content(text: str) -> str:
-    """
-    Escape text for use in markdown tables.
-
-    Args:
-        text: Text to escape
-
-    Returns:
-        Escaped text safe for markdown tables
-    """
     return text.replace("|", "\\|").replace("\n", " ").replace("\r", " ")
+
+
+def get_provider_from_path(path: str) -> str:
+    from ..config import settings
+
+    for provider_name, provider_config in settings.pipeline_config.provider_configs.items():
+        if path.startswith(provider_config.path_prefix):
+            return provider_name
+    return "omelet"
 
 
 def get_endpoint_filename(provider: str, path: str) -> str:
@@ -244,21 +244,33 @@ def get_endpoint_filename(provider: str, path: str) -> str:
 
 
 def atomic_directory_replace(source: Path, target: Path) -> bool:
-    """
-    Atomically replace a target directory with source directory.
+    backup = target.with_suffix(".backup")
+    replacement_succeeded = False
 
-    Args:
-        source: Source directory
-        target: Target directory to replace
-
-    Returns:
-        True if successful, False otherwise
-    """
     try:
+        if backup.exists():
+            shutil.rmtree(backup)
+
         if target.exists():
-            shutil.rmtree(target)
-        shutil.copytree(source, target)
-        return True
-    except Exception as e:
+            target.rename(backup)
+
+        source.rename(target)
+        replacement_succeeded = True
+
+    except OSError as e:
         logger.error(f"Failed to replace {target} with {source}: {e}")
+        if backup.exists() and not target.exists():
+            try:
+                backup.rename(target)
+                logger.info(f"Rolled back to previous version at {target}")
+            except OSError as rollback_error:
+                logger.error(f"Failed to rollback {backup} to {target}: {rollback_error}")
         return False
+
+    if backup.exists():
+        try:
+            shutil.rmtree(backup)
+        except OSError as cleanup_error:
+            logger.warning(f"Failed to cleanup backup at {backup}: {cleanup_error}")
+
+    return replacement_succeeded

@@ -26,29 +26,61 @@ from .utils import (
     write_markdown_file,
 )
 
+HTTP_TIMEOUT = httpx.Timeout(30.0, connect=10.0)
+MAX_RETRIES = 3
+RETRY_BACKOFF_BASE = 2
+RETRYABLE_STATUS_CODES = {408, 429, 500, 502, 503, 504}
+
 logger = get_logger(__name__)
 
 # Provider configurations from settings
 provider_configs = settings.pipeline_config.provider_configs
 
 
-async def fetch_and_resolve_spec(url: str) -> dict[str, Any] | None:
-    """
-    Fetch and resolve an OpenAPI specification from a URL.
+def _is_retryable_status(status_code: int) -> bool:
+    return status_code in RETRYABLE_STATUS_CODES
 
-    Args:
-        url: URL to fetch the OpenAPI spec from
 
-    Returns:
-        Resolved OpenAPI specification or None if failed
-    """
-    async with httpx.AsyncClient() as client:
+async def _fetch_with_retry(client: httpx.AsyncClient, url: str) -> httpx.Response:
+    last_exception: Exception | None = None
+    for attempt in range(MAX_RETRIES):
         try:
-            resp = await client.get(url)
+            resp = await client.get(url, timeout=HTTP_TIMEOUT)
             resp.raise_for_status()
+            return resp
+        except httpx.HTTPStatusError as e:
+            if e.response is not None and not _is_retryable_status(e.response.status_code):
+                raise
+            last_exception = e
+        except (httpx.TimeoutException, httpx.ConnectError, httpx.ReadError) as e:
+            last_exception = e
+
+        if attempt < MAX_RETRIES - 1:
+            wait_time = RETRY_BACKOFF_BASE**attempt
+            logger.warning(f"Retry {attempt + 1}/{MAX_RETRIES} for {url} after {wait_time}s: {last_exception}")
+            await asyncio.sleep(wait_time)
+
+    if last_exception is not None:
+        raise last_exception
+    raise RuntimeError("Unexpected state in retry loop")
+
+
+async def fetch_and_resolve_spec(url: str) -> dict[str, Any] | None:
+    async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
+        try:
+            resp = await _fetch_with_retry(client, url)
             json_text = resp.text
-            # Use jsonref.loads to resolve references directly from JSON string
-            return jsonref.loads(json_text)
+            resolved = jsonref.loads(json_text)
+            if isinstance(resolved, dict):
+                return resolved
+            logger.error(f"OpenAPI spec from {url} is not a valid JSON object")
+            return None
+        except httpx.TimeoutException:
+            logger.error(f"Timeout fetching OpenAPI from {url} after {MAX_RETRIES} retries")
+            return None
+        except httpx.HTTPStatusError as e:
+            logger.error(f"HTTP error fetching OpenAPI from {url}: {e}")
+            return None
         except Exception as e:
             logger.error(f"Failed to fetch or resolve OpenAPI from {url}: {e}")
             return None
@@ -394,7 +426,6 @@ def main() -> None:
         "providers",
         nargs="*",
         help="Provider names to update (e.g., omelet, inavi). If not specified, updates all providers.",
-        choices=list(provider_configs.keys()) + [[]],  # Allow empty list
     )
 
     parser.add_argument("--list-providers", action="store_true", help="List all available providers and exit")
@@ -408,10 +439,13 @@ def main() -> None:
             print(f"  - {provider_key}: {provider_config.title}")
         return
 
-    # Run the pipeline with specified providers (or all if none specified)
     providers_to_update = args.providers if args.providers else None
 
     if providers_to_update:
+        invalid_providers = [p for p in providers_to_update if p not in provider_configs]
+        if invalid_providers:
+            valid_providers = ", ".join(sorted(provider_configs.keys()))
+            parser.error(f"Invalid provider(s): {', '.join(invalid_providers)}. Valid providers: {valid_providers}")
         logger.info(f"Updating specific providers: {', '.join(providers_to_update)}")
     else:
         logger.info("Updating all providers")

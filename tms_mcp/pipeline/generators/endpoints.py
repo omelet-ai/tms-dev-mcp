@@ -10,6 +10,7 @@ from ..models import EndpointInfo, OpenAPISpec
 from ..utils import (
     escape_markdown_table_content,
     get_endpoint_filename,
+    get_provider_from_path,
     safe_remove_directory,
     write_json_file,
     write_markdown_file,
@@ -61,15 +62,7 @@ class EndpointGenerator(BaseGenerator):
         self.log_progress(f"Generated endpoints summary at {output_path}")
 
     def _get_provider_from_path(self, path: str) -> str:
-        """
-        Determine the provider based on the API path using configuration.
-        """
-        provider_configs = settings.pipeline_config.provider_configs
-        for provider_name, provider_config in provider_configs.items():
-            prefix = provider_config.path_prefix
-            if path.startswith(prefix):
-                return provider_name
-        return "omelet"
+        return get_provider_from_path(path)
 
     async def generate_endpoint_overviews(self, spec: OpenAPISpec, provider: str | None = None) -> None:
         """

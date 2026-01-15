@@ -8,7 +8,7 @@ from typing import Any
 
 from ...config import settings
 from ..models import OpenAPISpec
-from ..utils import get_endpoint_filename, safe_remove_directory, write_json_file
+from ..utils import get_endpoint_filename, get_provider_from_path, safe_remove_directory, write_json_file
 from .base import BaseGenerator
 
 
@@ -116,13 +116,7 @@ class SchemaGenerator(BaseGenerator):
         self.log_progress(f"Generated response schemas in {response_path}")
 
     def _get_provider_from_path(self, path: str) -> str:
-        """
-        Determine the provider based on the API path using configuration.
-        """
-        for provider_name, provider_config in settings.pipeline_config.provider_configs.items():
-            if path.startswith(provider_config.path_prefix):
-                return provider_name
-        return "omelet"
+        return get_provider_from_path(path)
 
     def _prepare_request_schema(
         self, app_json: dict[str, Any], path: str, method: str, provider: str
