@@ -26,6 +26,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get latest git tag
+        id: get_latest_tag
+        run: |
+          LATEST_TAG=$(git tag -l 'v*' --sort=-v:refname | head -n 1)
+          if [ -z "$LATEST_TAG" ]; then
+            LATEST_TAG="v0.0.0"
+          fi
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
@@ -131,3 +140,111 @@ jobs:
           BRANCH="${GITHUB_REF_NAME:-main}"
           git push origin "HEAD:${BRANCH}"
           git push origin "v${NEW_VERSION}"
+
+      - name: Get commit log for release notes
+        id: get_commits
+        env:
+          NEW_VERSION: ${{ steps.bump.outputs.new_version }}
+        run: |
+          if [ "$LATEST_TAG" == "v0.0.0" ]; then
+            COMMIT_LOG=$(git log --pretty=format:"- %h %s" HEAD)
+          else
+            COMMIT_LOG=$(git log --pretty=format:"- %h %s" ${LATEST_TAG}..HEAD)
+          fi
+
+          echo "$COMMIT_LOG" > commit_log.txt
+
+          {
+            echo 'COMMIT_LOG_CONTENT<<EOF'
+            echo "$COMMIT_LOG"
+            echo 'EOF'
+          } >> $GITHUB_ENV
+
+      - name: Generate release notes with Claude
+        id: generate_notes
+        continue-on-error: true
+        uses: anthropics/claude-code-action@v1
+        env:
+          NEW_VERSION: ${{ steps.bump.outputs.new_version }}
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Generate professional release notes for version v${{ steps.bump.outputs.new_version }}.
+
+            Here is the commit log since the last release (${{ env.LATEST_TAG }}):
+
+            ```
+            ${{ env.COMMIT_LOG_CONTENT }}
+            ```
+
+            Instructions:
+            1. Analyze the commits and categorize them into:
+               - **Features**: New functionality (commits with feat:, feature:, or add:)
+               - **Bug Fixes**: Bug fixes (commits with fix:, bugfix:, or hotfix:)
+               - **Improvements**: Enhancements, refactoring, performance (commits with improve:, refactor:, perf:, or chore:)
+               - **Documentation**: Doc changes (commits with docs: or doc:)
+               - **Other Changes**: Anything else noteworthy
+
+            2. For each change, write a clear, user-friendly description
+
+            3. If you find Jira ticket references (pattern like ABC-123), include links to:
+               https://omelet.atlassian.net/browse/TICKET-ID
+
+            4. Format the release notes in Markdown with:
+               - A brief summary of what's in this release (1-2 sentences)
+               - Categorized sections with bullet points
+               - Skip empty categories
+
+            Return the release notes as a single markdown string.
+
+          claude_args: |
+            --model claude-sonnet-4-5-20250929
+            --max-turns 3
+            --json-schema '{"type":"object","properties":{"release_notes":{"type":"string","description":"The formatted release notes in Markdown"}},"required":["release_notes"]}'
+
+      - name: Create GitHub Release
+        uses: actions/github-script@v6
+        env:
+          NEW_VERSION: ${{ steps.bump.outputs.new_version }}
+          STRUCTURED_OUTPUT: ${{ steps.generate_notes.outputs.structured_output }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const tagName = `v${process.env.NEW_VERSION}`;
+
+            // Get release notes from Claude's structured output
+            const structuredOutput = process.env.STRUCTURED_OUTPUT;
+            let releaseNotes = '';
+
+            if (structuredOutput) {
+              try {
+                const parsed = JSON.parse(structuredOutput);
+                releaseNotes = parsed.release_notes || '';
+              } catch (e) {
+                console.log('Failed to parse structured output:', e.message);
+              }
+            }
+
+            // Fallback to commit log if Claude failed or returned empty
+            if (!releaseNotes) {
+              console.log('Using fallback release notes from commit log');
+              try {
+                releaseNotes = `## What's Changed\n\n${fs.readFileSync('commit_log.txt', 'utf8')}`;
+              } catch (e) {
+                releaseNotes = `Release ${tagName}`;
+              }
+            }
+
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: tagName,
+              name: `Release ${tagName}`,
+              body: releaseNotes,
+              target_commitish: context.sha,
+              draft: false,
+              prerelease: false
+            });
+
+            console.log(`Created release ${tagName}`);
