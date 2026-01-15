@@ -1,15 +1,25 @@
-"""
-Documentation tools for the Omelet Routing Engine MCP server.
-"""
+"""Documentation tools for the Omelet Routing Engine MCP server."""
 
 import json
 import os
+import re
 from pathlib import Path
-from typing import Annotated, Any
+from typing import Annotated
+
+from fastmcp.exceptions import ToolError
 
 from tms_mcp.config import settings
-from tms_mcp.pipeline.utils import load_markdown_with_front_matter
+from tms_mcp.pipeline.utils import get_provider_from_path, load_markdown_with_front_matter
 from tms_mcp.server import mcp
+from tms_mcp.tools.models import (
+    EndpointsListResult,
+    EndpointSummary,
+    ExamplesListResult,
+    GuidesListResult,
+    GuideSummary,
+    PatternsListResult,
+    PatternSummary,
+)
 
 provider_configs = settings.pipeline_config.provider_configs
 
@@ -29,24 +39,7 @@ def _get_troubleshooting_dir() -> Path:
     return _get_docs_dir() / "troubleshooting"
 
 
-def _get_provider_from_path(path: str) -> str:
-    """
-    Determine the provider based on the API path using configuration.
-
-    Args:
-        path: API endpoint path
-
-    Returns:
-        Provider name ("omelet" or "inavi")
-    """
-    # Check each provider's path prefix from configuration
-    for provider_name, provider_config in provider_configs.items():
-        prefix = provider_config.path_prefix
-        if path.startswith(prefix):
-            return provider_name
-
-    # Default to omelet for non-matching paths
-    return "omelet"
+_get_provider_from_path = get_provider_from_path
 
 
 def _path_to_path_id(path: str, provider: str | None = None) -> str:
@@ -81,47 +74,48 @@ def _path_to_path_id(path: str, provider: str | None = None) -> str:
 
 
 def _read_text_file(file_path: Path) -> str:
-    """
-    Helper function to read a text file with error handling.
-
-    Args:
-        file_path: Path to the file to read
-
-    Returns:
-        Content of the file or error message if file cannot be read
-    """
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             return file.read()
     except FileNotFoundError:
-        return f"Error: {file_path.name} file not found."
-    except Exception as e:
-        return f"Error reading {file_path.name}: {str(e)}"
+        raise ToolError(f"File not found: {file_path.name}")
+    except PermissionError:
+        raise ToolError(f"Permission denied: {file_path.name}")
+    except OSError as e:
+        raise ToolError(f"Error reading {file_path.name}: {e}")
 
 
 def _read_json_file(file_path: Path, file_type: str, path: str, path_id: str) -> str:
-    """
-    Helper function to read a JSON file and return formatted content.
-
-    Args:
-        file_path: Path to the JSON file
-        file_type: Type of file for error messages (e.g., "overview", "schema")
-        path: Original API path for error messages
-        path_id: Converted path ID for error messages
-
-    Returns:
-        Formatted JSON content or error message if file cannot be read
-    """
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             json_data = json.load(file)
             return json.dumps(json_data, indent=2, ensure_ascii=False)
     except FileNotFoundError:
-        return f"Error: {file_type.capitalize()} file for '{path}' (path_id: {path_id}) not found."
+        raise ToolError(f"{file_type.capitalize()} for '{path}' (path_id: {path_id}) not found")
     except json.JSONDecodeError as e:
-        return f"Error: Invalid JSON in {file_type} file for '{path}': {str(e)}"
-    except Exception as e:
-        return f"Error reading {file_type} for '{path}': {str(e)}"
+        raise ToolError(f"Invalid JSON in {file_type} for '{path}': {e}")
+    except OSError as e:
+        raise ToolError(f"Error reading {file_type} for '{path}': {e}")
+
+
+def _validate_provider(provider: str) -> str:
+    """
+    Validate and normalize provider name.
+
+    Args:
+        provider: Provider name to validate
+
+    Returns:
+        Normalized provider name
+
+    Raises:
+        ToolError: If provider is not in the allowed list
+    """
+    normalized = provider.strip().lower()
+    if normalized not in provider_configs:
+        valid_providers = ", ".join(sorted(provider_configs.keys()))
+        raise ToolError(f"Invalid provider '{provider}'. Must be one of: {valid_providers}")
+    return normalized
 
 
 def _resolve_provider_and_path_id(path: str, provider: str | None) -> tuple[str, str]:
@@ -134,8 +128,11 @@ def _resolve_provider_and_path_id(path: str, provider: str | None) -> tuple[str,
 
     Returns:
         Tuple of (resolved_provider, path_id)
+
+    Raises:
+        ToolError: If provider is invalid
     """
-    resolved_provider = provider.lower() if provider is not None else _get_provider_from_path(path)
+    resolved_provider = _validate_provider(provider) if provider is not None else _get_provider_from_path(path)
     path_id = _path_to_path_id(path, resolved_provider)
     return resolved_provider, path_id
 
@@ -175,13 +172,11 @@ def _sanitize_document_id(document_id: str) -> list[str] | None:
     return parts
 
 
-def _read_integration_pattern(pattern_id: str) -> tuple[str, Path | None]:
-    """Resolve an integration pattern and return its content with the path."""
-
+def _read_integration_pattern(pattern_id: str) -> tuple[str, Path]:
     docs_dir = _get_integration_patterns_dir()
     parts = _sanitize_document_id(pattern_id)
     if not parts:
-        return ("Error: Invalid pattern_id provided.", None)
+        raise ToolError("Invalid pattern_id provided")
 
     pattern_path = docs_dir.joinpath(*parts).with_suffix(".md")
 
@@ -189,17 +184,16 @@ def _read_integration_pattern(pattern_id: str) -> tuple[str, Path | None]:
         docs_root = docs_dir.resolve(strict=False)
         resolved_path = pattern_path.resolve(strict=False)
         if not resolved_path.is_relative_to(docs_root):
-            return ("Error: Invalid pattern_id provided.", None)
-    except Exception:
-        # Fallback to existence check below if resolution fails
+            raise ToolError("Invalid pattern_id provided")
+    except (OSError, ValueError):
         pass
 
     if not pattern_path.exists():
-        return (f"Error: Integration pattern '{pattern_id}' not found. Please run 'update-docs'.", None)
+        raise ToolError(f"Integration pattern '{pattern_id}' not found. Please run 'update-docs'.")
 
     try:
         _, body = load_markdown_with_front_matter(pattern_path)
-    except Exception:
+    except (OSError, ValueError):
         return (_read_text_file(pattern_path), pattern_path)
 
     if body:
@@ -208,13 +202,11 @@ def _read_integration_pattern(pattern_id: str) -> tuple[str, Path | None]:
     return (_read_text_file(pattern_path), pattern_path)
 
 
-def _read_troubleshooting_guide(guide_id: str) -> tuple[str, Path | None]:
-    """Resolve a troubleshooting guide and return its content with the path."""
-
+def _read_troubleshooting_guide(guide_id: str) -> tuple[str, Path]:
     docs_dir = _get_troubleshooting_dir()
     parts = _sanitize_document_id(guide_id)
     if not parts:
-        return ("Error: Invalid guide_id provided.", None)
+        raise ToolError("Invalid guide_id provided")
 
     guide_path = docs_dir.joinpath(*parts).with_suffix(".md")
 
@@ -222,16 +214,16 @@ def _read_troubleshooting_guide(guide_id: str) -> tuple[str, Path | None]:
         docs_root = docs_dir.resolve(strict=False)
         resolved_path = guide_path.resolve(strict=False)
         if not resolved_path.is_relative_to(docs_root):
-            return ("Error: Invalid guide_id provided.", None)
-    except Exception:
+            raise ToolError("Invalid guide_id provided")
+    except (OSError, ValueError):
         pass
 
     if not guide_path.exists():
-        return (f"Error: Troubleshooting guide '{guide_id}' not found. Please run 'update-docs'.", None)
+        raise ToolError(f"Troubleshooting guide '{guide_id}' not found. Please run 'update-docs'.")
 
     try:
         _, body = load_markdown_with_front_matter(guide_path)
-    except Exception:
+    except (OSError, ValueError):
         return (_read_text_file(guide_path), guide_path)
 
     if body:
@@ -240,32 +232,59 @@ def _read_troubleshooting_guide(guide_id: str) -> tuple[str, Path | None]:
     return (_read_text_file(guide_path), guide_path)
 
 
+def _mask_api_key(key: str) -> str:
+    if len(key) <= 8:
+        return "****"
+    return f"{key[:4]}...{key[-4:]}"
+
+
 @mcp.tool
 def get_basic_info() -> str:
     """
     Get basic information about Omelet Routing Engine API and iNavi Maps API.
-    Includes user-provided API keys.
+    Includes masked user-provided API keys.
     """
     file_path = _get_docs_dir() / "basic_info.md"
     content = _read_text_file(file_path)
-    if os.getenv("INAVI_API_KEY"):
-        content += f"\n\nINAVI_API_KEY: {os.getenv('INAVI_API_KEY')}"
-    if os.getenv("OMELET_API_KEY"):
-        content += f"\n\nOMELET_API_KEY: {os.getenv('OMELET_API_KEY')}"
+    inavi_key = os.getenv("INAVI_API_KEY")
+    omelet_key = os.getenv("OMELET_API_KEY")
+    if inavi_key:
+        content += f"\n\nINAVI_API_KEY: {_mask_api_key(inavi_key)}"
+    if omelet_key:
+        content += f"\n\nOMELET_API_KEY: {_mask_api_key(omelet_key)}"
     return content
 
 
+_MARKDOWN_TABLE_ROW_PATTERN = re.compile(r"^\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|$")
+
+
+def _parse_markdown_table(content: str) -> list[tuple[str, str]]:
+    rows: list[tuple[str, str]] = []
+    lines = content.strip().split("\n")
+    for line in lines:
+        if line.startswith("|") and "---" not in line:
+            match = _MARKDOWN_TABLE_ROW_PATTERN.match(line.strip())
+            if match:
+                col1, col2 = match.group(1).strip(), match.group(2).strip()
+                if col1 and col2 and col1 != "pattern_id" and col1 != "guide_id":
+                    rows.append((col1, col2))
+    return rows
+
+
 @mcp.tool
-def list_integration_patterns() -> str:
+def list_integration_patterns() -> PatternsListResult:
     """
     Return a table of all available integration patterns, which are guidelines for integrating different API endpoints for specific use cases.
     """
-
     list_path = _get_integration_patterns_dir() / "list.md"
     if not list_path.exists():
-        return "Error: Integration pattern list not found. Please run 'update-docs'."
+        raise ToolError("Integration pattern list not found. Please run 'update-docs'.")
 
-    return _read_text_file(list_path)
+    content = _read_text_file(list_path)
+    rows = _parse_markdown_table(content)
+
+    patterns = [PatternSummary(pattern_id=pid, description=desc) for pid, desc in rows]
+    return PatternsListResult(patterns=patterns, total_count=len(patterns))
 
 
 @mcp.tool
@@ -283,32 +302,32 @@ def get_integration_pattern(
     It is **STRONGLY** advised that the user provide or setup API keys in advance for autonomous agentic development.
     """
     content, _ = _read_integration_pattern(pattern_id)
-    if content.startswith("Error:"):
-        return content
 
     if simple:
         return content
 
     guidelines_path = _get_integration_patterns_dir() / "agentic_coding_guidelines.md"
-    guidelines_content = _read_text_file(guidelines_path)
-
-    if guidelines_content.startswith("Error:"):
-        return f"{content.rstrip()}\n\n{guidelines_content.strip()}\n"
-
-    return f"{content.rstrip()}\n\n---\n\n{guidelines_content.strip()}\n"
+    try:
+        guidelines_content = _read_text_file(guidelines_path)
+        return f"{content.rstrip()}\n\n---\n\n{guidelines_content.strip()}\n"
+    except ToolError:
+        return content
 
 
 @mcp.tool
-def list_troubleshooting_guides() -> str:
+def list_troubleshooting_guides() -> GuidesListResult:
     """
     Return a table of all available troubleshooting guides, covering common errors and recommended fixes.
     """
-
     list_path = _get_troubleshooting_dir() / "list.md"
     if not list_path.exists():
-        return "Error: Troubleshooting guide list not found. Please run 'update-docs'."
+        raise ToolError("Troubleshooting guide list not found. Please run 'update-docs'.")
 
-    return _read_text_file(list_path)
+    content = _read_text_file(list_path)
+    rows = _parse_markdown_table(content)
+
+    guides = [GuideSummary(guide_id=gid, description=desc) for gid, desc in rows]
+    return GuidesListResult(guides=guides, total_count=len(guides))
 
 
 @mcp.tool
@@ -320,10 +339,29 @@ def get_troubleshooting_guide(
     These guides outline steps to diagnose and resolve recurring integration or runtime issues.
     """
     content, _ = _read_troubleshooting_guide(guide_id)
-    if content.startswith("Error:"):
-        return content
-
     return content
+
+
+_ENDPOINTS_TABLE_PATTERN = re.compile(r"^\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|$")
+
+
+def _parse_endpoints_markdown(content: str) -> list[EndpointSummary]:
+    endpoints: list[EndpointSummary] = []
+    for line in content.strip().split("\n"):
+        if line.startswith("|") and "---" not in line:
+            match = _ENDPOINTS_TABLE_PATTERN.match(line.strip())
+            if match:
+                path, method, summary, description = (
+                    match.group(1).strip(),
+                    match.group(2).strip(),
+                    match.group(3).strip(),
+                    match.group(4).strip(),
+                )
+                if path and path != "Path":
+                    endpoints.append(
+                        EndpointSummary(path=path, method=method, summary=summary, description=description)
+                    )
+    return endpoints
 
 
 @mcp.tool
@@ -331,35 +369,30 @@ def list_endpoints(
     provider: Annotated[
         str | None, "Optional provider filter ('omelet' or 'inavi'). If None, returns combined list."
     ] = None,
-) -> str:
-    """
-    Get a list of available API endpoints with their summaries and descriptions.
-
-    Returns:
-        Markdown table of endpoints
-    """
+) -> EndpointsListResult:
+    """Get a list of available API endpoints with their summaries and descriptions."""
     docs_dir = _get_docs_dir()
+    all_endpoints: list[EndpointSummary] = []
 
-    if provider:
-        # Return provider-specific endpoints
-        file_path = docs_dir / provider / "endpoints_summary.md"
-        if file_path.exists():
-            return _read_text_file(file_path)
+    if provider is not None:
+        validated_provider = _validate_provider(provider)
+        providers_to_check = [validated_provider]
+    else:
+        providers_to_check = list(provider_configs.keys())
 
-    # Return combined endpoints from both providers
-    content_parts = []
-
-    for provider_name in provider_configs.keys():
+    for provider_name in providers_to_check:
         file_path = docs_dir / provider_name / "endpoints_summary.md"
         if file_path.exists():
-            content = _read_text_file(file_path)
-            if not content.startswith("Error:"):
-                content_parts.append(content)
+            try:
+                content = _read_text_file(file_path)
+                all_endpoints.extend(_parse_endpoints_markdown(content))
+            except ToolError:
+                continue
 
-    if not content_parts:
-        return "Error: No endpoints found. Please run 'update-docs' first."
+    if not all_endpoints:
+        raise ToolError("No endpoints found. Please run 'update-docs' first.")
 
-    return "\n\n---\n\n".join(content_parts)
+    return EndpointsListResult(endpoints=all_endpoints, total_count=len(all_endpoints), provider=provider)
 
 
 @mcp.tool
@@ -410,6 +443,9 @@ def get_response_schema(
     return _read_json_file(file_path, f"response schema (code: {response_code})", path, path_id)
 
 
+_VALID_EXAMPLE_TYPES = {"request", "response", "both"}
+
+
 @mcp.tool
 def list_examples(
     path: Annotated[str, "API endpoint path (e.g., '/api/vrp', '/api/cost-matrix')"],
@@ -417,46 +453,42 @@ def list_examples(
         str | None, "Type of examples to list: 'request', 'response', or 'both' (default: 'both')"
     ] = "both",
     provider: Annotated[str | None, "Optional provider name. If None, auto-detects from path."] = None,
-) -> str:
+) -> ExamplesListResult:
     """
     List available request and response examples for a specific API endpoint.
     Currently, only usable for "omelet" provider endpoints.
-
-    Returns:
-        JSON containing available example names for request and/or response bodies
     """
+    if example_type not in _VALID_EXAMPLE_TYPES:
+        raise ToolError(
+            f"Invalid example_type '{example_type}'. Must be one of: {', '.join(sorted(_VALID_EXAMPLE_TYPES))}"
+        )
+
     resolved_provider, path_id = _resolve_provider_and_path_id(path, provider)
     docs_dir = _get_docs_dir() / resolved_provider / "examples"
 
-    result: dict[str, Any] = {"endpoint": path, "path_id": path_id}
+    request_examples: list[str] = []
+    response_examples: dict[str, list[str]] = {}
 
-    # List request examples
     if example_type in ["request", "both"]:
         request_dir = docs_dir / "request_body" / path_id
         if request_dir.exists() and request_dir.is_dir():
-            request_examples = [f.stem for f in request_dir.glob("*.json")]
-            request_examples.sort()
-            result["request_examples"] = request_examples
-        else:
-            result["request_examples"] = []
+            request_examples = sorted([f.stem for f in request_dir.glob("*.json")])
 
-    # List response examples
     if example_type in ["response", "both"]:
         response_dir = docs_dir / "response_body" / path_id
         if response_dir.exists() and response_dir.is_dir():
-            response_examples = {}
-            # Check for subdirectories named by response codes
             for code_dir in response_dir.iterdir():
                 if code_dir.is_dir() and code_dir.name.isdigit():
-                    code_examples = [f.stem for f in code_dir.glob("*.json")]
+                    code_examples = sorted([f.stem for f in code_dir.glob("*.json")])
                     if code_examples:
-                        code_examples.sort()
                         response_examples[code_dir.name] = code_examples
-            result["response_examples"] = response_examples
-        else:
-            result["response_examples"] = {}
 
-    return json.dumps(result, indent=2, ensure_ascii=False)
+    return ExamplesListResult(
+        endpoint=path,
+        path_id=path_id,
+        request_examples=request_examples,
+        response_examples=response_examples,
+    )
 
 
 @mcp.tool
@@ -475,9 +507,6 @@ def get_example(
     Currently, only usable for "omelet" provider endpoints.
 
     Note: Saved examples may be truncated, so the returned example may not be complete.
-
-    Returns:
-        JSON content of the example
     """
     resolved_provider, path_id = _resolve_provider_and_path_id(path, provider)
     docs_dir = _get_docs_dir() / resolved_provider / "examples"
@@ -486,12 +515,12 @@ def get_example(
         file_path = docs_dir / "request_body" / path_id / f"{example_name}.json"
     elif example_type == "response":
         if response_code is None:
-            return "Error: response_code is required when example_type is 'response'"
+            raise ToolError("response_code is required when example_type is 'response'")
         file_path = docs_dir / "response_body" / path_id / response_code / f"{example_name}.json"
     else:
-        return f"Error: Invalid example_type '{example_type}'. Must be 'request' or 'response'"
+        raise ToolError(f"Invalid example_type '{example_type}'. Must be 'request' or 'response'")
 
     if not file_path.exists():
-        return f"Error: Example '{example_name}' not found for {example_type} at path '{path}' (path_id: {path_id})"
+        raise ToolError(f"Example '{example_name}' not found for {example_type} at path '{path}' (path_id: {path_id})")
 
     return _read_json_file(file_path, f"{example_type} example", path, path_id)

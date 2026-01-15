@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""
-Example generation for request and response bodies from OpenAPI spec.
-"""
+"""Example generation for request and response bodies from OpenAPI spec."""
+
+from typing import Any
 
 from ...config import settings
 from ..models import OpenAPISpec
@@ -44,7 +44,7 @@ class ExampleGenerator(BaseGenerator):
 
     def _extract_examples(
         self,
-        content_owner: dict,
+        content_owner: dict[str, Any],
         example_type: str,
         path: str,
         method: str,
@@ -96,17 +96,12 @@ class ExampleGenerator(BaseGenerator):
                         )
 
     def _truncate_lists(self, data: object, limit: int) -> object:
-        """Recursively truncate lists in any nested structure to the first `limit` elements."""
-        try:
-            if isinstance(data, list):
-                truncated = data[: limit if limit is not None and limit >= 0 else None]
-                return [self._truncate_lists(item, limit) for item in truncated]
-            if isinstance(data, dict):
-                return {k: self._truncate_lists(v, limit) for k, v in data.items()}
-            return data
-        except Exception:
-            # In case of any unexpected structure, return data as-is
-            return data
+        if isinstance(data, list):
+            truncated = data[: limit if limit is not None and limit >= 0 else None]
+            return [self._truncate_lists(item, limit) for item in truncated]
+        if isinstance(data, dict):
+            return {k: self._truncate_lists(v, limit) for k, v in data.items()}
+        return data
 
     def _save_example(
         self,
