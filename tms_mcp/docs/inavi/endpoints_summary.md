@@ -1,5 +1,5 @@
 # iNavi Maps API
-**Base URL:** `https://dev-maps.inavi.com`
+**Base URL:** `https://imaps.inavi.com`
 
 ## Endpoints
 | Path | Method | Summary | Description |
