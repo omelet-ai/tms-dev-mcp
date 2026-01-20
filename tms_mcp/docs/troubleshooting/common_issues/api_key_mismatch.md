@@ -15,7 +15,7 @@ Call the `get_basic_info()` tool to retrieve the configured API keys for both Om
 ### Step 2: Match the Correct Key to the Endpoint
 Identify which provider the endpoint belongs to:
 - **Omelet endpoints** include `/api/vrp`, `/api/fsmvrp`, `/api/pdp`, `/api/cost-matrix`, and their `-long` variants
-- **iNavi endpoints** include `/route-normal-via`, `/route-time`, `/coordinates`, `/multi-coordinates`, `/route-distance-matrix`
+- **iNavi endpoints** include `/route-normal-via`, `/route-time`, `/coordinates`, `/route-distance-matrix`
 
 Ensure you're using the Omelet API key for Omelet endpoints and the iNavi API key for iNavi endpoints.
 

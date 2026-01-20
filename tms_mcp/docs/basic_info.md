@@ -11,10 +11,8 @@ Advanced routing optimization solutions including:
 ### 2. iNavi Maps API
 Comprehensive location and routing services including:
 - **Geocoding**: Convert addresses to coordinates
-- **Multi Geocoding**: Process multiple addresses efficiently (batch geocoding)
 - **Route Time Prediction**: Get detailed route guidance with estimated travel times
 - **Route Distance Matrix**: Calculate distances and times between multiple origin/destination points
-- **Multi Optimal Point Search**: Convert coordinates to optimal routing points
 
 ## Important Notes
 ### Regional Limitation

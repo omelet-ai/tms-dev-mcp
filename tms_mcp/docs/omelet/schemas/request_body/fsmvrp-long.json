@@ -79,7 +79,7 @@
               "type": "string"
             },
             "visits": {
-              "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Each visit name within this list must be unique (no duplicates allowed).",
+              "description": "List of visit requests to be processed on this specific day. Must contain fewer than 3000 visits. Each visit name within this list must be unique (no duplicates allowed).",
               "items": {
                 "additionalProperties": false,
                 "properties": {
@@ -229,9 +229,9 @@
                   },
                   "early_delivery_priority": {
                     "default": 1,
-                    "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                    "maximum": 10,
-                    "minimum": 1,
+                    "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                    "maximum": 10000,
+                    "minimum": 0,
                     "title": "Early Delivery Priority",
                     "type": "integer"
                   }
@@ -239,7 +239,7 @@
                 "title": "Visit",
                 "type": "object"
               },
-              "maxItems": 1000,
+              "maxItems": 3000,
               "minItems": 0,
               "title": "Visits for the Day",
               "type": "array"
@@ -342,20 +342,31 @@
               "type": "string"
             },
             "pre_assigned_visits": {
-              "anyOf": [
-                {
+              "additionalProperties": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "default": {},
+              "description": "Specifies, for each day, a list of visit names that are pre-assigned to this vehicle. If provided, the solver will ensure that these visits are assigned to the vehicle on the corresponding day. Each key represents a day, and its value is the list of visits pre-assigned for that day. Warning: Do not use this together with `pre_fixed_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+              "title": "Pre-assigned Visits for Each Day",
+              "type": "object"
+            },
+            "pre_fixed_visits": {
+              "additionalProperties": {
+                "items": {
                   "items": {
                     "type": "string"
                   },
                   "type": "array"
                 },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": null,
-              "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
-              "title": "Pre-assigned Visits"
+                "type": "array"
+              },
+              "default": {},
+              "description": "Specifies, for each day, predefined sequences of visits for each vehicle round. Each key represents a day, and its value is a list of rounds, where each round is defined as an ordered list of visit names. Any rounds beyond the maximum number of allowed rounds (max_round) will be ignored. Rounds must be defined consecutively without gaps. For example, [['Visit A', 'Visit B'], ['Visit C']] means: - On that day, in the first round, the vehicle must visit Visit A followed by Visit B in order. - In the second round, the vehicle must visit Visit C. An example like [['Visit A', 'Visit B'], [], ['Visit C']] is not allowed, because intermediate rounds cannot be empty while later rounds are defined. Warning: Do not use this together with `pre_assigned_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+              "title": "Pre-fixed Visit Sequences by Round for Each Day",
+              "type": "object"
             },
             "max_round": {
               "default": 1,
@@ -507,7 +518,8 @@
           "fixed_cost",
           "fuel_cost",
           "first_visit_cost",
-          "visit_number_costwage_cost"
+          "visit_number_cost",
+          "wage_cost"
         ],
         "description": "List of cost types to be considered for the optimization.",
         "items": {

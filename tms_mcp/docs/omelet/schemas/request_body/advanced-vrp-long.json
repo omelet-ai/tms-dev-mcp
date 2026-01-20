@@ -120,6 +120,48 @@
               "minimum": 1,
               "title": "Early Delivery Priority",
               "type": "integer"
+            },
+            "prohibited_tw_early": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Start of prohibited time window. Use ISO 8601 format with timezone.",
+              "title": "Prohibited Time Window Early"
+            },
+            "prohibited_tw_late": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "End of prohibited time window. Use ISO 8601 format with timezone.",
+              "title": "Prohibited Time Window Late"
+            },
+            "priority": {
+              "default": 0.0,
+              "description": "Priority of the delivery.",
+              "minimum": 0.0,
+              "title": "Priority",
+              "type": "number"
+            },
+            "prep_time": {
+              "default": 0.0,
+              "description": "Preparation time for the delivery.",
+              "minimum": 0.0,
+              "title": "Prep Time",
+              "type": "number"
             }
           },
           "required": [
@@ -357,9 +399,132 @@
               "title": "Extra Capacities",
               "type": "array"
             },
-            "max_service_radius": {
-              "description": "Max service radius of the rider (in meters).",
-              "title": "Max Service Radius",
+            "individual_enclosing_circle_radius_limit": {
+              "description": "Maximum radius of the enclosing circle for the rider's route (in meters).",
+              "title": "Individual Enclosing Circle Radius Limit",
+              "type": "number"
+            },
+            "max_wait_time": {
+              "default": 86400,
+              "description": "Maximum time in seconds that the driver can wait at a location before the time window opens.",
+              "minimum": 0,
+              "title": "Max Wait Time",
+              "type": "integer"
+            },
+            "pre_fixed_delivery_ids": {
+              "default": [],
+              "description": "List of pre-fixed delivery ID sequences for each round.",
+              "items": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "title": "Pre-fixed Delivery IDs",
+              "type": "array"
+            },
+            "allow_trip_extension": {
+              "default": true,
+              "description": "Whether additional visits can be assigned after pre-fixed visits within the same round.",
+              "title": "Allow Trip Extension",
+              "type": "boolean"
+            },
+            "box_capacity": {
+              "default": 0.0,
+              "description": "Box capacity of the rider.",
+              "minimum": 0.0,
+              "title": "Box Capacity",
+              "type": "number"
+            },
+            "target_load_ratio": {
+              "default": 0.0,
+              "description": "Target load ratio of the rider.",
+              "minimum": 0.0,
+              "title": "Target Load Ratio",
+              "type": "number"
+            },
+            "fixed_cost": {
+              "default": 0.0,
+              "description": "Fixed cost of the rider.",
+              "minimum": 0.0,
+              "title": "Fixed Cost",
+              "type": "number"
+            },
+            "unit_round_cost": {
+              "default": 0.0,
+              "description": "Cost per round for the rider.",
+              "minimum": 0.0,
+              "title": "Unit Round Cost",
+              "type": "number"
+            },
+            "unit_box_cost": {
+              "default": 0.0,
+              "description": "Cost per box for the rider.",
+              "minimum": 0.0,
+              "title": "Unit Box Cost",
+              "type": "number"
+            },
+            "unit_stop_cost": {
+              "default": 0.0,
+              "description": "Cost per stop for the rider.",
+              "minimum": 0.0,
+              "title": "Unit Stop Cost",
+              "type": "number"
+            },
+            "unit_level_cost": {
+              "default": 0.0,
+              "description": "Cost per level for the rider.",
+              "minimum": 0.0,
+              "title": "Unit Level Cost",
+              "type": "number"
+            },
+            "max_stop_per_round": {
+              "default": 0,
+              "description": "Maximum number of stops per round.",
+              "minimum": 0,
+              "title": "Max Stop Per Round",
+              "type": "integer"
+            },
+            "max_stop_per_schedule": {
+              "default": 0,
+              "description": "Maximum number of stops per schedule.",
+              "minimum": 0,
+              "title": "Max Stop Per Schedule",
+              "type": "integer"
+            },
+            "base_round_num": {
+              "default": 0,
+              "description": "Base round number.",
+              "minimum": 0,
+              "title": "Base Round Num",
+              "type": "integer"
+            },
+            "max_route_zone_num": {
+              "default": 0,
+              "description": "Maximum number of route zones.",
+              "minimum": 0,
+              "title": "Max Route Zone Num",
+              "type": "integer"
+            },
+            "max_travel_distance": {
+              "default": 0.0,
+              "description": "Maximum travel distance.",
+              "minimum": 0.0,
+              "title": "Max Travel Distance",
+              "type": "number"
+            },
+            "max_travel_distance_per_trip": {
+              "default": 0.0,
+              "description": "Maximum travel distance per trip.",
+              "minimum": 0.0,
+              "title": "Max Travel Distance Per Trip",
+              "type": "number"
+            },
+            "max_between_distance": {
+              "default": 0.0,
+              "description": "Maximum distance between stops.",
+              "minimum": 0.0,
+              "title": "Max Between Distance",
               "type": "number"
             }
           },
@@ -375,7 +540,7 @@
             "max_round",
             "preassigned_delivery_ids",
             "extra_capacities",
-            "max_service_radius"
+            "individual_enclosing_circle_radius_limit"
           ],
           "title": "RiderDto",
           "type": "object"
