@@ -68,7 +68,7 @@ class Settings(BaseSettings):
     )
 
     # iNAVI Maps API configuration
-    IMAPS_API_BASE_URL: str = Field(default="https://dev-maps.inavi.com", description="Base URL for iNAVI Maps API")
+    IMAPS_API_BASE_URL: str = Field(default="https://imaps.inavi.com", description="Base URL for iNAVI Maps API")
     IMAPS_API_DOCS_URL: str = Field(
         default="https://dev-imaps.inavi.com/api-docs",
         description="URL for IMAPS OpenAPI JSON documentation",
