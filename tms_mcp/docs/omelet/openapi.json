@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Omelet Routing Engine API",
-    "version": "2.3.24",
+    "version": "2.3.43",
     "description": "Advanced routing optimization solutions",
     "contact": {
       "name": "omelet",
@@ -172,6 +172,48 @@
                           "minimum": 1,
                           "title": "Early Delivery Priority",
                           "type": "integer"
+                        },
+                        "prohibited_tw_early": {
+                          "anyOf": [
+                            {
+                              "format": "date-time",
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "Start of prohibited time window. Use ISO 8601 format with timezone.",
+                          "title": "Prohibited Time Window Early"
+                        },
+                        "prohibited_tw_late": {
+                          "anyOf": [
+                            {
+                              "format": "date-time",
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "End of prohibited time window. Use ISO 8601 format with timezone.",
+                          "title": "Prohibited Time Window Late"
+                        },
+                        "priority": {
+                          "default": 0.0,
+                          "description": "Priority of the delivery.",
+                          "minimum": 0.0,
+                          "title": "Priority",
+                          "type": "number"
+                        },
+                        "prep_time": {
+                          "default": 0.0,
+                          "description": "Preparation time for the delivery.",
+                          "minimum": 0.0,
+                          "title": "Prep Time",
+                          "type": "number"
                         }
                       },
                       "required": [
@@ -409,9 +451,132 @@
                           "title": "Extra Capacities",
                           "type": "array"
                         },
-                        "max_service_radius": {
-                          "description": "Max service radius of the rider (in meters).",
-                          "title": "Max Service Radius",
+                        "individual_enclosing_circle_radius_limit": {
+                          "description": "Maximum radius of the enclosing circle for the rider's route (in meters).",
+                          "title": "Individual Enclosing Circle Radius Limit",
+                          "type": "number"
+                        },
+                        "max_wait_time": {
+                          "default": 86400,
+                          "description": "Maximum time in seconds that the driver can wait at a location before the time window opens.",
+                          "minimum": 0,
+                          "title": "Max Wait Time",
+                          "type": "integer"
+                        },
+                        "pre_fixed_delivery_ids": {
+                          "default": [],
+                          "description": "List of pre-fixed delivery ID sequences for each round.",
+                          "items": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "title": "Pre-fixed Delivery IDs",
+                          "type": "array"
+                        },
+                        "allow_trip_extension": {
+                          "default": true,
+                          "description": "Whether additional visits can be assigned after pre-fixed visits within the same round.",
+                          "title": "Allow Trip Extension",
+                          "type": "boolean"
+                        },
+                        "box_capacity": {
+                          "default": 0.0,
+                          "description": "Box capacity of the rider.",
+                          "minimum": 0.0,
+                          "title": "Box Capacity",
+                          "type": "number"
+                        },
+                        "target_load_ratio": {
+                          "default": 0.0,
+                          "description": "Target load ratio of the rider.",
+                          "minimum": 0.0,
+                          "title": "Target Load Ratio",
+                          "type": "number"
+                        },
+                        "fixed_cost": {
+                          "default": 0.0,
+                          "description": "Fixed cost of the rider.",
+                          "minimum": 0.0,
+                          "title": "Fixed Cost",
+                          "type": "number"
+                        },
+                        "unit_round_cost": {
+                          "default": 0.0,
+                          "description": "Cost per round for the rider.",
+                          "minimum": 0.0,
+                          "title": "Unit Round Cost",
+                          "type": "number"
+                        },
+                        "unit_box_cost": {
+                          "default": 0.0,
+                          "description": "Cost per box for the rider.",
+                          "minimum": 0.0,
+                          "title": "Unit Box Cost",
+                          "type": "number"
+                        },
+                        "unit_stop_cost": {
+                          "default": 0.0,
+                          "description": "Cost per stop for the rider.",
+                          "minimum": 0.0,
+                          "title": "Unit Stop Cost",
+                          "type": "number"
+                        },
+                        "unit_level_cost": {
+                          "default": 0.0,
+                          "description": "Cost per level for the rider.",
+                          "minimum": 0.0,
+                          "title": "Unit Level Cost",
+                          "type": "number"
+                        },
+                        "max_stop_per_round": {
+                          "default": 0,
+                          "description": "Maximum number of stops per round.",
+                          "minimum": 0,
+                          "title": "Max Stop Per Round",
+                          "type": "integer"
+                        },
+                        "max_stop_per_schedule": {
+                          "default": 0,
+                          "description": "Maximum number of stops per schedule.",
+                          "minimum": 0,
+                          "title": "Max Stop Per Schedule",
+                          "type": "integer"
+                        },
+                        "base_round_num": {
+                          "default": 0,
+                          "description": "Base round number.",
+                          "minimum": 0,
+                          "title": "Base Round Num",
+                          "type": "integer"
+                        },
+                        "max_route_zone_num": {
+                          "default": 0,
+                          "description": "Maximum number of route zones.",
+                          "minimum": 0,
+                          "title": "Max Route Zone Num",
+                          "type": "integer"
+                        },
+                        "max_travel_distance": {
+                          "default": 0.0,
+                          "description": "Maximum travel distance.",
+                          "minimum": 0.0,
+                          "title": "Max Travel Distance",
+                          "type": "number"
+                        },
+                        "max_travel_distance_per_trip": {
+                          "default": 0.0,
+                          "description": "Maximum travel distance per trip.",
+                          "minimum": 0.0,
+                          "title": "Max Travel Distance Per Trip",
+                          "type": "number"
+                        },
+                        "max_between_distance": {
+                          "default": 0.0,
+                          "description": "Maximum distance between stops.",
+                          "minimum": 0.0,
+                          "title": "Max Between Distance",
                           "type": "number"
                         }
                       },
@@ -427,7 +592,7 @@
                         "max_round",
                         "preassigned_delivery_ids",
                         "extra_capacities",
-                        "max_service_radius"
+                        "individual_enclosing_circle_radius_limit"
                       ],
                       "title": "RiderDto",
                       "type": "object"
@@ -5803,6 +5968,48 @@
                           "minimum": 1,
                           "title": "Early Delivery Priority",
                           "type": "integer"
+                        },
+                        "prohibited_tw_early": {
+                          "anyOf": [
+                            {
+                              "format": "date-time",
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "Start of prohibited time window. Use ISO 8601 format with timezone.",
+                          "title": "Prohibited Time Window Early"
+                        },
+                        "prohibited_tw_late": {
+                          "anyOf": [
+                            {
+                              "format": "date-time",
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "End of prohibited time window. Use ISO 8601 format with timezone.",
+                          "title": "Prohibited Time Window Late"
+                        },
+                        "priority": {
+                          "default": 0.0,
+                          "description": "Priority of the delivery.",
+                          "minimum": 0.0,
+                          "title": "Priority",
+                          "type": "number"
+                        },
+                        "prep_time": {
+                          "default": 0.0,
+                          "description": "Preparation time for the delivery.",
+                          "minimum": 0.0,
+                          "title": "Prep Time",
+                          "type": "number"
                         }
                       },
                       "required": [
@@ -6040,9 +6247,132 @@
                           "title": "Extra Capacities",
                           "type": "array"
                         },
-                        "max_service_radius": {
-                          "description": "Max service radius of the rider (in meters).",
-                          "title": "Max Service Radius",
+                        "individual_enclosing_circle_radius_limit": {
+                          "description": "Maximum radius of the enclosing circle for the rider's route (in meters).",
+                          "title": "Individual Enclosing Circle Radius Limit",
+                          "type": "number"
+                        },
+                        "max_wait_time": {
+                          "default": 86400,
+                          "description": "Maximum time in seconds that the driver can wait at a location before the time window opens.",
+                          "minimum": 0,
+                          "title": "Max Wait Time",
+                          "type": "integer"
+                        },
+                        "pre_fixed_delivery_ids": {
+                          "default": [],
+                          "description": "List of pre-fixed delivery ID sequences for each round.",
+                          "items": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "title": "Pre-fixed Delivery IDs",
+                          "type": "array"
+                        },
+                        "allow_trip_extension": {
+                          "default": true,
+                          "description": "Whether additional visits can be assigned after pre-fixed visits within the same round.",
+                          "title": "Allow Trip Extension",
+                          "type": "boolean"
+                        },
+                        "box_capacity": {
+                          "default": 0.0,
+                          "description": "Box capacity of the rider.",
+                          "minimum": 0.0,
+                          "title": "Box Capacity",
+                          "type": "number"
+                        },
+                        "target_load_ratio": {
+                          "default": 0.0,
+                          "description": "Target load ratio of the rider.",
+                          "minimum": 0.0,
+                          "title": "Target Load Ratio",
+                          "type": "number"
+                        },
+                        "fixed_cost": {
+                          "default": 0.0,
+                          "description": "Fixed cost of the rider.",
+                          "minimum": 0.0,
+                          "title": "Fixed Cost",
+                          "type": "number"
+                        },
+                        "unit_round_cost": {
+                          "default": 0.0,
+                          "description": "Cost per round for the rider.",
+                          "minimum": 0.0,
+                          "title": "Unit Round Cost",
+                          "type": "number"
+                        },
+                        "unit_box_cost": {
+                          "default": 0.0,
+                          "description": "Cost per box for the rider.",
+                          "minimum": 0.0,
+                          "title": "Unit Box Cost",
+                          "type": "number"
+                        },
+                        "unit_stop_cost": {
+                          "default": 0.0,
+                          "description": "Cost per stop for the rider.",
+                          "minimum": 0.0,
+                          "title": "Unit Stop Cost",
+                          "type": "number"
+                        },
+                        "unit_level_cost": {
+                          "default": 0.0,
+                          "description": "Cost per level for the rider.",
+                          "minimum": 0.0,
+                          "title": "Unit Level Cost",
+                          "type": "number"
+                        },
+                        "max_stop_per_round": {
+                          "default": 0,
+                          "description": "Maximum number of stops per round.",
+                          "minimum": 0,
+                          "title": "Max Stop Per Round",
+                          "type": "integer"
+                        },
+                        "max_stop_per_schedule": {
+                          "default": 0,
+                          "description": "Maximum number of stops per schedule.",
+                          "minimum": 0,
+                          "title": "Max Stop Per Schedule",
+                          "type": "integer"
+                        },
+                        "base_round_num": {
+                          "default": 0,
+                          "description": "Base round number.",
+                          "minimum": 0,
+                          "title": "Base Round Num",
+                          "type": "integer"
+                        },
+                        "max_route_zone_num": {
+                          "default": 0,
+                          "description": "Maximum number of route zones.",
+                          "minimum": 0,
+                          "title": "Max Route Zone Num",
+                          "type": "integer"
+                        },
+                        "max_travel_distance": {
+                          "default": 0.0,
+                          "description": "Maximum travel distance.",
+                          "minimum": 0.0,
+                          "title": "Max Travel Distance",
+                          "type": "number"
+                        },
+                        "max_travel_distance_per_trip": {
+                          "default": 0.0,
+                          "description": "Maximum travel distance per trip.",
+                          "minimum": 0.0,
+                          "title": "Max Travel Distance Per Trip",
+                          "type": "number"
+                        },
+                        "max_between_distance": {
+                          "default": 0.0,
+                          "description": "Maximum distance between stops.",
+                          "minimum": 0.0,
+                          "title": "Max Between Distance",
                           "type": "number"
                         }
                       },
@@ -6058,7 +6388,7 @@
                         "max_round",
                         "preassigned_delivery_ids",
                         "extra_capacities",
-                        "max_service_radius"
+                        "individual_enclosing_circle_radius_limit"
                       ],
                       "title": "RiderDto",
                       "type": "object"
@@ -13511,7 +13841,7 @@
                           "type": "string"
                         },
                         "visits": {
-                          "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Each visit name within this list must be unique (no duplicates allowed).",
+                          "description": "List of visit requests to be processed on this specific day. Must contain fewer than 3000 visits. Each visit name within this list must be unique (no duplicates allowed).",
                           "items": {
                             "additionalProperties": false,
                             "properties": {
@@ -13661,9 +13991,9 @@
                               },
                               "early_delivery_priority": {
                                 "default": 1,
-                                "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                                "maximum": 10,
-                                "minimum": 1,
+                                "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                                "maximum": 10000,
+                                "minimum": 0,
                                 "title": "Early Delivery Priority",
                                 "type": "integer"
                               }
@@ -13671,7 +14001,7 @@
                             "title": "Visit",
                             "type": "object"
                           },
-                          "maxItems": 1000,
+                          "maxItems": 3000,
                           "minItems": 0,
                           "title": "Visits for the Day",
                           "type": "array"
@@ -13774,20 +14104,31 @@
                           "type": "string"
                         },
                         "pre_assigned_visits": {
-                          "anyOf": [
-                            {
+                          "additionalProperties": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "default": {},
+                          "description": "Specifies, for each day, a list of visit names that are pre-assigned to this vehicle. If provided, the solver will ensure that these visits are assigned to the vehicle on the corresponding day. Each key represents a day, and its value is the list of visits pre-assigned for that day. Warning: Do not use this together with `pre_fixed_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+                          "title": "Pre-assigned Visits for Each Day",
+                          "type": "object"
+                        },
+                        "pre_fixed_visits": {
+                          "additionalProperties": {
+                            "items": {
                               "items": {
                                 "type": "string"
                               },
                               "type": "array"
                             },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "default": null,
-                          "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
-                          "title": "Pre-assigned Visits"
+                            "type": "array"
+                          },
+                          "default": {},
+                          "description": "Specifies, for each day, predefined sequences of visits for each vehicle round. Each key represents a day, and its value is a list of rounds, where each round is defined as an ordered list of visit names. Any rounds beyond the maximum number of allowed rounds (max_round) will be ignored. Rounds must be defined consecutively without gaps. For example, [['Visit A', 'Visit B'], ['Visit C']] means: - On that day, in the first round, the vehicle must visit Visit A followed by Visit B in order. - In the second round, the vehicle must visit Visit C. An example like [['Visit A', 'Visit B'], [], ['Visit C']] is not allowed, because intermediate rounds cannot be empty while later rounds are defined. Warning: Do not use this together with `pre_assigned_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+                          "title": "Pre-fixed Visit Sequences by Round for Each Day",
+                          "type": "object"
                         },
                         "max_round": {
                           "default": 1,
@@ -13939,7 +14280,8 @@
                       "fixed_cost",
                       "fuel_cost",
                       "first_visit_cost",
-                      "visit_number_costwage_cost"
+                      "visit_number_cost",
+                      "wage_cost"
                     ],
                     "description": "List of cost types to be considered for the optimization.",
                     "items": {
@@ -14788,6 +15130,22 @@
                                 },
                                 "title": "Daily Solution Cost Details",
                                 "type": "object"
+                              },
+                              "daily_status": {
+                                "enum": [
+                                  "feasible",
+                                  "feasible_with_unassigned_visits",
+                                  "infeasible",
+                                  "user_input_error"
+                                ],
+                                "title": "ApiStatus",
+                                "type": "string"
+                              },
+                              "daily_detail": {
+                                "default": "",
+                                "description": "Explanation of the daily optimization result status.",
+                                "title": "Daily Status Detail",
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -14795,7 +15153,8 @@
                               "unassigned_visit_indices",
                               "unassigned_visit_names",
                               "daily_total_solution_cost",
-                              "daily_solution_cost_details"
+                              "daily_solution_cost_details",
+                              "daily_status"
                             ],
                             "title": "DailyFsmvrpEngineResult",
                             "type": "object"
@@ -15337,6 +15696,22 @@
                                 },
                                 "title": "Daily Solution Cost Details",
                                 "type": "object"
+                              },
+                              "daily_status": {
+                                "enum": [
+                                  "feasible",
+                                  "feasible_with_unassigned_visits",
+                                  "infeasible",
+                                  "user_input_error"
+                                ],
+                                "title": "ApiStatus",
+                                "type": "string"
+                              },
+                              "daily_detail": {
+                                "default": "",
+                                "description": "Explanation of the daily optimization result status.",
+                                "title": "Daily Status Detail",
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -15344,7 +15719,8 @@
                               "unassigned_visit_indices",
                               "unassigned_visit_names",
                               "daily_total_solution_cost",
-                              "daily_solution_cost_details"
+                              "daily_solution_cost_details",
+                              "daily_status"
                             ],
                             "title": "DailyFsmvrpEngineResult",
                             "type": "object"
@@ -16339,7 +16715,7 @@
                           "type": "string"
                         },
                         "visits": {
-                          "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Each visit name within this list must be unique (no duplicates allowed).",
+                          "description": "List of visit requests to be processed on this specific day. Must contain fewer than 3000 visits. Each visit name within this list must be unique (no duplicates allowed).",
                           "items": {
                             "additionalProperties": false,
                             "properties": {
@@ -16489,9 +16865,9 @@
                               },
                               "early_delivery_priority": {
                                 "default": 1,
-                                "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                                "maximum": 10,
-                                "minimum": 1,
+                                "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                                "maximum": 10000,
+                                "minimum": 0,
                                 "title": "Early Delivery Priority",
                                 "type": "integer"
                               }
@@ -16499,7 +16875,7 @@
                             "title": "Visit",
                             "type": "object"
                           },
-                          "maxItems": 1000,
+                          "maxItems": 3000,
                           "minItems": 0,
                           "title": "Visits for the Day",
                           "type": "array"
@@ -16602,20 +16978,31 @@
                           "type": "string"
                         },
                         "pre_assigned_visits": {
-                          "anyOf": [
-                            {
+                          "additionalProperties": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "default": {},
+                          "description": "Specifies, for each day, a list of visit names that are pre-assigned to this vehicle. If provided, the solver will ensure that these visits are assigned to the vehicle on the corresponding day. Each key represents a day, and its value is the list of visits pre-assigned for that day. Warning: Do not use this together with `pre_fixed_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+                          "title": "Pre-assigned Visits for Each Day",
+                          "type": "object"
+                        },
+                        "pre_fixed_visits": {
+                          "additionalProperties": {
+                            "items": {
                               "items": {
                                 "type": "string"
                               },
                               "type": "array"
                             },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "default": null,
-                          "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
-                          "title": "Pre-assigned Visits"
+                            "type": "array"
+                          },
+                          "default": {},
+                          "description": "Specifies, for each day, predefined sequences of visits for each vehicle round. Each key represents a day, and its value is a list of rounds, where each round is defined as an ordered list of visit names. Any rounds beyond the maximum number of allowed rounds (max_round) will be ignored. Rounds must be defined consecutively without gaps. For example, [['Visit A', 'Visit B'], ['Visit C']] means: - On that day, in the first round, the vehicle must visit Visit A followed by Visit B in order. - In the second round, the vehicle must visit Visit C. An example like [['Visit A', 'Visit B'], [], ['Visit C']] is not allowed, because intermediate rounds cannot be empty while later rounds are defined. Warning: Do not use this together with `pre_assigned_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+                          "title": "Pre-fixed Visit Sequences by Round for Each Day",
+                          "type": "object"
                         },
                         "max_round": {
                           "default": 1,
@@ -16767,7 +17154,8 @@
                       "fixed_cost",
                       "fuel_cost",
                       "first_visit_cost",
-                      "visit_number_costwage_cost"
+                      "visit_number_cost",
+                      "wage_cost"
                     ],
                     "description": "List of cost types to be considered for the optimization.",
                     "items": {
@@ -19923,6 +20311,22 @@
                                     },
                                     "title": "Daily Solution Cost Details",
                                     "type": "object"
+                                  },
+                                  "daily_status": {
+                                    "enum": [
+                                      "feasible",
+                                      "feasible_with_unassigned_visits",
+                                      "infeasible",
+                                      "user_input_error"
+                                    ],
+                                    "title": "ApiStatus",
+                                    "type": "string"
+                                  },
+                                  "daily_detail": {
+                                    "default": "",
+                                    "description": "Explanation of the daily optimization result status.",
+                                    "title": "Daily Status Detail",
+                                    "type": "string"
                                   }
                                 },
                                 "required": [
@@ -19930,7 +20334,8 @@
                                   "unassigned_visit_indices",
                                   "unassigned_visit_names",
                                   "daily_total_solution_cost",
-                                  "daily_solution_cost_details"
+                                  "daily_solution_cost_details",
+                                  "daily_status"
                                 ],
                                 "title": "DailyFsmvrpEngineResult",
                                 "type": "object"
@@ -20139,6 +20544,22 @@
                                     },
                                     "title": "Daily Solution Cost Details",
                                     "type": "object"
+                                  },
+                                  "daily_status": {
+                                    "enum": [
+                                      "feasible",
+                                      "feasible_with_unassigned_visits",
+                                      "infeasible",
+                                      "user_input_error"
+                                    ],
+                                    "title": "ApiStatus",
+                                    "type": "string"
+                                  },
+                                  "daily_detail": {
+                                    "default": "",
+                                    "description": "Explanation of the daily optimization result status.",
+                                    "title": "Daily Status Detail",
+                                    "type": "string"
                                   }
                                 },
                                 "required": [
@@ -20146,7 +20567,8 @@
                                   "unassigned_visit_indices",
                                   "unassigned_visit_names",
                                   "daily_total_solution_cost",
-                                  "daily_solution_cost_details"
+                                  "daily_solution_cost_details",
+                                  "daily_status"
                                 ],
                                 "title": "DailyFsmvrpEngineResult",
                                 "type": "object"
@@ -24057,9 +24479,9 @@
                                 },
                                 "early_delivery_priority": {
                                   "default": 1,
-                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                                  "maximum": 10,
-                                  "minimum": 1,
+                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                                  "maximum": 10000,
+                                  "minimum": 0,
                                   "title": "Early Delivery Priority",
                                   "type": "integer"
                                 }
@@ -24226,9 +24648,9 @@
                                 },
                                 "early_delivery_priority": {
                                   "default": 1,
-                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                                  "maximum": 10,
-                                  "minimum": 1,
+                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                                  "maximum": 10000,
+                                  "minimum": 0,
                                   "title": "Early Delivery Priority",
                                   "type": "integer"
                                 }
@@ -24254,7 +24676,7 @@
                               "type": "null"
                             }
                           ],
-                          "default": "2025-12-15T02:52:04.725874",
+                          "default": "2026-01-16T00:43:48.590774",
                           "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Order Placed Time"
                         }
@@ -24524,7 +24946,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": "2025-12-15T02:52:04.736576",
+                    "default": "2026-01-16T00:43:48.601172",
                     "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Start Time"
                   },
@@ -30931,9 +31353,9 @@
                                 },
                                 "early_delivery_priority": {
                                   "default": 1,
-                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                                  "maximum": 10,
-                                  "minimum": 1,
+                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                                  "maximum": 10000,
+                                  "minimum": 0,
                                   "title": "Early Delivery Priority",
                                   "type": "integer"
                                 }
@@ -31100,9 +31522,9 @@
                                 },
                                 "early_delivery_priority": {
                                   "default": 1,
-                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                                  "maximum": 10,
-                                  "minimum": 1,
+                                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                                  "maximum": 10000,
+                                  "minimum": 0,
                                   "title": "Early Delivery Priority",
                                   "type": "integer"
                                 }
@@ -31128,7 +31550,7 @@
                               "type": "null"
                             }
                           ],
-                          "default": "2025-12-15T02:52:04.725874",
+                          "default": "2026-01-16T00:43:48.590774",
                           "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Order Placed Time"
                         }
@@ -31398,7 +31820,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": "2025-12-15T02:52:04.736576",
+                    "default": "2026-01-16T00:43:48.601172",
                     "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Start Time"
                   },
@@ -37533,9 +37955,9 @@
                         },
                         "early_delivery_priority": {
                           "default": 1,
-                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                          "maximum": 10,
-                          "minimum": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                          "maximum": 10000,
+                          "minimum": 0,
                           "title": "Early Delivery Priority",
                           "type": "integer"
                         }
@@ -42494,9 +42916,9 @@
                         },
                         "early_delivery_priority": {
                           "default": 1,
-                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                          "maximum": 10,
-                          "minimum": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                          "maximum": 10000,
+                          "minimum": 0,
                           "title": "Early Delivery Priority",
                           "type": "integer"
                         }
@@ -47063,6 +47485,48 @@
                   "minimum": 1,
                   "title": "Early Delivery Priority",
                   "type": "integer"
+                },
+                "prohibited_tw_early": {
+                  "anyOf": [
+                    {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Start of prohibited time window. Use ISO 8601 format with timezone.",
+                  "title": "Prohibited Time Window Early"
+                },
+                "prohibited_tw_late": {
+                  "anyOf": [
+                    {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "End of prohibited time window. Use ISO 8601 format with timezone.",
+                  "title": "Prohibited Time Window Late"
+                },
+                "priority": {
+                  "default": 0.0,
+                  "description": "Priority of the delivery.",
+                  "minimum": 0.0,
+                  "title": "Priority",
+                  "type": "number"
+                },
+                "prep_time": {
+                  "default": 0.0,
+                  "description": "Preparation time for the delivery.",
+                  "minimum": 0.0,
+                  "title": "Prep Time",
+                  "type": "number"
                 }
               },
               "required": [
@@ -47300,9 +47764,132 @@
                   "title": "Extra Capacities",
                   "type": "array"
                 },
-                "max_service_radius": {
-                  "description": "Max service radius of the rider (in meters).",
-                  "title": "Max Service Radius",
+                "individual_enclosing_circle_radius_limit": {
+                  "description": "Maximum radius of the enclosing circle for the rider's route (in meters).",
+                  "title": "Individual Enclosing Circle Radius Limit",
+                  "type": "number"
+                },
+                "max_wait_time": {
+                  "default": 86400,
+                  "description": "Maximum time in seconds that the driver can wait at a location before the time window opens.",
+                  "minimum": 0,
+                  "title": "Max Wait Time",
+                  "type": "integer"
+                },
+                "pre_fixed_delivery_ids": {
+                  "default": [],
+                  "description": "List of pre-fixed delivery ID sequences for each round.",
+                  "items": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Pre-fixed Delivery IDs",
+                  "type": "array"
+                },
+                "allow_trip_extension": {
+                  "default": true,
+                  "description": "Whether additional visits can be assigned after pre-fixed visits within the same round.",
+                  "title": "Allow Trip Extension",
+                  "type": "boolean"
+                },
+                "box_capacity": {
+                  "default": 0.0,
+                  "description": "Box capacity of the rider.",
+                  "minimum": 0.0,
+                  "title": "Box Capacity",
+                  "type": "number"
+                },
+                "target_load_ratio": {
+                  "default": 0.0,
+                  "description": "Target load ratio of the rider.",
+                  "minimum": 0.0,
+                  "title": "Target Load Ratio",
+                  "type": "number"
+                },
+                "fixed_cost": {
+                  "default": 0.0,
+                  "description": "Fixed cost of the rider.",
+                  "minimum": 0.0,
+                  "title": "Fixed Cost",
+                  "type": "number"
+                },
+                "unit_round_cost": {
+                  "default": 0.0,
+                  "description": "Cost per round for the rider.",
+                  "minimum": 0.0,
+                  "title": "Unit Round Cost",
+                  "type": "number"
+                },
+                "unit_box_cost": {
+                  "default": 0.0,
+                  "description": "Cost per box for the rider.",
+                  "minimum": 0.0,
+                  "title": "Unit Box Cost",
+                  "type": "number"
+                },
+                "unit_stop_cost": {
+                  "default": 0.0,
+                  "description": "Cost per stop for the rider.",
+                  "minimum": 0.0,
+                  "title": "Unit Stop Cost",
+                  "type": "number"
+                },
+                "unit_level_cost": {
+                  "default": 0.0,
+                  "description": "Cost per level for the rider.",
+                  "minimum": 0.0,
+                  "title": "Unit Level Cost",
+                  "type": "number"
+                },
+                "max_stop_per_round": {
+                  "default": 0,
+                  "description": "Maximum number of stops per round.",
+                  "minimum": 0,
+                  "title": "Max Stop Per Round",
+                  "type": "integer"
+                },
+                "max_stop_per_schedule": {
+                  "default": 0,
+                  "description": "Maximum number of stops per schedule.",
+                  "minimum": 0,
+                  "title": "Max Stop Per Schedule",
+                  "type": "integer"
+                },
+                "base_round_num": {
+                  "default": 0,
+                  "description": "Base round number.",
+                  "minimum": 0,
+                  "title": "Base Round Num",
+                  "type": "integer"
+                },
+                "max_route_zone_num": {
+                  "default": 0,
+                  "description": "Maximum number of route zones.",
+                  "minimum": 0,
+                  "title": "Max Route Zone Num",
+                  "type": "integer"
+                },
+                "max_travel_distance": {
+                  "default": 0.0,
+                  "description": "Maximum travel distance.",
+                  "minimum": 0.0,
+                  "title": "Max Travel Distance",
+                  "type": "number"
+                },
+                "max_travel_distance_per_trip": {
+                  "default": 0.0,
+                  "description": "Maximum travel distance per trip.",
+                  "minimum": 0.0,
+                  "title": "Max Travel Distance Per Trip",
+                  "type": "number"
+                },
+                "max_between_distance": {
+                  "default": 0.0,
+                  "description": "Maximum distance between stops.",
+                  "minimum": 0.0,
+                  "title": "Max Between Distance",
                   "type": "number"
                 }
               },
@@ -47318,7 +47905,7 @@
                 "max_round",
                 "preassigned_delivery_ids",
                 "extra_capacities",
-                "max_service_radius"
+                "individual_enclosing_circle_radius_limit"
               ],
               "title": "RiderDto",
               "type": "object"
@@ -48722,6 +49309,22 @@
             },
             "title": "Daily Solution Cost Details",
             "type": "object"
+          },
+          "daily_status": {
+            "enum": [
+              "feasible",
+              "feasible_with_unassigned_visits",
+              "infeasible",
+              "user_input_error"
+            ],
+            "title": "ApiStatus",
+            "type": "string"
+          },
+          "daily_detail": {
+            "default": "",
+            "description": "Explanation of the daily optimization result status.",
+            "title": "Daily Status Detail",
+            "type": "string"
           }
         },
         "required": [
@@ -48729,7 +49332,8 @@
           "unassigned_visit_indices",
           "unassigned_visit_names",
           "daily_total_solution_cost",
-          "daily_solution_cost_details"
+          "daily_solution_cost_details",
+          "daily_status"
         ],
         "title": "DailyFsmvrpEngineResult",
         "type": "object"
@@ -48743,7 +49347,7 @@
             "type": "string"
           },
           "visits": {
-            "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Each visit name within this list must be unique (no duplicates allowed).",
+            "description": "List of visit requests to be processed on this specific day. Must contain fewer than 3000 visits. Each visit name within this list must be unique (no duplicates allowed).",
             "items": {
               "additionalProperties": false,
               "properties": {
@@ -48893,9 +49497,9 @@
                 },
                 "early_delivery_priority": {
                   "default": 1,
-                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                  "maximum": 10,
-                  "minimum": 1,
+                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                  "maximum": 10000,
+                  "minimum": 0,
                   "title": "Early Delivery Priority",
                   "type": "integer"
                 }
@@ -48903,7 +49507,7 @@
               "title": "Visit",
               "type": "object"
             },
-            "maxItems": 1000,
+            "maxItems": 3000,
             "minItems": 0,
             "title": "Visits for the Day",
             "type": "array"
@@ -49046,6 +49650,48 @@
             "minimum": 1,
             "title": "Early Delivery Priority",
             "type": "integer"
+          },
+          "prohibited_tw_early": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Start of prohibited time window. Use ISO 8601 format with timezone.",
+            "title": "Prohibited Time Window Early"
+          },
+          "prohibited_tw_late": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "End of prohibited time window. Use ISO 8601 format with timezone.",
+            "title": "Prohibited Time Window Late"
+          },
+          "priority": {
+            "default": 0.0,
+            "description": "Priority of the delivery.",
+            "minimum": 0.0,
+            "title": "Priority",
+            "type": "number"
+          },
+          "prep_time": {
+            "default": 0.0,
+            "description": "Preparation time for the delivery.",
+            "minimum": 0.0,
+            "title": "Prep Time",
+            "type": "number"
           }
         },
         "required": [
@@ -49495,6 +50141,48 @@
                   "minimum": 1,
                   "title": "Early Delivery Priority",
                   "type": "integer"
+                },
+                "prohibited_tw_early": {
+                  "anyOf": [
+                    {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Start of prohibited time window. Use ISO 8601 format with timezone.",
+                  "title": "Prohibited Time Window Early"
+                },
+                "prohibited_tw_late": {
+                  "anyOf": [
+                    {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "End of prohibited time window. Use ISO 8601 format with timezone.",
+                  "title": "Prohibited Time Window Late"
+                },
+                "priority": {
+                  "default": 0.0,
+                  "description": "Priority of the delivery.",
+                  "minimum": 0.0,
+                  "title": "Priority",
+                  "type": "number"
+                },
+                "prep_time": {
+                  "default": 0.0,
+                  "description": "Preparation time for the delivery.",
+                  "minimum": 0.0,
+                  "title": "Prep Time",
+                  "type": "number"
                 }
               },
               "required": [
@@ -49732,9 +50420,132 @@
                   "title": "Extra Capacities",
                   "type": "array"
                 },
-                "max_service_radius": {
-                  "description": "Max service radius of the rider (in meters).",
-                  "title": "Max Service Radius",
+                "individual_enclosing_circle_radius_limit": {
+                  "description": "Maximum radius of the enclosing circle for the rider's route (in meters).",
+                  "title": "Individual Enclosing Circle Radius Limit",
+                  "type": "number"
+                },
+                "max_wait_time": {
+                  "default": 86400,
+                  "description": "Maximum time in seconds that the driver can wait at a location before the time window opens.",
+                  "minimum": 0,
+                  "title": "Max Wait Time",
+                  "type": "integer"
+                },
+                "pre_fixed_delivery_ids": {
+                  "default": [],
+                  "description": "List of pre-fixed delivery ID sequences for each round.",
+                  "items": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Pre-fixed Delivery IDs",
+                  "type": "array"
+                },
+                "allow_trip_extension": {
+                  "default": true,
+                  "description": "Whether additional visits can be assigned after pre-fixed visits within the same round.",
+                  "title": "Allow Trip Extension",
+                  "type": "boolean"
+                },
+                "box_capacity": {
+                  "default": 0.0,
+                  "description": "Box capacity of the rider.",
+                  "minimum": 0.0,
+                  "title": "Box Capacity",
+                  "type": "number"
+                },
+                "target_load_ratio": {
+                  "default": 0.0,
+                  "description": "Target load ratio of the rider.",
+                  "minimum": 0.0,
+                  "title": "Target Load Ratio",
+                  "type": "number"
+                },
+                "fixed_cost": {
+                  "default": 0.0,
+                  "description": "Fixed cost of the rider.",
+                  "minimum": 0.0,
+                  "title": "Fixed Cost",
+                  "type": "number"
+                },
+                "unit_round_cost": {
+                  "default": 0.0,
+                  "description": "Cost per round for the rider.",
+                  "minimum": 0.0,
+                  "title": "Unit Round Cost",
+                  "type": "number"
+                },
+                "unit_box_cost": {
+                  "default": 0.0,
+                  "description": "Cost per box for the rider.",
+                  "minimum": 0.0,
+                  "title": "Unit Box Cost",
+                  "type": "number"
+                },
+                "unit_stop_cost": {
+                  "default": 0.0,
+                  "description": "Cost per stop for the rider.",
+                  "minimum": 0.0,
+                  "title": "Unit Stop Cost",
+                  "type": "number"
+                },
+                "unit_level_cost": {
+                  "default": 0.0,
+                  "description": "Cost per level for the rider.",
+                  "minimum": 0.0,
+                  "title": "Unit Level Cost",
+                  "type": "number"
+                },
+                "max_stop_per_round": {
+                  "default": 0,
+                  "description": "Maximum number of stops per round.",
+                  "minimum": 0,
+                  "title": "Max Stop Per Round",
+                  "type": "integer"
+                },
+                "max_stop_per_schedule": {
+                  "default": 0,
+                  "description": "Maximum number of stops per schedule.",
+                  "minimum": 0,
+                  "title": "Max Stop Per Schedule",
+                  "type": "integer"
+                },
+                "base_round_num": {
+                  "default": 0,
+                  "description": "Base round number.",
+                  "minimum": 0,
+                  "title": "Base Round Num",
+                  "type": "integer"
+                },
+                "max_route_zone_num": {
+                  "default": 0,
+                  "description": "Maximum number of route zones.",
+                  "minimum": 0,
+                  "title": "Max Route Zone Num",
+                  "type": "integer"
+                },
+                "max_travel_distance": {
+                  "default": 0.0,
+                  "description": "Maximum travel distance.",
+                  "minimum": 0.0,
+                  "title": "Max Travel Distance",
+                  "type": "number"
+                },
+                "max_travel_distance_per_trip": {
+                  "default": 0.0,
+                  "description": "Maximum travel distance per trip.",
+                  "minimum": 0.0,
+                  "title": "Max Travel Distance Per Trip",
+                  "type": "number"
+                },
+                "max_between_distance": {
+                  "default": 0.0,
+                  "description": "Maximum distance between stops.",
+                  "minimum": 0.0,
+                  "title": "Max Between Distance",
                   "type": "number"
                 }
               },
@@ -49750,7 +50561,7 @@
                 "max_round",
                 "preassigned_delivery_ids",
                 "extra_capacities",
-                "max_service_radius"
+                "individual_enclosing_circle_radius_limit"
               ],
               "title": "RiderDto",
               "type": "object"
@@ -50887,7 +51698,7 @@
                   "type": "string"
                 },
                 "visits": {
-                  "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Each visit name within this list must be unique (no duplicates allowed).",
+                  "description": "List of visit requests to be processed on this specific day. Must contain fewer than 3000 visits. Each visit name within this list must be unique (no duplicates allowed).",
                   "items": {
                     "additionalProperties": false,
                     "properties": {
@@ -51037,9 +51848,9 @@
                       },
                       "early_delivery_priority": {
                         "default": 1,
-                        "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                        "maximum": 10,
-                        "minimum": 1,
+                        "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                        "maximum": 10000,
+                        "minimum": 0,
                         "title": "Early Delivery Priority",
                         "type": "integer"
                       }
@@ -51047,7 +51858,7 @@
                     "title": "Visit",
                     "type": "object"
                   },
-                  "maxItems": 1000,
+                  "maxItems": 3000,
                   "minItems": 0,
                   "title": "Visits for the Day",
                   "type": "array"
@@ -51150,20 +51961,31 @@
                   "type": "string"
                 },
                 "pre_assigned_visits": {
-                  "anyOf": [
-                    {
+                  "additionalProperties": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "default": {},
+                  "description": "Specifies, for each day, a list of visit names that are pre-assigned to this vehicle. If provided, the solver will ensure that these visits are assigned to the vehicle on the corresponding day. Each key represents a day, and its value is the list of visits pre-assigned for that day. Warning: Do not use this together with `pre_fixed_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+                  "title": "Pre-assigned Visits for Each Day",
+                  "type": "object"
+                },
+                "pre_fixed_visits": {
+                  "additionalProperties": {
+                    "items": {
                       "items": {
                         "type": "string"
                       },
                       "type": "array"
                     },
-                    {
-                      "type": "null"
-                    }
-                  ],
-                  "default": null,
-                  "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
-                  "title": "Pre-assigned Visits"
+                    "type": "array"
+                  },
+                  "default": {},
+                  "description": "Specifies, for each day, predefined sequences of visits for each vehicle round. Each key represents a day, and its value is a list of rounds, where each round is defined as an ordered list of visit names. Any rounds beyond the maximum number of allowed rounds (max_round) will be ignored. Rounds must be defined consecutively without gaps. For example, [['Visit A', 'Visit B'], ['Visit C']] means: - On that day, in the first round, the vehicle must visit Visit A followed by Visit B in order. - In the second round, the vehicle must visit Visit C. An example like [['Visit A', 'Visit B'], [], ['Visit C']] is not allowed, because intermediate rounds cannot be empty while later rounds are defined. Warning: Do not use this together with `pre_assigned_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+                  "title": "Pre-fixed Visit Sequences by Round for Each Day",
+                  "type": "object"
                 },
                 "max_round": {
                   "default": 1,
@@ -51315,7 +52137,8 @@
               "fixed_cost",
               "fuel_cost",
               "first_visit_cost",
-              "visit_number_costwage_cost"
+              "visit_number_cost",
+              "wage_cost"
             ],
             "description": "List of cost types to be considered for the optimization.",
             "items": {
@@ -51537,9 +52360,9 @@
                         },
                         "early_delivery_priority": {
                           "default": 1,
-                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                          "maximum": 10,
-                          "minimum": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                          "maximum": 10000,
+                          "minimum": 0,
                           "title": "Early Delivery Priority",
                           "type": "integer"
                         }
@@ -51706,9 +52529,9 @@
                         },
                         "early_delivery_priority": {
                           "default": 1,
-                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                          "maximum": 10,
-                          "minimum": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                          "maximum": 10000,
+                          "minimum": 0,
                           "title": "Early Delivery Priority",
                           "type": "integer"
                         }
@@ -51734,7 +52557,7 @@
                       "type": "null"
                     }
                   ],
-                  "default": "2025-12-15T02:52:04.725874",
+                  "default": "2026-01-16T00:43:48.590774",
                   "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                   "title": "Order Placed Time"
                 }
@@ -52004,7 +52827,7 @@
                 "type": "null"
               }
             ],
-            "default": "2025-12-15T02:52:04.736576",
+            "default": "2026-01-16T00:43:48.601172",
             "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Start Time"
           },
@@ -52286,9 +53109,9 @@
                 },
                 "early_delivery_priority": {
                   "default": 1,
-                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                  "maximum": 10,
-                  "minimum": 1,
+                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                  "maximum": 10000,
+                  "minimum": 0,
                   "title": "Early Delivery Priority",
                   "type": "integer"
                 }
@@ -52913,7 +53736,7 @@
                   "type": "string"
                 },
                 "visits": {
-                  "description": "List of visit requests to be processed on this specific day. Must contain fewer than 1000 visits. Each visit name within this list must be unique (no duplicates allowed).",
+                  "description": "List of visit requests to be processed on this specific day. Must contain fewer than 3000 visits. Each visit name within this list must be unique (no duplicates allowed).",
                   "items": {
                     "additionalProperties": false,
                     "properties": {
@@ -53063,9 +53886,9 @@
                       },
                       "early_delivery_priority": {
                         "default": 1,
-                        "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                        "maximum": 10,
-                        "minimum": 1,
+                        "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                        "maximum": 10000,
+                        "minimum": 0,
                         "title": "Early Delivery Priority",
                         "type": "integer"
                       }
@@ -53073,7 +53896,7 @@
                     "title": "Visit",
                     "type": "object"
                   },
-                  "maxItems": 1000,
+                  "maxItems": 3000,
                   "minItems": 0,
                   "title": "Visits for the Day",
                   "type": "array"
@@ -53176,20 +53999,31 @@
                   "type": "string"
                 },
                 "pre_assigned_visits": {
-                  "anyOf": [
-                    {
+                  "additionalProperties": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "default": {},
+                  "description": "Specifies, for each day, a list of visit names that are pre-assigned to this vehicle. If provided, the solver will ensure that these visits are assigned to the vehicle on the corresponding day. Each key represents a day, and its value is the list of visits pre-assigned for that day. Warning: Do not use this together with `pre_fixed_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+                  "title": "Pre-assigned Visits for Each Day",
+                  "type": "object"
+                },
+                "pre_fixed_visits": {
+                  "additionalProperties": {
+                    "items": {
                       "items": {
                         "type": "string"
                       },
                       "type": "array"
                     },
-                    {
-                      "type": "null"
-                    }
-                  ],
-                  "default": null,
-                  "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
-                  "title": "Pre-assigned Visits"
+                    "type": "array"
+                  },
+                  "default": {},
+                  "description": "Specifies, for each day, predefined sequences of visits for each vehicle round. Each key represents a day, and its value is a list of rounds, where each round is defined as an ordered list of visit names. Any rounds beyond the maximum number of allowed rounds (max_round) will be ignored. Rounds must be defined consecutively without gaps. For example, [['Visit A', 'Visit B'], ['Visit C']] means: - On that day, in the first round, the vehicle must visit Visit A followed by Visit B in order. - In the second round, the vehicle must visit Visit C. An example like [['Visit A', 'Visit B'], [], ['Visit C']] is not allowed, because intermediate rounds cannot be empty while later rounds are defined. Warning: Do not use this together with `pre_assigned_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+                  "title": "Pre-fixed Visit Sequences by Round for Each Day",
+                  "type": "object"
                 },
                 "max_round": {
                   "default": 1,
@@ -53341,7 +54175,8 @@
               "fixed_cost",
               "fuel_cost",
               "first_visit_cost",
-              "visit_number_costwage_cost"
+              "visit_number_cost",
+              "wage_cost"
             ],
             "description": "List of cost types to be considered for the optimization.",
             "items": {
@@ -53507,6 +54342,22 @@
                       },
                       "title": "Daily Solution Cost Details",
                       "type": "object"
+                    },
+                    "daily_status": {
+                      "enum": [
+                        "feasible",
+                        "feasible_with_unassigned_visits",
+                        "infeasible",
+                        "user_input_error"
+                      ],
+                      "title": "ApiStatus",
+                      "type": "string"
+                    },
+                    "daily_detail": {
+                      "default": "",
+                      "description": "Explanation of the daily optimization result status.",
+                      "title": "Daily Status Detail",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -53514,7 +54365,8 @@
                     "unassigned_visit_indices",
                     "unassigned_visit_names",
                     "daily_total_solution_cost",
-                    "daily_solution_cost_details"
+                    "daily_solution_cost_details",
+                    "daily_status"
                   ],
                   "title": "DailyFsmvrpEngineResult",
                   "type": "object"
@@ -53709,6 +54561,22 @@
                   },
                   "title": "Daily Solution Cost Details",
                   "type": "object"
+                },
+                "daily_status": {
+                  "enum": [
+                    "feasible",
+                    "feasible_with_unassigned_visits",
+                    "infeasible",
+                    "user_input_error"
+                  ],
+                  "title": "ApiStatus",
+                  "type": "string"
+                },
+                "daily_detail": {
+                  "default": "",
+                  "description": "Explanation of the daily optimization result status.",
+                  "title": "Daily Status Detail",
+                  "type": "string"
                 }
               },
               "required": [
@@ -53716,7 +54584,8 @@
                 "unassigned_visit_indices",
                 "unassigned_visit_names",
                 "daily_total_solution_cost",
-                "daily_solution_cost_details"
+                "daily_solution_cost_details",
+                "daily_status"
               ],
               "title": "DailyFsmvrpEngineResult",
               "type": "object"
@@ -53889,20 +54758,31 @@
             "type": "string"
           },
           "pre_assigned_visits": {
-            "anyOf": [
-              {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "default": {},
+            "description": "Specifies, for each day, a list of visit names that are pre-assigned to this vehicle. If provided, the solver will ensure that these visits are assigned to the vehicle on the corresponding day. Each key represents a day, and its value is the list of visits pre-assigned for that day. Warning: Do not use this together with `pre_fixed_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+            "title": "Pre-assigned Visits for Each Day",
+            "type": "object"
+          },
+          "pre_fixed_visits": {
+            "additionalProperties": {
+              "items": {
                 "items": {
                   "type": "string"
                 },
                 "type": "array"
               },
-              {
-                "type": "null"
-              }
-            ],
-            "default": null,
-            "description": "List of visit names that are pre-assigned to this vehicle. If specified, the solver will ensure that these visits are assigned to this vehicle.",
-            "title": "Pre-assigned Visits"
+              "type": "array"
+            },
+            "default": {},
+            "description": "Specifies, for each day, predefined sequences of visits for each vehicle round. Each key represents a day, and its value is a list of rounds, where each round is defined as an ordered list of visit names. Any rounds beyond the maximum number of allowed rounds (max_round) will be ignored. Rounds must be defined consecutively without gaps. For example, [['Visit A', 'Visit B'], ['Visit C']] means: - On that day, in the first round, the vehicle must visit Visit A followed by Visit B in order. - In the second round, the vehicle must visit Visit C. An example like [['Visit A', 'Visit B'], [], ['Visit C']] is not allowed, because intermediate rounds cannot be empty while later rounds are defined. Warning: Do not use this together with `pre_assigned_visits`, as their functionalities may conflict. This is a temporary warning and may be removed or changed in future updates.",
+            "title": "Pre-fixed Visit Sequences by Round for Each Day",
+            "type": "object"
           },
           "max_round": {
             "default": 1,
@@ -54237,6 +55117,22 @@
                           },
                           "title": "Daily Solution Cost Details",
                           "type": "object"
+                        },
+                        "daily_status": {
+                          "enum": [
+                            "feasible",
+                            "feasible_with_unassigned_visits",
+                            "infeasible",
+                            "user_input_error"
+                          ],
+                          "title": "ApiStatus",
+                          "type": "string"
+                        },
+                        "daily_detail": {
+                          "default": "",
+                          "description": "Explanation of the daily optimization result status.",
+                          "title": "Daily Status Detail",
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -54244,7 +55140,8 @@
                         "unassigned_visit_indices",
                         "unassigned_visit_names",
                         "daily_total_solution_cost",
-                        "daily_solution_cost_details"
+                        "daily_solution_cost_details",
+                        "daily_status"
                       ],
                       "title": "DailyFsmvrpEngineResult",
                       "type": "object"
@@ -55023,9 +55920,9 @@
                         },
                         "early_delivery_priority": {
                           "default": 1,
-                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                          "maximum": 10,
-                          "minimum": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                          "maximum": 10000,
+                          "minimum": 0,
                           "title": "Early Delivery Priority",
                           "type": "integer"
                         }
@@ -55192,9 +56089,9 @@
                         },
                         "early_delivery_priority": {
                           "default": 1,
-                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                          "maximum": 10,
-                          "minimum": 1,
+                          "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                          "maximum": 10000,
+                          "minimum": 0,
                           "title": "Early Delivery Priority",
                           "type": "integer"
                         }
@@ -55220,7 +56117,7 @@
                       "type": "null"
                     }
                   ],
-                  "default": "2025-12-15T02:52:04.725874",
+                  "default": "2026-01-16T00:43:48.590774",
                   "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                   "title": "Order Placed Time"
                 }
@@ -55490,7 +56387,7 @@
                 "type": "null"
               }
             ],
-            "default": "2025-12-15T02:52:04.736576",
+            "default": "2026-01-16T00:43:48.601172",
             "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Start Time"
           },
@@ -55934,9 +56831,9 @@
                   },
                   "early_delivery_priority": {
                     "default": 1,
-                    "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                    "maximum": 10,
-                    "minimum": 1,
+                    "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                    "maximum": 10000,
+                    "minimum": 0,
                     "title": "Early Delivery Priority",
                     "type": "integer"
                   }
@@ -56103,9 +57000,9 @@
                   },
                   "early_delivery_priority": {
                     "default": 1,
-                    "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                    "maximum": 10,
-                    "minimum": 1,
+                    "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                    "maximum": 10000,
+                    "minimum": 0,
                     "title": "Early Delivery Priority",
                     "type": "integer"
                   }
@@ -56131,7 +57028,7 @@
                 "type": "null"
               }
             ],
-            "default": "2025-12-15T02:52:04.725874",
+            "default": "2026-01-16T00:43:48.590774",
             "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Order Placed Time"
           }
@@ -56559,9 +57456,132 @@
             "title": "Extra Capacities",
             "type": "array"
           },
-          "max_service_radius": {
-            "description": "Max service radius of the rider (in meters).",
-            "title": "Max Service Radius",
+          "individual_enclosing_circle_radius_limit": {
+            "description": "Maximum radius of the enclosing circle for the rider's route (in meters).",
+            "title": "Individual Enclosing Circle Radius Limit",
+            "type": "number"
+          },
+          "max_wait_time": {
+            "default": 86400,
+            "description": "Maximum time in seconds that the driver can wait at a location before the time window opens.",
+            "minimum": 0,
+            "title": "Max Wait Time",
+            "type": "integer"
+          },
+          "pre_fixed_delivery_ids": {
+            "default": [],
+            "description": "List of pre-fixed delivery ID sequences for each round.",
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "title": "Pre-fixed Delivery IDs",
+            "type": "array"
+          },
+          "allow_trip_extension": {
+            "default": true,
+            "description": "Whether additional visits can be assigned after pre-fixed visits within the same round.",
+            "title": "Allow Trip Extension",
+            "type": "boolean"
+          },
+          "box_capacity": {
+            "default": 0.0,
+            "description": "Box capacity of the rider.",
+            "minimum": 0.0,
+            "title": "Box Capacity",
+            "type": "number"
+          },
+          "target_load_ratio": {
+            "default": 0.0,
+            "description": "Target load ratio of the rider.",
+            "minimum": 0.0,
+            "title": "Target Load Ratio",
+            "type": "number"
+          },
+          "fixed_cost": {
+            "default": 0.0,
+            "description": "Fixed cost of the rider.",
+            "minimum": 0.0,
+            "title": "Fixed Cost",
+            "type": "number"
+          },
+          "unit_round_cost": {
+            "default": 0.0,
+            "description": "Cost per round for the rider.",
+            "minimum": 0.0,
+            "title": "Unit Round Cost",
+            "type": "number"
+          },
+          "unit_box_cost": {
+            "default": 0.0,
+            "description": "Cost per box for the rider.",
+            "minimum": 0.0,
+            "title": "Unit Box Cost",
+            "type": "number"
+          },
+          "unit_stop_cost": {
+            "default": 0.0,
+            "description": "Cost per stop for the rider.",
+            "minimum": 0.0,
+            "title": "Unit Stop Cost",
+            "type": "number"
+          },
+          "unit_level_cost": {
+            "default": 0.0,
+            "description": "Cost per level for the rider.",
+            "minimum": 0.0,
+            "title": "Unit Level Cost",
+            "type": "number"
+          },
+          "max_stop_per_round": {
+            "default": 0,
+            "description": "Maximum number of stops per round.",
+            "minimum": 0,
+            "title": "Max Stop Per Round",
+            "type": "integer"
+          },
+          "max_stop_per_schedule": {
+            "default": 0,
+            "description": "Maximum number of stops per schedule.",
+            "minimum": 0,
+            "title": "Max Stop Per Schedule",
+            "type": "integer"
+          },
+          "base_round_num": {
+            "default": 0,
+            "description": "Base round number.",
+            "minimum": 0,
+            "title": "Base Round Num",
+            "type": "integer"
+          },
+          "max_route_zone_num": {
+            "default": 0,
+            "description": "Maximum number of route zones.",
+            "minimum": 0,
+            "title": "Max Route Zone Num",
+            "type": "integer"
+          },
+          "max_travel_distance": {
+            "default": 0.0,
+            "description": "Maximum travel distance.",
+            "minimum": 0.0,
+            "title": "Max Travel Distance",
+            "type": "number"
+          },
+          "max_travel_distance_per_trip": {
+            "default": 0.0,
+            "description": "Maximum travel distance per trip.",
+            "minimum": 0.0,
+            "title": "Max Travel Distance Per Trip",
+            "type": "number"
+          },
+          "max_between_distance": {
+            "default": 0.0,
+            "description": "Maximum distance between stops.",
+            "minimum": 0.0,
+            "title": "Max Between Distance",
             "type": "number"
           }
         },
@@ -56577,7 +57597,7 @@
           "max_round",
           "preassigned_delivery_ids",
           "extra_capacities",
-          "max_service_radius"
+          "individual_enclosing_circle_radius_limit"
         ],
         "title": "RiderDto",
         "type": "object"
@@ -57515,9 +58535,9 @@
           },
           "early_delivery_priority": {
             "default": 1,
-            "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-            "maximum": 10,
-            "minimum": 1,
+            "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+            "maximum": 10000,
+            "minimum": 0,
             "title": "Early Delivery Priority",
             "type": "integer"
           }
@@ -57733,9 +58753,9 @@
                 },
                 "early_delivery_priority": {
                   "default": 1,
-                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 1 to 10, where higher values indicate higher priority.",
-                  "maximum": 10,
-                  "minimum": 1,
+                  "description": "Priority level for early delivery. This field is applied only if early_delivery_required is True. Acceptable values range from 0 to 10000, where higher values indicate higher priority.",
+                  "maximum": 10000,
+                  "minimum": 0,
                   "title": "Early Delivery Priority",
                   "type": "integer"
                 }

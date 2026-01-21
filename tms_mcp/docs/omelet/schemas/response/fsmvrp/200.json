@@ -114,6 +114,22 @@
                 },
                 "title": "Daily Solution Cost Details",
                 "type": "object"
+              },
+              "daily_status": {
+                "enum": [
+                  "feasible",
+                  "feasible_with_unassigned_visits",
+                  "infeasible",
+                  "user_input_error"
+                ],
+                "title": "ApiStatus",
+                "type": "string"
+              },
+              "daily_detail": {
+                "default": "",
+                "description": "Explanation of the daily optimization result status.",
+                "title": "Daily Status Detail",
+                "type": "string"
               }
             },
             "required": [
@@ -121,7 +137,8 @@
               "unassigned_visit_indices",
               "unassigned_visit_names",
               "daily_total_solution_cost",
-              "daily_solution_cost_details"
+              "daily_solution_cost_details",
+              "daily_status"
             ],
             "title": "DailyFsmvrpEngineResult",
             "type": "object"

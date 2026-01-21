@@ -165,10 +165,6 @@ I want to build a last-mile delivery system. What integration pattern should I f
 ```
 
 ```
-Show me the high-precision routing pattern for navigation apps
-```
-
-```
 How do I combine Omelet's routing with iNavi's maps for a complete TMS?
 ```
 
