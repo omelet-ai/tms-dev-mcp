@@ -14,6 +14,7 @@ from fastmcp.utilities.logging import get_logger
 from tms_mcp.config import settings
 from tms_mcp.custom_logging.logging_format import formatter
 from tms_mcp.pipeline import run_openapi_indexing_pipeline
+from tms_mcp.pipeline.utils import validate_docs_exist
 from tms_mcp.server import mcp
 from tms_mcp.tools import *  # noqa: F403
 
@@ -47,6 +48,29 @@ async def update_documents(providers: list[str] | None = None) -> None:
         raise
 
 
+async def _try_update_docs_with_fallback() -> bool:
+    """
+    Try to update docs, fall back to existing if update fails.
+
+    Returns:
+        True if docs are available (updated or existing), False if no docs available.
+    """
+    try:
+        logger.info("📦 Updating documentation...")
+        await run_openapi_indexing_pipeline()
+        logger.info("✅ Documentation updated successfully")
+        return True
+    except Exception as e:
+        logger.warning(f"⚠️ Documentation update failed: {e}")
+
+        if validate_docs_exist():
+            logger.info("📂 Using existing documentation as fallback")
+            return True
+        else:
+            logger.error("❌ No existing documentation available as fallback")
+            return False
+
+
 def start_server(transport: Literal["stdio", "streamable-http"] | None = None) -> None:
     """
     Start only the MCP server without document indexing.
@@ -55,6 +79,17 @@ def start_server(transport: Literal["stdio", "streamable-http"] | None = None) -
     """
     try:
         setup_logging()
+
+        if settings.AUTO_UPDATE_DOCS:
+            docs_available = asyncio.run(_try_update_docs_with_fallback())
+            if not docs_available:
+                raise RuntimeError(
+                    "Documentation is required but unavailable. "
+                    "Check network connectivity or run 'update-docs' manually."
+                )
+        elif not validate_docs_exist():
+            logger.warning("⚠️ Documentation not found. Tools may fail. Run 'update-docs' or set AUTO_UPDATE_DOCS=true")
+
         logger.info("🚀 Starting MCP server...")
         selected_transport = transport or settings.MCP_TRANSPORT
         logger.info(f"🔌 Transport selected: {selected_transport}")

@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Omelet Routing Engine API",
-    "version": "2.3.43",
+    "version": "2.3.44",
     "description": "Advanced routing optimization solutions",
     "contact": {
       "name": "omelet",
@@ -15066,6 +15066,16 @@
                                       },
                                       "title": "Departure Times",
                                       "type": "array"
+                                    },
+                                    "route_distance": {
+                                      "description": "Total distance traveled in the route (meters).",
+                                      "title": "Route Distance",
+                                      "type": "number"
+                                    },
+                                    "route_duration": {
+                                      "description": "Total duration of the route (seconds).",
+                                      "title": "Route Duration",
+                                      "type": "number"
                                     }
                                   },
                                   "required": [
@@ -15073,7 +15083,9 @@
                                     "route_indices",
                                     "route_names",
                                     "arrival_times",
-                                    "departure_times"
+                                    "departure_times",
+                                    "route_distance",
+                                    "route_duration"
                                   ],
                                   "title": "FsmvrpOutputRoute",
                                   "type": "object"
@@ -15632,6 +15644,16 @@
                                       },
                                       "title": "Departure Times",
                                       "type": "array"
+                                    },
+                                    "route_distance": {
+                                      "description": "Total distance traveled in the route (meters).",
+                                      "title": "Route Distance",
+                                      "type": "number"
+                                    },
+                                    "route_duration": {
+                                      "description": "Total duration of the route (seconds).",
+                                      "title": "Route Duration",
+                                      "type": "number"
                                     }
                                   },
                                   "required": [
@@ -15639,7 +15661,9 @@
                                     "route_indices",
                                     "route_names",
                                     "arrival_times",
-                                    "departure_times"
+                                    "departure_times",
+                                    "route_distance",
+                                    "route_duration"
                                   ],
                                   "title": "FsmvrpOutputRoute",
                                   "type": "object"
@@ -20247,6 +20271,16 @@
                                           },
                                           "title": "Departure Times",
                                           "type": "array"
+                                        },
+                                        "route_distance": {
+                                          "description": "Total distance traveled in the route (meters).",
+                                          "title": "Route Distance",
+                                          "type": "number"
+                                        },
+                                        "route_duration": {
+                                          "description": "Total duration of the route (seconds).",
+                                          "title": "Route Duration",
+                                          "type": "number"
                                         }
                                       },
                                       "required": [
@@ -20254,7 +20288,9 @@
                                         "route_indices",
                                         "route_names",
                                         "arrival_times",
-                                        "departure_times"
+                                        "departure_times",
+                                        "route_distance",
+                                        "route_duration"
                                       ],
                                       "title": "FsmvrpOutputRoute",
                                       "type": "object"
@@ -20480,6 +20516,16 @@
                                           },
                                           "title": "Departure Times",
                                           "type": "array"
+                                        },
+                                        "route_distance": {
+                                          "description": "Total distance traveled in the route (meters).",
+                                          "title": "Route Distance",
+                                          "type": "number"
+                                        },
+                                        "route_duration": {
+                                          "description": "Total duration of the route (seconds).",
+                                          "title": "Route Duration",
+                                          "type": "number"
                                         }
                                       },
                                       "required": [
@@ -20487,7 +20533,9 @@
                                         "route_indices",
                                         "route_names",
                                         "arrival_times",
-                                        "departure_times"
+                                        "departure_times",
+                                        "route_distance",
+                                        "route_duration"
                                       ],
                                       "title": "FsmvrpOutputRoute",
                                       "type": "object"
@@ -24676,7 +24724,7 @@
                               "type": "null"
                             }
                           ],
-                          "default": "2026-01-16T00:43:48.590774",
+                          "default": "2026-01-29T02:46:59.878335",
                           "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Order Placed Time"
                         }
@@ -24946,7 +24994,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": "2026-01-16T00:43:48.601172",
+                    "default": "2026-01-29T02:46:59.887768",
                     "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Start Time"
                   },
@@ -31550,7 +31598,7 @@
                               "type": "null"
                             }
                           ],
-                          "default": "2026-01-16T00:43:48.590774",
+                          "default": "2026-01-29T02:46:59.878335",
                           "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Order Placed Time"
                         }
@@ -31820,7 +31868,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": "2026-01-16T00:43:48.601172",
+                    "default": "2026-01-29T02:46:59.887768",
                     "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Start Time"
                   },
@@ -49245,6 +49293,16 @@
                   },
                   "title": "Departure Times",
                   "type": "array"
+                },
+                "route_distance": {
+                  "description": "Total distance traveled in the route (meters).",
+                  "title": "Route Distance",
+                  "type": "number"
+                },
+                "route_duration": {
+                  "description": "Total duration of the route (seconds).",
+                  "title": "Route Duration",
+                  "type": "number"
                 }
               },
               "required": [
@@ -49252,7 +49310,9 @@
                 "route_indices",
                 "route_names",
                 "arrival_times",
-                "departure_times"
+                "departure_times",
+                "route_distance",
+                "route_duration"
               ],
               "title": "FsmvrpOutputRoute",
               "type": "object"
@@ -52557,7 +52617,7 @@
                       "type": "null"
                     }
                   ],
-                  "default": "2026-01-16T00:43:48.590774",
+                  "default": "2026-01-29T02:46:59.878335",
                   "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                   "title": "Order Placed Time"
                 }
@@ -52827,7 +52887,7 @@
                 "type": "null"
               }
             ],
-            "default": "2026-01-16T00:43:48.601172",
+            "default": "2026-01-29T02:46:59.887768",
             "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Start Time"
           },
@@ -54278,6 +54338,16 @@
                             },
                             "title": "Departure Times",
                             "type": "array"
+                          },
+                          "route_distance": {
+                            "description": "Total distance traveled in the route (meters).",
+                            "title": "Route Distance",
+                            "type": "number"
+                          },
+                          "route_duration": {
+                            "description": "Total duration of the route (seconds).",
+                            "title": "Route Duration",
+                            "type": "number"
                           }
                         },
                         "required": [
@@ -54285,7 +54355,9 @@
                           "route_indices",
                           "route_names",
                           "arrival_times",
-                          "departure_times"
+                          "departure_times",
+                          "route_distance",
+                          "route_duration"
                         ],
                         "title": "FsmvrpOutputRoute",
                         "type": "object"
@@ -54497,6 +54569,16 @@
                         },
                         "title": "Departure Times",
                         "type": "array"
+                      },
+                      "route_distance": {
+                        "description": "Total distance traveled in the route (meters).",
+                        "title": "Route Distance",
+                        "type": "number"
+                      },
+                      "route_duration": {
+                        "description": "Total duration of the route (seconds).",
+                        "title": "Route Duration",
+                        "type": "number"
                       }
                     },
                     "required": [
@@ -54504,7 +54586,9 @@
                       "route_indices",
                       "route_names",
                       "arrival_times",
-                      "departure_times"
+                      "departure_times",
+                      "route_distance",
+                      "route_duration"
                     ],
                     "title": "FsmvrpOutputRoute",
                     "type": "object"
@@ -54677,6 +54761,16 @@
             },
             "title": "Departure Times",
             "type": "array"
+          },
+          "route_distance": {
+            "description": "Total distance traveled in the route (meters).",
+            "title": "Route Distance",
+            "type": "number"
+          },
+          "route_duration": {
+            "description": "Total duration of the route (seconds).",
+            "title": "Route Duration",
+            "type": "number"
           }
         },
         "required": [
@@ -54684,7 +54778,9 @@
           "route_indices",
           "route_names",
           "arrival_times",
-          "departure_times"
+          "departure_times",
+          "route_distance",
+          "route_duration"
         ],
         "title": "FsmvrpOutputRoute",
         "type": "object"
@@ -55053,6 +55149,16 @@
                                 },
                                 "title": "Departure Times",
                                 "type": "array"
+                              },
+                              "route_distance": {
+                                "description": "Total distance traveled in the route (meters).",
+                                "title": "Route Distance",
+                                "type": "number"
+                              },
+                              "route_duration": {
+                                "description": "Total duration of the route (seconds).",
+                                "title": "Route Duration",
+                                "type": "number"
                               }
                             },
                             "required": [
@@ -55060,7 +55166,9 @@
                               "route_indices",
                               "route_names",
                               "arrival_times",
-                              "departure_times"
+                              "departure_times",
+                              "route_distance",
+                              "route_duration"
                             ],
                             "title": "FsmvrpOutputRoute",
                             "type": "object"
@@ -56117,7 +56225,7 @@
                       "type": "null"
                     }
                   ],
-                  "default": "2026-01-16T00:43:48.590774",
+                  "default": "2026-01-29T02:46:59.878335",
                   "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                   "title": "Order Placed Time"
                 }
@@ -56387,7 +56495,7 @@
                 "type": "null"
               }
             ],
-            "default": "2026-01-16T00:43:48.601172",
+            "default": "2026-01-29T02:46:59.887768",
             "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Start Time"
           },
@@ -57028,7 +57136,7 @@
                 "type": "null"
               }
             ],
-            "default": "2026-01-16T00:43:48.590774",
+            "default": "2026-01-29T02:46:59.878335",
             "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Order Placed Time"
           }

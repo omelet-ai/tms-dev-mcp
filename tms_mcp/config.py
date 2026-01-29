@@ -77,6 +77,12 @@ class Settings(BaseSettings):
     # Development settings
     LOG_LEVEL: str = Field(default="INFO", description="Logging level")
 
+    # Documentation auto-update settings
+    AUTO_UPDATE_DOCS: bool = Field(
+        default=True,
+        description="Automatically update documentation on server startup. Falls back to existing docs if update fails.",
+    )
+
     # Example generation
     EXAMPLE_LENGTH_LIMIT: int = Field(
         default=3,

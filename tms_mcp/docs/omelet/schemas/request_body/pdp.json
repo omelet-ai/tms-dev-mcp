@@ -368,7 +368,7 @@
                   "type": "null"
                 }
               ],
-              "default": "2026-01-16T00:43:48.590774",
+              "default": "2026-01-29T02:46:59.878335",
               "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
               "title": "Order Placed Time"
             }
@@ -638,7 +638,7 @@
             "type": "null"
           }
         ],
-        "default": "2026-01-16T00:43:48.601172",
+        "default": "2026-01-29T02:46:59.887768",
         "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
         "title": "Start Time"
       },

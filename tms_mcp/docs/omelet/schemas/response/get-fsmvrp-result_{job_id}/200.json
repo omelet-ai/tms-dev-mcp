@@ -52,6 +52,16 @@
                           },
                           "title": "Departure Times",
                           "type": "array"
+                        },
+                        "route_distance": {
+                          "description": "Total distance traveled in the route (meters).",
+                          "title": "Route Distance",
+                          "type": "number"
+                        },
+                        "route_duration": {
+                          "description": "Total duration of the route (seconds).",
+                          "title": "Route Duration",
+                          "type": "number"
                         }
                       },
                       "required": [
@@ -59,7 +69,9 @@
                         "route_indices",
                         "route_names",
                         "arrival_times",
-                        "departure_times"
+                        "departure_times",
+                        "route_distance",
+                        "route_duration"
                       ],
                       "title": "FsmvrpOutputRoute",
                       "type": "object"

@@ -243,6 +243,56 @@ def get_endpoint_filename(provider: str, path: str) -> str:
     return f"{base}.json"
 
 
+def validate_docs_exist(docs_dir: Path | None = None) -> bool:
+    """
+    Check if documentation exists and has the required structure.
+
+    Args:
+        docs_dir: Optional docs directory path. If None, uses default location.
+
+    Returns:
+        True if docs exist and are valid, False otherwise.
+    """
+    from ..config import settings
+
+    if docs_dir is None:
+        docs_dir = Path(__file__).parent.parent / "docs"
+
+    if not docs_dir.exists():
+        logger.debug(f"Docs directory does not exist: {docs_dir}")
+        return False
+
+    # Check for required shared files
+    required_shared_files = [
+        docs_dir / "basic_info.md",
+        docs_dir / "integration_patterns" / "list.md",
+        docs_dir / "troubleshooting" / "list.md",
+    ]
+
+    for file_path in required_shared_files:
+        if not file_path.exists():
+            logger.debug(f"Required shared file missing: {file_path}")
+            return False
+
+    # Check for at least one provider with endpoints
+    provider_configs = settings.pipeline_config.provider_configs
+    has_valid_provider = False
+
+    for provider_name in provider_configs.keys():
+        provider_dir = docs_dir / provider_name
+        endpoints_summary = provider_dir / "endpoints_summary.md"
+
+        if endpoints_summary.exists():
+            has_valid_provider = True
+            break
+
+    if not has_valid_provider:
+        logger.debug("No provider with endpoints_summary.md found")
+        return False
+
+    return True
+
+
 def atomic_directory_replace(source: Path, target: Path) -> bool:
     backup = target.with_suffix(".backup")
     replacement_succeeded = False

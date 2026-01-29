@@ -189,7 +189,9 @@ def _read_integration_pattern(pattern_id: str) -> tuple[str, Path]:
         pass
 
     if not pattern_path.exists():
-        raise ToolError(f"Integration pattern '{pattern_id}' not found. Please run 'update-docs'.")
+        raise ToolError(
+            f"Integration pattern '{pattern_id}' not found. Try restarting the server or run 'update-docs'."
+        )
 
     try:
         _, body = load_markdown_with_front_matter(pattern_path)
@@ -219,7 +221,9 @@ def _read_troubleshooting_guide(guide_id: str) -> tuple[str, Path]:
         pass
 
     if not guide_path.exists():
-        raise ToolError(f"Troubleshooting guide '{guide_id}' not found. Please run 'update-docs'.")
+        raise ToolError(
+            f"Troubleshooting guide '{guide_id}' not found. Try restarting the server or run 'update-docs'."
+        )
 
     try:
         _, body = load_markdown_with_front_matter(guide_path)
@@ -278,7 +282,7 @@ def list_integration_patterns() -> PatternsListResult:
     """
     list_path = _get_integration_patterns_dir() / "list.md"
     if not list_path.exists():
-        raise ToolError("Integration pattern list not found. Please run 'update-docs'.")
+        raise ToolError("Integration pattern list not found. Try restarting the server or run 'update-docs'.")
 
     content = _read_text_file(list_path)
     rows = _parse_markdown_table(content)
@@ -321,7 +325,7 @@ def list_troubleshooting_guides() -> GuidesListResult:
     """
     list_path = _get_troubleshooting_dir() / "list.md"
     if not list_path.exists():
-        raise ToolError("Troubleshooting guide list not found. Please run 'update-docs'.")
+        raise ToolError("Troubleshooting guide list not found. Try restarting the server or run 'update-docs'.")
 
     content = _read_text_file(list_path)
     rows = _parse_markdown_table(content)
@@ -390,7 +394,7 @@ def list_endpoints(
                 continue
 
     if not all_endpoints:
-        raise ToolError("No endpoints found. Please run 'update-docs' first.")
+        raise ToolError("No endpoints found. Try restarting the server or run 'update-docs'.")
 
     return EndpointsListResult(endpoints=all_endpoints, total_count=len(all_endpoints), provider=provider)
 
