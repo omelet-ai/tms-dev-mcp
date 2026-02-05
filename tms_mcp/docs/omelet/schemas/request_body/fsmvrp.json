@@ -375,6 +375,20 @@
               "title": "Maximum Rounds",
               "type": "integer"
             },
+            "max_visits_per_day": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Maximum number of visits this vehicle can make in a single day's schedule. If not specified (None), there is no limit on the number of visits per day.",
+              "title": "Maximum Visits per Day"
+            },
             "ownership_type": {
               "enum": [
                 "rented",

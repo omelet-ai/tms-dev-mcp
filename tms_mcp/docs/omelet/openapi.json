@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Omelet Routing Engine API",
-    "version": "2.3.44",
+    "version": "2.3.46",
     "description": "Advanced routing optimization solutions",
     "contact": {
       "name": "omelet",
@@ -14137,6 +14137,20 @@
                           "title": "Maximum Rounds",
                           "type": "integer"
                         },
+                        "max_visits_per_day": {
+                          "anyOf": [
+                            {
+                              "minimum": 0,
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "Maximum number of visits this vehicle can make in a single day's schedule. If not specified (None), there is no limit on the number of visits per day.",
+                          "title": "Maximum Visits per Day"
+                        },
                         "ownership_type": {
                           "enum": [
                             "rented",
@@ -17034,6 +17048,20 @@
                           "minimum": 1,
                           "title": "Maximum Rounds",
                           "type": "integer"
+                        },
+                        "max_visits_per_day": {
+                          "anyOf": [
+                            {
+                              "minimum": 0,
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "default": null,
+                          "description": "Maximum number of visits this vehicle can make in a single day's schedule. If not specified (None), there is no limit on the number of visits per day.",
+                          "title": "Maximum Visits per Day"
                         },
                         "ownership_type": {
                           "enum": [
@@ -24724,7 +24752,7 @@
                               "type": "null"
                             }
                           ],
-                          "default": "2026-01-29T02:46:59.878335",
+                          "default": "2026-02-04T09:14:06.265107",
                           "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Order Placed Time"
                         }
@@ -24994,7 +25022,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": "2026-01-29T02:46:59.887768",
+                    "default": "2026-02-04T09:14:06.274732",
                     "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Start Time"
                   },
@@ -31598,7 +31626,7 @@
                               "type": "null"
                             }
                           ],
-                          "default": "2026-01-29T02:46:59.878335",
+                          "default": "2026-02-04T09:14:06.265107",
                           "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                           "title": "Order Placed Time"
                         }
@@ -31868,7 +31896,7 @@
                         "type": "null"
                       }
                     ],
-                    "default": "2026-01-29T02:46:59.887768",
+                    "default": "2026-02-04T09:14:06.274732",
                     "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                     "title": "Start Time"
                   },
@@ -52054,6 +52082,20 @@
                   "title": "Maximum Rounds",
                   "type": "integer"
                 },
+                "max_visits_per_day": {
+                  "anyOf": [
+                    {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Maximum number of visits this vehicle can make in a single day's schedule. If not specified (None), there is no limit on the number of visits per day.",
+                  "title": "Maximum Visits per Day"
+                },
                 "ownership_type": {
                   "enum": [
                     "rented",
@@ -52617,7 +52659,7 @@
                       "type": "null"
                     }
                   ],
-                  "default": "2026-01-29T02:46:59.878335",
+                  "default": "2026-02-04T09:14:06.265107",
                   "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                   "title": "Order Placed Time"
                 }
@@ -52887,7 +52929,7 @@
                 "type": "null"
               }
             ],
-            "default": "2026-01-29T02:46:59.887768",
+            "default": "2026-02-04T09:14:06.274732",
             "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Start Time"
           },
@@ -54092,6 +54134,20 @@
                   "title": "Maximum Rounds",
                   "type": "integer"
                 },
+                "max_visits_per_day": {
+                  "anyOf": [
+                    {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Maximum number of visits this vehicle can make in a single day's schedule. If not specified (None), there is no limit on the number of visits per day.",
+                  "title": "Maximum Visits per Day"
+                },
                 "ownership_type": {
                   "enum": [
                     "rented",
@@ -54886,6 +54942,20 @@
             "minimum": 1,
             "title": "Maximum Rounds",
             "type": "integer"
+          },
+          "max_visits_per_day": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Maximum number of visits this vehicle can make in a single day's schedule. If not specified (None), there is no limit on the number of visits per day.",
+            "title": "Maximum Visits per Day"
           },
           "ownership_type": {
             "enum": [
@@ -56225,7 +56295,7 @@
                       "type": "null"
                     }
                   ],
-                  "default": "2026-01-29T02:46:59.878335",
+                  "default": "2026-02-04T09:14:06.265107",
                   "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
                   "title": "Order Placed Time"
                 }
@@ -56495,7 +56565,7 @@
                 "type": "null"
               }
             ],
-            "default": "2026-01-29T02:46:59.887768",
+            "default": "2026-02-04T09:14:06.274732",
             "description": "Datetime for delivery start. Required if visits have time windows. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Start Time"
           },
@@ -57136,7 +57206,7 @@
                 "type": "null"
               }
             ],
-            "default": "2026-01-29T02:46:59.878335",
+            "default": "2026-02-04T09:14:06.265107",
             "description": "Datetime when the order was placed. Use ISO 8601 format with timezone, e.g., '2025-03-16T17:40:00+09:00'",
             "title": "Order Placed Time"
           }
